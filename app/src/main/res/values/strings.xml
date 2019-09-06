@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Gluconnect</string>
+    <string name="title_activity_launcher">Gluconnect</string>
+    <string name="title_activity_register">Register</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_in">Sign in</string>
+    <string name="account_register_message">Don\'t have an account? Register</string>
+    <string name="title_activity_details">DetailsActivity</string>
+    <string name="more_information_message">For a more personalized experience kindly provide the following information</string>
+    <string name="username">Username</string>
+    <string name="dob">Date of birth</string>
+    <string name="weight">Weight (kgs)</string>
+    <string name="height">Height (cm)</string>
+</resources>

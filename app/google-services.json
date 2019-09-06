@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "820934663679",
+    "firebase_url": "https://gluconnect.firebaseio.com",
+    "project_id": "gluconnect",
+    "storage_bucket": "gluconnect.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820934663679:android:495175af3c0839c19c1bca",
+        "android_client_info": {
+          "package_name": "com.example.gluconnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820934663679-ai7ff06in9o6oaiogaurp7j1c489qku8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtF2-743h1kUWZHhubQY7-leVNipx2-MU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820934663679-ai7ff06in9o6oaiogaurp7j1c489qku8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
