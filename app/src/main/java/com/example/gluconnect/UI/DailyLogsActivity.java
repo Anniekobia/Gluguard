@@ -51,7 +51,7 @@ public class DailyLogsActivity extends AppCompatActivity {
                 } else {
                     ExerciseDetailsList exerciseDetailsList = response.body();
                     for (ExerciseDetails exercise : exerciseDetailsList.getExercises()) {
-                        exerciseTextView.setText(exercise.getName() + exercise.getNfCalories());
+                        exerciseTextView.setText(exercise.getName() + exercise.getNfCalories()+exercise.getDurationMin());
                     }
                 }
             }
