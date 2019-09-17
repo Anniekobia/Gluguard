@@ -4,22 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailsActivity">
+    tools:context=".UI.DetailsActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/content_details"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="71dp" />
 
     <TextView
         android:id="@+id/more_info_msg"
@@ -28,13 +15,22 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:padding="15dp"
-        android:textSize="22dp"
-        android:backgroundTint="#3359df"
         android:background="@drawable/rounded_corners"
+        android:backgroundTint="#3359df"
+        android:padding="15dp"
         android:text="@string/more_information_message"
+        android:textSize="22sp"
         app:layout_constraintEnd_toStartOf="@+id/include"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,8 +42,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="@string/username"
+        android:inputType="textPersonName"
+        app:errorEnabled="true"
+
 
         app:layout_constraintEnd_toEndOf="@+id/more_info_msg"
         app:layout_constraintStart_toStartOf="@+id/more_info_msg"
@@ -55,7 +53,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,15 +66,15 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
-        android:inputType="date"
         android:hint="@string/dob"
+        android:inputType="date"
         app:layout_constraintEnd_toEndOf="@+id/username"
         app:layout_constraintStart_toStartOf="@+id/username"
         app:layout_constraintTop_toBottomOf="@+id/username">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,15 +86,15 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Place a spinner here for dropdown"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="@+id/dob"
         app:layout_constraintStart_toStartOf="@+id/dob"
         app:layout_constraintTop_toBottomOf="@+id/dob">
 
         <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -107,15 +106,15 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
-        android:inputType="number"
         android:hint="@string/weight"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="@+id/gender"
         app:layout_constraintStart_toStartOf="@+id/gender"
         app:layout_constraintTop_toBottomOf="@+id/gender">
 
         <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -127,15 +126,15 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
-        android:inputType="number"
         android:hint="@string/height"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="@+id/weight"
         app:layout_constraintStart_toStartOf="@+id/weight"
         app:layout_constraintTop_toBottomOf="@+id/weight">
 
         <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -147,17 +146,39 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Place a spinner here for dropdown"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="@+id/height"
         app:layout_constraintStart_toStartOf="@+id/height"
         app:layout_constraintTop_toBottomOf="@+id/height">
 
         <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="#3359df"
+        android:text="@string/save_and_proceed_btn"
+        android:onClick="openDailyLogsActivity"
+        app:layout_constraintBottom_toBottomOf="@+id/include"
+        app:layout_constraintEnd_toEndOf="@+id/activity_level"
+        app:layout_constraintStart_toStartOf="@+id/activity_level"
+        app:layout_constraintTop_toBottomOf="@+id/activity_level" />
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_details"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="71dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

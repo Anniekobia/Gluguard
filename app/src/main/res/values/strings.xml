@@ -13,4 +13,15 @@
     <string name="dob">Date of birth</string>
     <string name="weight">Weight (kgs)</string>
     <string name="height">Height (cm)</string>
+    <string name="save_and_proceed_btn">SAVE AND PROCEED</string>
+    <string name="title_activity_daily_logs">DailyLogsActivity</string>
+    <string name="search_food_item">Search Food Item</string>
+    <string name="login">Login</string>
+
+    <!--    Bottom navigation bar -->
+    <string name="title_diary">Diary</string>
+    <string name="title_analytics">Analytics</string>
+    <string name="title_record">Log</string>
+    <string name="title_tips">Tips</string>
+    <string name="title_details">Profile</string>
 </resources>

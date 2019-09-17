@@ -1,12 +1,10 @@
-package com.example.gluconnect;
+package com.example.gluconnect.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.gluconnect.R;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -24,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openRegisterActivity(View view) {
-        Intent intent = new Intent(this,RegisterActivity.class);
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 }
