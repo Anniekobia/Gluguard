@@ -2,66 +2,78 @@ package com.example.gluconnect.UI;
 
 import android.os.Bundle;
 
+import com.example.gluconnect.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.widget.TextView;
-
-import com.example.gluconnect.Models.ExerciseData;
-import com.example.gluconnect.Models.ExerciseDetails;
-import com.example.gluconnect.Models.ExerciseDetailsList;
-import com.example.gluconnect.Utils.NutritionixAPI;
-import com.example.gluconnect.R;
-import com.example.gluconnect.Utils.RetrofitClient;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
+import android.util.Log;
+import android.view.MenuItem;
 
 public class DailyLogsActivity extends AppCompatActivity {
 
-    private TextView exerciseTextView;
-    private NutritionixAPI nutritionixAPI;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_logs);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Dairy");
         setSupportActionBar(toolbar);
+        loadFragment(new DiaryFragment());
 
-        exerciseTextView = findViewById(R.id.post_requesttest_txtview);
-
-        Retrofit retrofit = RetrofitClient.getRetrofitClient();
-
-        nutritionixAPI = retrofit.create(NutritionixAPI.class);
-        getExerciseDetails();
+        BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
-    private void getExerciseDetails() {
-        Call<ExerciseDetailsList> exerciseDetailsListCall = nutritionixAPI.getExerciseDetailsList(new ExerciseData(21, "female", 157.0, "running 6 km 50 mins", 44.5));
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-        exerciseDetailsListCall.enqueue(new Callback<ExerciseDetailsList>() {
-            @Override
-            public void onResponse(Call<ExerciseDetailsList> call, Response<ExerciseDetailsList> response) {
-                if (!response.isSuccessful()) {
-                    exerciseTextView.setText("Code: " + response.code() + "\n" + "Message" + response.message());
-                    return;
-                } else {
-                    ExerciseDetailsList exerciseDetailsList = response.body();
-                    for (ExerciseDetails exercise : exerciseDetailsList.getExercises()) {
-                        exerciseTextView.setText(exercise.getName() + "/n"+exercise.getNfCalories()+"/n"+exercise.getDurationMin());
-                    }
-                }
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment fragment;
+            switch (item.getItemId()) {
+                case R.id.diary_icon:
+                    toolbar.setTitle("Diary");
+                    fragment = new DiaryFragment();
+                    loadFragment(fragment);
+                    return true;
+                case R.id.analytics_icon:
+                    toolbar.setTitle("Trends");
+                    fragment = new AnalyticsFragment();
+                    loadFragment(fragment);
+                    return true;
+                case R.id.record_icon:
+                    toolbar.setTitle("Log");
+                    fragment = new DailyLogsFragment();
+                    loadFragment(fragment);
+                    return true;
+                case R.id.tips_icon:
+                    toolbar.setTitle("Tips");
+                    fragment = new TipsFragment();
+                    loadFragment(fragment);
+                    return true;
+                case R.id.profile_details_icon:
+                    toolbar.setTitle("Profile");
+                    fragment = new ProfileFragment();
+                    loadFragment(fragment);
+                    return true;
             }
+            return false;
+        }
+    };
 
-            @Override
-            public void onFailure(Call<ExerciseDetailsList> call, Throwable t) {
-                exerciseTextView.setText(t.getMessage());
-            }
-        });
+    private void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
-
 
 }

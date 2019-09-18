@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#283990</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name="ic_launcher_gluconnect_background">#FFFFFF</color>
+
     //reference colors
     <!-- Purple -->
     <color name="material_purple_500">#8f3e97</color>
