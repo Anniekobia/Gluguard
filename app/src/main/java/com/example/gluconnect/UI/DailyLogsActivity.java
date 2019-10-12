@@ -1,5 +1,6 @@
 package com.example.gluconnect.UI;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.gluconnect.R;
@@ -14,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 public class DailyLogsActivity extends AppCompatActivity {
 
@@ -76,4 +78,8 @@ public class DailyLogsActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    public void openLogTest(View view) {
+        Intent intent = new Intent(this, DailyLogsActivityTest.class);
+        startActivity(intent);
+    }
 }

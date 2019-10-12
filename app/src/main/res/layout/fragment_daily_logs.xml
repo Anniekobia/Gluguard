@@ -6,24 +6,131 @@
     android:layout_height="match_parent"
     tools:context=".UI.DailyLogsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/f"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/blood_glucose_units_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Log"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/blood_glucose_level_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Blood Glucose"
+                android:textSize="@dimen/log_headings_textsize"/>
+
+            <EditText
+                android:id="@+id/blood_glucose_level_edittext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="--------------------------"
+                android:layout_marginRight="18dp"
+                android:inputType="number"
+                android:layout_toLeftOf="@+id/blood_glucose_units_textview"/>
+
+            <TextView
+                android:id="@+id/blood_glucose_units_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="mg/dL"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentEnd="true"/>
+
+            <RadioGroup
+                android:id="@+id/blood_glucose_level_radiogroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:layout_below="@id/blood_glucose_level_textview">
+
+                <RadioButton
+                    android:id="@+id/fasting_selected_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="fasting"
+                    android:textSize="10dp"
+                    android:textAllCaps="false"
+                    android:button="@null"
+                    android:background="@drawable/rounded_button"
+                    style="@style/Widget.AppCompat.Button"
+                    />
+                <RadioButton
+                    android:id="@+id/beforemeal_selected_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="before meal"
+                    android:textSize="10dp"
+                    android:textAllCaps="false"
+                    android:button="@null"
+                    android:background="@drawable/rounded_button"
+                    style="@style/Widget.AppCompat.Button"/>
+
+                <RadioButton
+                    android:id="@+id/aftermeal_selected_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="after meal"
+                    android:textSize="10dp"
+                    android:textAllCaps="false"
+                    android:button="@null"
+                    android:background="@drawable/rounded_button"
+                    style="@style/Widget.AppCompat.Button"/>
+
+                <RadioButton
+                    android:id="@+id/atnight_selected_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="at night"
+                    android:textSize="10dp"
+                    android:textAllCaps="false"
+                    android:button="@null"
+                    android:background="@drawable/rounded_button"
+                    style="@style/Widget.AppCompat.Button"/>
+
+            </RadioGroup>
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/save_logs_btn"
+        android:text="save"
+        android:onClick="saveDailyLogs"
+        app:layout_constraintTop_toBottomOf="@+id/blood_glucose_units_cardview"/>
 
     <TextView
-        android:id="@+id/s"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Data sis"
-        app:layout_constraintEnd_toEndOf="@id/f"
-        app:layout_constraintStart_toStartOf="@id/f"
-        app:layout_constraintTop_toBottomOf="@id/f" />
+        android:id="@+id/saved_log_txtview"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/show_logs_btn"
+        android:text="show"
+        android:onClick="showDailyLogs"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/all_log_txtview"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_test"
+        android:text="Test API RESPONSE"
+        android:onClick="openLogTest"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
