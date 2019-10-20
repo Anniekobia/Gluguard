@@ -22,10 +22,8 @@ import com.example.gluconnect.Models.FoodItemSuggestionsList;
 import com.example.gluconnect.Models.ExerciseData;
 import com.example.gluconnect.Models.ExerciseDetails;
 import com.example.gluconnect.Models.ExerciseDetailsList;
-import com.example.gluconnect.Models.UserFoodItemSuggestions;
 import com.example.gluconnect.Utils.NutritionixAPI;
 import com.example.gluconnect.R;
-import com.example.gluconnect.Utils.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +31,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class DailyLogsActivityTest extends AppCompatActivity {
 
@@ -59,7 +56,7 @@ public class DailyLogsActivityTest extends AppCompatActivity {
 //        auto_complete_edittext = findViewById(R.id.food_items_autocomplete_textview);
 //        selected_food_item = findViewById(R.id.selected_fooditem);
 
-//        Retrofit retrofit = RetrofitClient.getRetrofitClient();
+//        Retrofit retrofit = NutritionixAPIRetrofitClient.getRetrofitClient();
 //        nutritionixAPI = retrofit.create(NutritionixAPI.class);
 //        getExerciseDetails();
 //        getFoodItemsSuggestions();

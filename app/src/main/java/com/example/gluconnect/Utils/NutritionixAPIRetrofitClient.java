@@ -5,7 +5,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitClient {
+public class NutritionixAPIRetrofitClient {
     public static final String BASE_URL = "https://trackapi.nutritionix.com/v2/";
     public static Retrofit retrofit;
 

@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:hint="--------------------------"
                 android:layout_marginRight="18dp"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:layout_toLeftOf="@+id/blood_glucose_units_textview"/>
 
             <TextView
@@ -102,35 +102,46 @@
     </com.google.android.material.card.MaterialCardView>
 
     <Button
+        android:id="@+id/save_logs_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/save_logs_btn"
-        android:text="save"
+        android:layout_marginStart="250dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="60dp"
         android:onClick="saveDailyLogs"
-        app:layout_constraintTop_toBottomOf="@+id/blood_glucose_units_cardview"/>
+        android:text="save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/saved_log_txtview"/>
+        android:id="@+id/saved_log_txtview"
+        app:layout_constraintTop_toBottomOf="@+id/blood_glucose_units_cardview"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/show_logs_btn"
         android:text="show"
-        android:onClick="showDailyLogs"/>
+        android:onClick="showDailyLogs"
+        app:layout_constraintTop_toBottomOf="@+id/saved_log_txtview"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/all_log_txtview"/>
+        android:id="@+id/all_log_txtview"
+        app:layout_constraintTop_toBottomOf="@+id/show_logs_btn"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button_test"
         android:text="Test API RESPONSE"
-        android:onClick="openLogTest"/>
+        android:onClick="openLogTest"
+        app:layout_constraintTop_toBottomOf="@+id/all_log_txtview"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
