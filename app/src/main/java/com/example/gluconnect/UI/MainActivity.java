@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         if (!response.isSuccessful()) {
                             Toast.makeText(getApplicationContext(),"Code: " + response.code() + "\n" + "Message: " + response.message(),Toast.LENGTH_LONG).show();
+//                            noth
                         } else {
                             LoginResponse loginResponse = response.body();
                             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
