@@ -6,7 +6,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LaravelAPIRetrofitClient {
-    public static final String BASE_URL = "https://6fb65fbe.ngrok.io/api/";
+    public static final String BASE_URL = "https://e215ab27.ngrok.io/api/";
     public static Retrofit retrofit;
 
     public static Retrofit getRetrofitClient() {

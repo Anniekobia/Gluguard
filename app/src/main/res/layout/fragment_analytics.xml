@@ -44,30 +44,30 @@
         app:layout_constraintStart_toEndOf="@id/analytics_filter_by_year"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/msg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="184dp"
-        android:text="Insert a line graph to show blood glucose trends over time"
-        android:textSize="@dimen/title_textsize"
-        app:layout_constraintEnd_toEndOf="@id/analytics_filter_by_month"
-        app:layout_constraintHorizontal_bias="0.513"
-        app:layout_constraintStart_toEndOf="@id/analytics_filter_by_month"
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/linechart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/analytics_filter_by_month" />
 
     <TextView
         android:id="@+id/alert_levels_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="56dp"
         android:text="Alert Blood glucose levels:"
         android:textColor="@color/material_red_900"
         android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="@+id/msg"
+        app:layout_constraintEnd_toEndOf="@+id/linechart"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/msg"
-        app:layout_constraintTop_toBottomOf="@+id/msg" />
+        app:layout_constraintStart_toStartOf="@+id/linechart"
+        app:layout_constraintTop_toBottomOf="@+id/linechart" />
 
     <TextView
         android:id="@+id/alert_levels_fasting_msg"
