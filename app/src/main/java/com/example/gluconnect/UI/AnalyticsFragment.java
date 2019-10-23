@@ -1,13 +1,11 @@
 package com.example.gluconnect.UI;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,18 +15,10 @@ import android.widget.Toast;
 import com.example.gluconnect.Models.BloodGlucose;
 import com.example.gluconnect.Models.BloodGlucoseResponse;
 import com.example.gluconnect.R;
-import com.example.gluconnect.Utils.DateAxisValueFormatter;
 import com.example.gluconnect.Utils.LaravelAPI;
 import com.example.gluconnect.Utils.LaravelAPIRetrofitClient;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -55,9 +45,6 @@ public class AnalyticsFragment extends Fragment {
 
     private View myview;
     private LaravelAPI laravelAPI;
-    private GraphView graph;
-    ArrayList<Entry> entries = new ArrayList<>();
-
     private GraphView graphView_t;
     private ArrayList<BloodGlucose> datalist = new ArrayList<>();
     private ArrayList<Long> bg_value = new ArrayList<>();
