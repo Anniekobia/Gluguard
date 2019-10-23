@@ -1,9 +1,12 @@
 package com.example.gluconnect.UI;
 
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -25,10 +28,9 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -88,7 +90,22 @@ public class AnalyticsFragment extends Fragment {
                 for (int i = 0; i < datalist.size(); i++) {
                     bg_value.add(datalist.get(i).getBloodGlucoseLevel().longValue());
                     String stringDate = datalist.get(i).getmCreatedAt();
-                    Date mydate = fromStringToDate(stringDate, "yyyy-MM-dd HH:mm:ss");
+
+                    //Convert time from GMT to EAT
+                    System.err.println("Old date"+stringDate);
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+                    df.setTimeZone(TimeZone.getTimeZone("EAT"));
+                    Date date = null;
+                    try {
+                        date = df.parse(stringDate);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    df.setTimeZone(TimeZone.getDefault());
+                    String formattedDate = df.format(date);
+                    System.err.println("New date"+formattedDate);
+
+                    Date mydate = fromStringToDate(formattedDate, "yyyy-MM-dd HH:mm:ss");
                     time_value.add(mydate);
                 }
                 drawGraphs(graphView_t, time_value, bg_value);
@@ -119,11 +136,17 @@ public class AnalyticsFragment extends Fragment {
         graphView.getViewport().setMaxY(getMaxValue(Y_axis) + 10);
         graphView.getViewport().setYAxisBoundsManual(true);
 
+
         series = new LineGraphSeries<>();
         for (int i = 0; i < Y_axis.size(); i++) {
             System.err.println("Graph Values, Date"+X_axis.get(i).toString()+"Blood glucose:"+ Y_axis.get(i).toString());
             series.appendData(new DataPoint(X_axis.get(i), Y_axis.get(i)), true, X_axis.size());
         }
+        series.setTitle("Blood Glucose Trends");
+        series.setColor(Color.BLUE);
+        series.setDrawDataPoints(true);
+        series.setDataPointsRadius(10);
+        series.setThickness(3);
         graphView.addSeries(series);
         graphView.getViewport().setScrollable(true);
         graphView.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
@@ -162,7 +185,6 @@ public class AnalyticsFragment extends Fragment {
         }
         return maxValue;
     }
-
 }
 
 
