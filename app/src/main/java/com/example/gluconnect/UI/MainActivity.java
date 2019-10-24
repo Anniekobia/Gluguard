@@ -3,19 +3,17 @@ package com.example.gluconnect.UI;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.gluconnect.Models.BloodGlucose;
 import com.example.gluconnect.Models.LoginResponse;
 import com.example.gluconnect.R;
 import com.example.gluconnect.Utils.LaravelAPI;
 import com.example.gluconnect.Utils.LaravelAPIRetrofitClient;
+import com.google.android.material.textfield.TextInputEditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import retrofit2.Call;
@@ -26,8 +24,8 @@ import retrofit2.Retrofit;
 public class MainActivity extends AppCompatActivity {
 
     private Button signinbtn;
-    private TextView signinemail;
-    private TextView signpass;
+    private TextInputEditText signinemail;
+    private TextInputEditText signpass;
     private LaravelAPI laravelAPI;
 
     @Override
@@ -40,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         Retrofit retrofit = LaravelAPIRetrofitClient.getRetrofitClient();
         laravelAPI = retrofit.create(LaravelAPI.class);
 
-        signinbtn = findViewById(R.id.signup_button);
+        signinbtn = findViewById(R.id.signin_button);
         signinemail = findViewById(R.id.signin_email);
         signpass = findViewById(R.id.signin_password);
 

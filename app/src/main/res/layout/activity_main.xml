@@ -30,7 +30,7 @@
         app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/signin_email"
+        android:id="@+id/textEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -43,13 +43,14 @@
         app:layout_constraintStart_toStartOf="@+id/toolbar"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signin_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/signin_password"
+        android:id="@+id/textPass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -57,10 +58,11 @@
         android:layout_marginEnd="16dp"
         android:hint="@string/password"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/signin_email"
-        app:layout_constraintStart_toStartOf="@+id/signin_email"
-        app:layout_constraintTop_toBottomOf="@+id/signin_email" >
+        app:layout_constraintEnd_toEndOf="@+id/textEmail"
+        app:layout_constraintStart_toStartOf="@+id/textEmail"
+        app:layout_constraintTop_toBottomOf="@+id/textEmail" >
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signin_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -76,9 +78,9 @@
         android:text="@string/sign_in"
         android:backgroundTint="#ed2648"
         android:background="@drawable/rounded_corners"
-        app:layout_constraintEnd_toEndOf="@+id/signin_password"
-        app:layout_constraintStart_toStartOf="@+id/signin_password"
-        app:layout_constraintTop_toBottomOf="@+id/signin_password" />
+        app:layout_constraintEnd_toEndOf="@+id/textPass"
+        app:layout_constraintStart_toStartOf="@+id/textPass"
+        app:layout_constraintTop_toBottomOf="@+id/textPass" />
 
     <TextView
         android:id="@+id/register_textview"

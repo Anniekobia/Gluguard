@@ -2,11 +2,9 @@ package com.example.gluconnect.UI;
 
 
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -25,9 +23,12 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -74,6 +75,7 @@ public class AnalyticsFragment extends Fragment {
         graphView_t = myview.findViewById(R.id.linechart);
 
 
+        Date date = startOfDay();
         getBloodGlucoseLevels();
         return myview;
     }
@@ -87,6 +89,7 @@ public class AnalyticsFragment extends Fragment {
                 for (BloodGlucose bloodGlucose : bloodGlucoseResponse.getBloodGlucoseRecords()) {
                     datalist.add(bloodGlucose);
                 }
+//                time_value.add(date);
                 for (int i = 0; i < datalist.size(); i++) {
                     bg_value.add(datalist.get(i).getBloodGlucoseLevel().longValue());
                     String stringDate = datalist.get(i).getmCreatedAt();
@@ -185,7 +188,19 @@ public class AnalyticsFragment extends Fragment {
         }
         return maxValue;
     }
+
+    public Date startOfDay() {
+        final long timestamp = new Date().getTime();
+        final Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timestamp);
+        cal.set(Calendar.HOUR_OF_DAY, 0); //set hours to zero
+        cal.set(Calendar.MINUTE, 0); // set minutes to zero
+        cal.set(Calendar.SECOND, 0); //set seconds to zero
+        Date date = cal.getTime();
+        System.err.println("Start of day again:"+date.toString());
+        return date;
+    }
+
+
+
 }
-
-
-

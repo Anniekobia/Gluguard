@@ -53,8 +53,10 @@ public class DailyLogsActivity extends AppCompatActivity {
                     return true;
                 case R.id.record_icon:
                     toolbar.setTitle("Log");
-                    fragment = new DailyLogsFragment();
-                    loadFragment(fragment);
+                    Intent intent = new Intent(DailyLogsActivity.this, DailyLogsActivityTest.class);
+                    startActivity(intent);
+//                    fragment = new DailyLogsFragment();
+//                    loadFragment(fragment);
                     return true;
                 case R.id.tips_icon:
                     toolbar.setTitle("Tips");

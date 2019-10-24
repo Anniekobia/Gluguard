@@ -56,8 +56,8 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
         laravelAPI = retrofit.create(LaravelAPI.class);
 
         saveDailyLogsBtn = myView.findViewById(R.id.save_logs_btn);
-        bgLeveltextView = myView.findViewById(R.id.all_log_txtview);
-        showSavedbgLeveltextView = myView.findViewById(R.id.saved_log_txtview);
+//        bgLeveltextView = myView.findViewById(R.id.all_log_txtview);
+//        showSavedbgLeveltextView = myView.findViewById(R.id.saved_log_txtview);
         bloodGlucoseLevelEditText = myView.findViewById(R.id.blood_glucose_level_edittext);
         bglevelRadiogroup = myView.findViewById(R.id.blood_glucose_level_radiogroup);
 
@@ -91,7 +91,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
         Double bgValue = Double.parseDouble(bloodGlucoseLevelEditText.getText().toString());
         String bgTime = selectedBloodGlucoseTime();
         Call<BloodGlucose> bloodGlucoseCall = laravelAPI.recordBloodGlucoseLevel(new BloodGlucose(
-                bgValue, bgTime));
+                bgValue, bgTime,1));
         bloodGlucoseCall.enqueue(new Callback<BloodGlucose>() {
             @Override
             public void onResponse(Call<BloodGlucose> call, Response<BloodGlucose> response) {
@@ -138,9 +138,6 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
         }
     }
 
-    public void saveDailyLogs(View view) {
-
-    }
 
     @Override
     public void onPause() {

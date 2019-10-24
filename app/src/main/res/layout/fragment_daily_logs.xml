@@ -6,6 +6,71 @@
     android:layout_height="match_parent"
     tools:context=".UI.DailyLogsFragment">
 
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/food_items_autocomplete_textinputlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Search Food"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout3">
+
+        <AutoCompleteTextView
+            android:id="@+id/food_items_autocomplete_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <TextView
+        android:id="@+id/selected_fooditem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/food_items_autocomplete_textinputlayout"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/food_items_autocomplete_textinputlayout"
+        app:layout_constraintTop_toBottomOf="@+id/food_items_autocomplete_textinputlayout" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/post_food_suggestions_requesttest_scrollview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/selected_fooditem"
+        app:layout_constraintEnd_toEndOf="@+id/selected_fooditem"
+        app:layout_constraintStart_toStartOf="@id/selected_fooditem">
+
+        <TextView
+            android:id="@+id/post_food_suggestions_requesttest_txtview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/post_exercise_requesttest_scrollview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/post_food_suggestions_requesttest_scrollview"
+        app:layout_constraintEnd_toEndOf="@+id/post_food_suggestions_requesttest_scrollview"
+        app:layout_constraintStart_toStartOf="@id/selected_fooditem">
+
+        <TextView
+            android:id="@+id/post_exercise_requesttest_txtview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+
+
+
+
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/blood_glucose_units_cardview"
         android:layout_width="match_parent"
@@ -13,7 +78,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toTopOf="@id/save_logs_btn">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -114,34 +179,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/saved_log_txtview"
-        app:layout_constraintTop_toBottomOf="@+id/blood_glucose_units_cardview"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/show_logs_btn"
-        android:text="show"
-        android:onClick="showDailyLogs"
-        app:layout_constraintTop_toBottomOf="@+id/saved_log_txtview"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/all_log_txtview"
-        app:layout_constraintTop_toBottomOf="@+id/show_logs_btn"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_test"
-        android:text="Test API RESPONSE"
-        android:onClick="openLogTest"
-        app:layout_constraintTop_toBottomOf="@+id/all_log_txtview"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

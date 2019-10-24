@@ -29,14 +29,120 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/meals_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout3">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/food_items_autocomplete_textinputlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Search Food">
+
+                <AutoCompleteTextView
+                    android:id="@+id/food_items_autocomplete_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/post_food_suggestions_requesttest_scrollview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/food_items_autocomplete_textinputlayout">
+
+                <TextView
+                    android:id="@+id/post_food_suggestions_requesttest_txtview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </androidx.core.widget.NestedScrollView>
+
+
+            <RadioGroup
+                android:id="@+id/meal_time_radiogroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:layout_below="@id/post_food_suggestions_requesttest_scrollview">
+
+                <RadioButton
+                    android:id="@+id/breakfast_radiobtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="breakfast"
+                    android:textSize="10dp"
+                    android:textAllCaps="false"
+                    android:button="@null"
+                    android:background="@drawable/rounded_button"
+                    style="@style/Widget.AppCompat.Button"/>
+                <RadioButton
+                    android:id="@+id/lunch_radiobtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="lunch"
+                    android:textSize="10dp"
+                    android:textAllCaps="false"
+                    android:button="@null"
+                    android:background="@drawable/rounded_button"
+                    style="@style/Widget.AppCompat.Button"/>
+
+                <RadioButton
+                    android:id="@+id/snack_radiobtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="snack"
+                    android:textSize="10dp"
+                    android:textAllCaps="false"
+                    android:button="@null"
+                    android:background="@drawable/rounded_button"
+                    style="@style/Widget.AppCompat.Button"/>
+
+                <RadioButton
+                    android:id="@+id/dinner_radiobtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="dinner"
+                    android:textSize="10dp"
+                    android:textAllCaps="false"
+                    android:button="@null"
+                    android:background="@drawable/rounded_button"
+                    style="@style/Widget.AppCompat.Button"/>
+
+
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/selected_fooditem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:layout_below="@id/meal_time_radiogroup" />
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/blood_glucose_units_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@id/appBarLayout3"
-        app:layout_constraintStart_toStartOf="@id/appBarLayout3"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout3">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/meals_cardview">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -74,49 +180,49 @@
                 android:orientation="horizontal"
                 android:layout_below="@id/blood_glucose_level_textview">
 
-                    <RadioButton
-                        android:id="@+id/fasting_selected_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:text="fasting"
-                        android:textSize="10dp"
-                        android:textAllCaps="false"
-                        android:button="@null"
-                        android:background="@drawable/rounded_button"
-                        style="@style/Widget.AppCompat.Button"
-                        />
-                    <RadioButton
-                        android:id="@+id/beforemeal_selected_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:text="before meal"
-                        android:textSize="10dp"
-                        android:textAllCaps="false"
-                        android:button="@null"
-                        android:background="@drawable/rounded_button"
-                        style="@style/Widget.AppCompat.Button"/>
+                <RadioButton
+                    android:id="@+id/fasting_selected_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="fasting"
+                    android:textSize="10dp"
+                    android:textAllCaps="false"
+                    android:button="@null"
+                    android:background="@drawable/rounded_button"
+                    style="@style/Widget.AppCompat.Button"
+                    />
+                <RadioButton
+                    android:id="@+id/beforemeal_selected_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="before meal"
+                    android:textSize="10dp"
+                    android:textAllCaps="false"
+                    android:button="@null"
+                    android:background="@drawable/rounded_button"
+                    style="@style/Widget.AppCompat.Button"/>
 
-                    <RadioButton
-                        android:id="@+id/aftermeal_selected_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:text="after meal"
-                        android:textSize="10dp"
-                        android:textAllCaps="false"
-                        android:button="@null"
-                        android:background="@drawable/rounded_button"
-                        style="@style/Widget.AppCompat.Button"/>
+                <RadioButton
+                    android:id="@+id/aftermeal_selected_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="after meal"
+                    android:textSize="10dp"
+                    android:textAllCaps="false"
+                    android:button="@null"
+                    android:background="@drawable/rounded_button"
+                    style="@style/Widget.AppCompat.Button"/>
 
-                    <RadioButton
-                        android:id="@+id/atnight_selected_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:text="at night"
-                        android:textSize="10dp"
-                        android:textAllCaps="false"
-                        android:button="@null"
-                        android:background="@drawable/rounded_button"
-                        style="@style/Widget.AppCompat.Button"/>
+                <RadioButton
+                    android:id="@+id/atnight_selected_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="at night"
+                    android:textSize="10dp"
+                    android:textAllCaps="false"
+                    android:button="@null"
+                    android:background="@drawable/rounded_button"
+                    style="@style/Widget.AppCompat.Button"/>
 
             </RadioGroup>
 
@@ -124,73 +230,32 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/post_exercise_requesttest_scrollview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/blood_glucose_units_cardview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <TextView
+            android:id="@+id/post_exercise_requesttest_txtview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </androidx.core.widget.NestedScrollView>
 
-
-
-
-
-
-
-
-
-<!--    <TextView-->
-<!--        android:id="@+id/selected_fooditem"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:padding="20dp"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/food_items_autocomplete_textinputlayout"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="@id/food_items_autocomplete_textinputlayout"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/food_items_autocomplete_textinputlayout" />-->
-
-<!--    <androidx.core.widget.NestedScrollView-->
-<!--        android:id="@+id/post_exercise_requesttest_scrollview"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/post_food_suggestions_requesttest_scrollview"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/selected_fooditem"-->
-<!--        app:layout_constraintStart_toStartOf="@id/selected_fooditem">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/post_exercise_requesttest_txtview"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content" />-->
-<!--    </androidx.core.widget.NestedScrollView>-->
-
-<!--    <androidx.core.widget.NestedScrollView-->
-<!--        android:id="@+id/post_food_suggestions_requesttest_scrollview"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/post_exercise_requesttest_scrollview"-->
-<!--        app:layout_constraintStart_toStartOf="@id/post_exercise_requesttest_scrollview">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/post_food_suggestions_requesttest_txtview"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content" />-->
-<!--    </androidx.core.widget.NestedScrollView>-->
-
-<!--    -->
-<!--    -->
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        android:id="@+id/food_items_autocomplete_textinputlayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="Search Food"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/appBarLayout3"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/appBarLayout3">-->
-
-<!--        <AutoCompleteTextView-->
-<!--            android:id="@+id/food_items_autocomplete_textview"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:inputType="text" />-->
-
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
-
-
+    <Button
+        android:id="@+id/save_logs_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="250dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="60dp"
+        android:onClick="saveDailyLogs"
+        android:text="save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
