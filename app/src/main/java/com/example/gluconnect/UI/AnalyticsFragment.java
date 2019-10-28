@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.gluconnect.Models.BloodGlucose;
+import com.example.gluconnect.Models.BloodGlucoseOld;
 import com.example.gluconnect.Models.BloodGlucoseResponse;
 import com.example.gluconnect.R;
 import com.example.gluconnect.Utils.LaravelAPI;
@@ -23,8 +23,6 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,7 +47,7 @@ public class AnalyticsFragment extends Fragment {
     private View myview;
     private LaravelAPI laravelAPI;
     private GraphView graphView_t;
-    private ArrayList<BloodGlucose> datalist = new ArrayList<>();
+    private ArrayList<BloodGlucoseOld> datalist = new ArrayList<>();
     private ArrayList<Long> bg_value = new ArrayList<>();
     private ArrayList<Date> time_value = new ArrayList<>();
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
@@ -86,8 +84,8 @@ public class AnalyticsFragment extends Fragment {
             @Override
             public void onResponse(Call<BloodGlucoseResponse> call, Response<BloodGlucoseResponse> response) {
                 BloodGlucoseResponse bloodGlucoseResponse = response.body();
-                for (BloodGlucose bloodGlucose : bloodGlucoseResponse.getBloodGlucoseRecords()) {
-                    datalist.add(bloodGlucose);
+                for (BloodGlucoseOld bloodGlucoseOld : bloodGlucoseResponse.getBloodGlucoseRecords()) {
+                    datalist.add(bloodGlucoseOld);
                 }
 //                time_value.add(date);
                 for (int i = 0; i < datalist.size(); i++) {
@@ -116,7 +114,7 @@ public class AnalyticsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<BloodGlucoseResponse> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG);
+//                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG);
                 Log.e(TAG, "ERROR" + t.getMessage());
             }
         });

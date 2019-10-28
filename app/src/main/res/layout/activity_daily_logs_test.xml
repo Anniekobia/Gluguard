@@ -34,7 +34,7 @@
         android:id="@+id/meals_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout3">
@@ -43,10 +43,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/meals_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meals"
+                android:textSize="@dimen/log_headings_textsize" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/food_items_autocomplete_textinputlayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/meals_textview"
                 android:hint="Search Food">
 
                 <AutoCompleteTextView
@@ -73,54 +81,53 @@
                 android:id="@+id/meal_time_radiogroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/post_food_suggestions_requesttest_scrollview"
                 android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                android:layout_below="@id/post_food_suggestions_requesttest_scrollview">
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/breakfast_radiobtn"
+                    style="@style/Widget.AppCompat.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="breakfast"
-                    android:textSize="10dp"
-                    android:textAllCaps="false"
-                    android:button="@null"
                     android:background="@drawable/rounded_button"
-                    style="@style/Widget.AppCompat.Button"/>
+                    android:button="@null"
+                    android:text="breakfast"
+                    android:textAllCaps="false"
+                    android:textSize="10dp" />
+
                 <RadioButton
                     android:id="@+id/lunch_radiobtn"
+                    style="@style/Widget.AppCompat.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="lunch"
-                    android:textSize="10dp"
-                    android:textAllCaps="false"
-                    android:button="@null"
                     android:background="@drawable/rounded_button"
-                    style="@style/Widget.AppCompat.Button"/>
+                    android:button="@null"
+                    android:text="lunch"
+                    android:textAllCaps="false"
+                    android:textSize="10dp" />
 
                 <RadioButton
                     android:id="@+id/snack_radiobtn"
+                    style="@style/Widget.AppCompat.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="snack"
-                    android:textSize="10dp"
-                    android:textAllCaps="false"
-                    android:button="@null"
                     android:background="@drawable/rounded_button"
-                    style="@style/Widget.AppCompat.Button"/>
+                    android:button="@null"
+                    android:text="snack"
+                    android:textAllCaps="false"
+                    android:textSize="10dp" />
 
                 <RadioButton
                     android:id="@+id/dinner_radiobtn"
+                    style="@style/Widget.AppCompat.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="dinner"
-                    android:textSize="10dp"
-                    android:textAllCaps="false"
-                    android:button="@null"
                     android:background="@drawable/rounded_button"
-                    style="@style/Widget.AppCompat.Button"/>
-
-
+                    android:button="@null"
+                    android:text="dinner"
+                    android:textAllCaps="false"
+                    android:textSize="10dp" />
 
             </RadioGroup>
 
@@ -128,21 +135,72 @@
                 android:id="@+id/selected_fooditem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:layout_below="@id/meal_time_radiogroup" />
+                android:layout_below="@id/meal_time_radiogroup"
+                android:padding="20dp" />
         </RelativeLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/blood_glucose_units_cardview"
+        android:id="@+id/exercise_cardview"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/meals_cardview">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/planets_spinner_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Exercises"
+                android:textSize="@dimen/log_headings_textsize"/>
+
+            <Spinner
+                android:id="@+id/planets_spinner"
+                android:layout_marginTop="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/planets_spinner_textview"/>
+
+            <EditText
+                android:id="@+id/planets_spinner_edittext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/planets_spinner_textview"
+                android:layout_marginTop="-4dp"
+                android:layout_marginRight="34dp"
+                android:layout_toLeftOf="@+id/planets_spinner_metrics_textview"
+                android:hint="--------------------------"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/planets_spinner_metrics_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="10dp"
+                android:layout_below="@+id/planets_spinner_textview"
+                android:text="Mins" />
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/blood_glucose_units_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/exercise_cardview">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -229,6 +287,7 @@
         </RelativeLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/post_exercise_requesttest_scrollview"

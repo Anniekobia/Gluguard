@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gluconnect.Models.BloodGlucose;
-import com.example.gluconnect.Models.BloodGlucoseResponse;
+import com.example.gluconnect.Models.BloodGlucoseOld;
 import com.example.gluconnect.R;
 import com.example.gluconnect.Utils.LaravelAPI;
 import com.example.gluconnect.Utils.LaravelAPIRetrofitClient;
@@ -56,8 +56,6 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
         laravelAPI = retrofit.create(LaravelAPI.class);
 
         saveDailyLogsBtn = myView.findViewById(R.id.save_logs_btn);
-//        bgLeveltextView = myView.findViewById(R.id.all_log_txtview);
-//        showSavedbgLeveltextView = myView.findViewById(R.id.saved_log_txtview);
         bloodGlucoseLevelEditText = myView.findViewById(R.id.blood_glucose_level_edittext);
         bglevelRadiogroup = myView.findViewById(R.id.blood_glucose_level_radiogroup);
 
@@ -91,12 +89,12 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
         Double bgValue = Double.parseDouble(bloodGlucoseLevelEditText.getText().toString());
         String bgTime = selectedBloodGlucoseTime();
         Call<BloodGlucose> bloodGlucoseCall = laravelAPI.recordBloodGlucoseLevel(new BloodGlucose(
-                bgValue, bgTime,1));
+                bgValue, bgTime,1L));
         bloodGlucoseCall.enqueue(new Callback<BloodGlucose>() {
             @Override
             public void onResponse(Call<BloodGlucose> call, Response<BloodGlucose> response) {
                 if (!response.isSuccessful()) {
-                    showSavedbgLeveltextView.setText("Code: " + response.code() + "\n" + "Message" + response.message());
+                    Toast.makeText(getContext(),"Record not saved",Toast.LENGTH_LONG).show();
                     return;
                 } else {
                     Toast.makeText(getContext(), "Record saved", Toast.LENGTH_LONG).show();
@@ -104,7 +102,6 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                     bglevelRadiogroup.clearCheck();
                 }
             }
-
             @Override
             public void onFailure(Call<BloodGlucose> call, Throwable t) {
                 showSavedbgLeveltextView.setText(t.getMessage());

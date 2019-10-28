@@ -4,26 +4,132 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.DiaryFragment">
+    tools:context=".UI.DailyLogsFragment">
 
-  <!-- TODO: Update blank fragment layout -->
-  <TextView
-      android:id="@+id/f"
+
+
+  <com.google.android.material.card.MaterialCardView
+      android:id="@+id/meals_cardview"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="Diary"
+      android:layout_marginTop="10dp"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+      app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
-  <TextView
-      android:id="@+id/s"
-      android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+      <TextView
+          android:id="@+id/meals_textview"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Meals"
+          android:textSize="@dimen/log_headings_textsize" />
+
+      <com.google.android.material.textfield.TextInputLayout
+          android:id="@+id/food_items_autocomplete_textinputlayout"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/meals_textview"
+          android:hint="Search Food">
+
+        <AutoCompleteTextView
+            android:id="@+id/food_items_autocomplete_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+      </com.google.android.material.textfield.TextInputLayout>
+
+      <androidx.core.widget.NestedScrollView
+          android:id="@+id/post_food_suggestions_requesttest_scrollview"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/food_items_autocomplete_textinputlayout">
+
+        <TextView
+            android:id="@+id/post_food_suggestions_requesttest_txtview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+      </androidx.core.widget.NestedScrollView>
+
+
+      <RadioGroup
+          android:id="@+id/meal_time_radiogroup"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/post_food_suggestions_requesttest_scrollview"
+          android:layout_marginTop="20dp"
+          android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/breakfast_radiobtn"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_button"
+            android:button="@null"
+            android:text="breakfast"
+            android:textAllCaps="false"
+            android:textSize="10dp" />
+
+        <RadioButton
+            android:id="@+id/lunch_radiobtn"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_button"
+            android:button="@null"
+            android:text="lunch"
+            android:textAllCaps="false"
+            android:textSize="10dp" />
+
+        <RadioButton
+            android:id="@+id/snack_radiobtn"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_button"
+            android:button="@null"
+            android:text="snack"
+            android:textAllCaps="false"
+            android:textSize="10dp" />
+
+        <RadioButton
+            android:id="@+id/dinner_radiobtn"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_button"
+            android:button="@null"
+            android:text="dinner"
+            android:textAllCaps="false"
+            android:textSize="10dp" />
+
+      </RadioGroup>
+
+      <TextView
+          android:id="@+id/selected_fooditem"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/meal_time_radiogroup"
+          android:padding="20dp" />
+    </RelativeLayout>
+
+  </com.google.android.material.card.MaterialCardView>
+
+  <Button
+      android:id="@+id/save_logs_btn"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="Here"
-      app:layout_constraintEnd_toEndOf="@id/f"
-      app:layout_constraintStart_toStartOf="@id/f"
-      app:layout_constraintTop_toBottomOf="@id/f" />
-
+      android:layout_marginStart="250dp"
+      android:layout_marginEnd="24dp"
+      android:layout_marginBottom="60dp"
+      android:text="save"
+      app:layout_constraintTop_toBottomOf="@id/meals_cardview"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.9"
+      app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,45 +34,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:id="@+id/username"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="24dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:layout_marginEnd="24dp"-->
+<!--        android:ems="10"-->
+<!--        android:hint="@string/username"-->
+<!--        android:inputType="textPersonName"-->
+<!--        app:errorEnabled="true"-->
+
+
+<!--        app:layout_constraintEnd_toEndOf="@+id/more_info_msg"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/more_info_msg"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/more_info_msg">-->
+
+<!--        <com.google.android.material.textfield.TextInputEditText-->
+<!--            android:id="@+id/usernametxt"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
+
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/username"
+        android:id="@+id/age"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
-        android:hint="@string/username"
-        android:inputType="textPersonName"
-        app:errorEnabled="true"
-
-
+        android:hint="Age"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="@+id/more_info_msg"
         app:layout_constraintStart_toStartOf="@+id/more_info_msg"
         app:layout_constraintTop_toBottomOf="@+id/more_info_msg">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/dob"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:ems="10"
-        android:hint="@string/dob"
-        android:inputType="date"
-        app:layout_constraintEnd_toEndOf="@+id/username"
-        app:layout_constraintStart_toStartOf="@+id/username"
-        app:layout_constraintTop_toBottomOf="@+id/username">
-
-        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/agetxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -86,13 +87,14 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
-        android:hint="Place a spinner here for dropdown"
+        android:hint="Gender"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/dob"
-        app:layout_constraintStart_toStartOf="@+id/dob"
-        app:layout_constraintTop_toBottomOf="@+id/dob">
+        app:layout_constraintEnd_toEndOf="@+id/age"
+        app:layout_constraintStart_toStartOf="@+id/age"
+        app:layout_constraintTop_toBottomOf="@+id/age">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/gendertxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -113,6 +115,7 @@
         app:layout_constraintTop_toBottomOf="@+id/gender">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/weighttxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -133,6 +136,7 @@
         app:layout_constraintTop_toBottomOf="@+id/weight">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/heighttxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -146,13 +150,14 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
-        android:hint="Place a spinner here for dropdown"
+        android:hint="Activity Level"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="@+id/height"
         app:layout_constraintStart_toStartOf="@+id/height"
         app:layout_constraintTop_toBottomOf="@+id/height">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/activityleveltxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

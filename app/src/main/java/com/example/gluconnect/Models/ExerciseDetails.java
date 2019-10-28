@@ -110,7 +110,7 @@ public class ExerciseDetails {
     public String toString() {
         return
                 "Response tag Id=" + mTagId + "\n" +
-                        "Exercise Type='" + mName + "\n"+
+                        "ExerciseOld Type='" + mName + "\n"+
                 "Duration in Minutes=" + mDurationMin + "\n"+
                 "Amount of Calories Burnt=" + mNfCalories +"\n";
     }

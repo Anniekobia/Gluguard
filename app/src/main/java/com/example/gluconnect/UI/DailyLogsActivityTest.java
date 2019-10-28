@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,11 +26,13 @@ import android.widget.Toast;
 import com.example.gluconnect.Adapters.FoodAutoSuggestAdapter;
 import com.example.gluconnect.Models.BloodGlucose;
 import com.example.gluconnect.Models.BrandedFoodItemSuggestions;
+import com.example.gluconnect.Models.Exercise;
 import com.example.gluconnect.Models.Food;
 import com.example.gluconnect.Models.FoodItemSuggestionsList;
 import com.example.gluconnect.Models.ExerciseData;
 import com.example.gluconnect.Models.ExerciseDetails;
 import com.example.gluconnect.Models.ExerciseDetailsList;
+import com.example.gluconnect.Models.Meal;
 import com.example.gluconnect.Utils.LaravelAPI;
 import com.example.gluconnect.Utils.LaravelAPIRetrofitClient;
 import com.example.gluconnect.Utils.NutritionixAPI;
@@ -44,7 +47,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class DailyLogsActivityTest extends AppCompatActivity {
+public class DailyLogsActivityTest extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private TextView exerciseTextView;
     private TextView foodItemSuggestionsTextView;
@@ -56,13 +59,17 @@ public class DailyLogsActivityTest extends AppCompatActivity {
     private static final long AUTO_COMPLETE_DELAY = 300;
     private Handler handler;
 
-    private RadioGroup radioGroup;
-    private Button saveDailyLogsBtn;
     private LaravelAPI laravelAPI;
-    private TextView bgLeveltextView;
-    private TextView showSavedbgLeveltextView;
+    private Button saveDailyLogsBtn;
     private EditText bloodGlucoseLevelEditText;
     private RadioGroup bglevelRadiogroup;
+    private RadioGroup mealTimeRadiogroup;
+    private EditText exerciseSpinnerEdittext;
+    private AutoCompleteTextView mealsAutoCompleteTextView;
+
+    private BloodGlucose bloodGlucoseSaved;
+    private Meal mealSaved;
+    private Exercise exerciseSaved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,30 +78,33 @@ public class DailyLogsActivityTest extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Retrofit retrofit = NutritionixAPIRetrofitClient.getRetrofitClient();
+        nutritionixAPI = retrofit.create(NutritionixAPI.class);
+        Retrofit retrofitl = LaravelAPIRetrofitClient.getRetrofitClient();
+        laravelAPI = retrofitl.create(LaravelAPI.class);
+
         exerciseTextView = findViewById(R.id.post_exercise_requesttest_txtview);
         foodItemSuggestionsTextView = findViewById(R.id.post_food_suggestions_requesttest_txtview);
         auto_complete_edittext = findViewById(R.id.food_items_autocomplete_textview);
         selected_food_item = findViewById(R.id.selected_fooditem);
-
-        Retrofit retrofit = LaravelAPIRetrofitClient.getRetrofitClient();
-        laravelAPI = retrofit.create(LaravelAPI.class);
-        nutritionixAPI = retrofit.create(NutritionixAPI.class);
-
+        exerciseSpinnerEdittext = findViewById(R.id.planets_spinner_edittext);
+        mealsAutoCompleteTextView = findViewById(R.id.food_items_autocomplete_textview);
         saveDailyLogsBtn = findViewById(R.id.save_logs_btn);
-//        bgLeveltextView = findViewById(R.id.all_log_txtview);
-//        showSavedbgLeveltextView = myView.findViewById(R.id.saved_log_txtview);
         bloodGlucoseLevelEditText = findViewById(R.id.blood_glucose_level_edittext);
         bglevelRadiogroup = findViewById(R.id.blood_glucose_level_radiogroup);
+        mealTimeRadiogroup = findViewById(R.id.meal_time_radiogroup);
 
-
+        getExerciseDetails();
+        getFoodItemsSuggestions();
         saveDailyLogsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.save_logs_btn:
                         String bglevel = bloodGlucoseLevelEditText.getText().toString();
-                        if (TextUtils.isEmpty(bglevel) || bglevelRadiogroup.getCheckedRadioButtonId() == -1) {
-                            Toast.makeText(getApplicationContext(), "Please fill in all the details", Toast.LENGTH_SHORT).show();
+                            if (TextUtils.isEmpty(bglevel)|| bglevelRadiogroup.getCheckedRadioButtonId() == -1) {
+
+                                Toast.makeText(getApplicationContext(), "Please fill in all the details", Toast.LENGTH_SHORT).show();
                             return;
                         } else {
                             recordBloodGlucoseLevel();
@@ -108,8 +118,13 @@ public class DailyLogsActivityTest extends AppCompatActivity {
             }
         });
 
-        getExerciseDetails();
-        getFoodItemsSuggestions();
+
+        Spinner spinner = findViewById(R.id.planets_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.planets_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
     }
 
     private void getFoodItemsSuggestions() {
@@ -174,13 +189,6 @@ public class DailyLogsActivityTest extends AppCompatActivity {
                                 stringList.add(branded.getFoodName() + "\t\t" + branded.getNfCalories() + "cals");
                             }
                         }
-//                        for (UserFoodItemSuggestions self : foodItemSuggestionsList.getSelf()) {
-//                            if (self == null) {
-//                            } else {
-//                                stringList.add(self.getFoodName() + "\t\t" + self.getNfCalories() + "cals");
-//
-//                            }
-//                        }
                         foodAutoSuggestAdapter.setData(stringList);
                         foodAutoSuggestAdapter.notifyDataSetChanged();
                         response.errorBody();
@@ -197,17 +205,21 @@ public class DailyLogsActivityTest extends AppCompatActivity {
         });
     }
 
-    private void getFoodItemDetails(String inputtext) {
+    private String getFoodItemDetails(String inputtext) {
+        String foodName = "";
         Call<Food> foodCall = nutritionixAPI.getFoodItemDetails(new Food(inputtext));
         foodCall.enqueue(new Callback<Food>() {
             @Override
             public void onResponse(Call<Food> call, Response<Food> response) {
                 if (!response.isSuccessful()) {
-                    selected_food_item.setText("Code: " + response.code() + "\n" + "Message" + response.message());
+                    Toast.makeText(getApplicationContext(),"Code: " + response.code() + "\n" + "Message" + response.message(),Toast.LENGTH_LONG).show();
                     return;
                 } else {
                     Food food = response.body();
-                        selected_food_item.setText(food.getFoodName()+"\t"+food.getNfCalories());
+                    String foodName = food.getFoodName();
+                    String mealTime = selectedMealTime();
+                    Meal mealnew = new Meal(foodName,mealTime,1L);
+                    mealSaved = mealnew;
                     }
                 }
             @Override
@@ -215,21 +227,23 @@ public class DailyLogsActivityTest extends AppCompatActivity {
                 auto_complete_edittext.setText(t.getMessage());
             }
         });
+        return foodName;
     }
 
     private void getExerciseDetails() {
-        Call<ExerciseDetailsList> exerciseDetailsListCall = nutritionixAPI.getExerciseDetailsList(new ExerciseData(21, "female", 157.0, "running 6 km 50 mins", 44.5));
 
+        Call<ExerciseDetailsList> exerciseDetailsListCall = nutritionixAPI.getExerciseDetailsList(new ExerciseData(21, "female", 157.0, "running 6 km 50 mins", 44.5));
         exerciseDetailsListCall.enqueue(new Callback<ExerciseDetailsList>() {
             @Override
             public void onResponse(Call<ExerciseDetailsList> call, Response<ExerciseDetailsList> response) {
                 if (!response.isSuccessful()) {
-                    exerciseTextView.setText("Code: " + response.code() + "\n" + "Message" + response.message());
+                    Toast.makeText(getApplicationContext(),"Code: " + response.code() + "\n" + "Message" + response.message(),Toast.LENGTH_LONG).show();
                     return;
                 } else {
                     ExerciseDetailsList exerciseDetailsList = response.body();
                     for (ExerciseDetails exercise : exerciseDetailsList.getExercises()) {
                         exerciseTextView.setText(exercise.toString());
+                        exerciseSaved = new Exercise(exercise.getNfCalories(),Double.parseDouble(exercise.getDurationMin().toString()),exercise.getName(),1L);
                     }
                 }
             }
@@ -241,35 +255,41 @@ public class DailyLogsActivityTest extends AppCompatActivity {
         });
     }
 
-
-
     private void recordBloodGlucoseLevel() {
-        Double bgValue = Double.parseDouble(bloodGlucoseLevelEditText.getText().toString());
-        String bgTime = selectedBloodGlucoseTime();
+        final Double bgValue = Double.parseDouble(bloodGlucoseLevelEditText.getText().toString());
+        final String bgTime = selectedBloodGlucoseTime();
         Call<BloodGlucose> bloodGlucoseCall = laravelAPI.recordBloodGlucoseLevel(new BloodGlucose(
-                bgValue, bgTime,1));
+                bgValue, bgTime,1L));
         bloodGlucoseCall.enqueue(new Callback<BloodGlucose>() {
             @Override
             public void onResponse(Call<BloodGlucose> call, Response<BloodGlucose> response) {
                 if (!response.isSuccessful()) {
-                    showSavedbgLeveltextView.setText("Code: " + response.code() + "\n" + "Message" + response.message());
+                    Toast.makeText(getApplicationContext(),"Code: " + response.code() + "\n" + "Message" + response.message(),Toast.LENGTH_LONG).show();
+                    System.err.println("Code: " + response.code() + "\n" + "Message" + response.message());
                     return;
                 } else {
                     Toast.makeText(getApplicationContext(), "Record saved", Toast.LENGTH_LONG).show();
                     bloodGlucoseLevelEditText.getText().clear();
                     bglevelRadiogroup.clearCheck();
+                    bloodGlucoseSaved = new BloodGlucose(bgValue,bgTime,1L);
                 }
             }
-
             @Override
             public void onFailure(Call<BloodGlucose> call, Throwable t) {
-                showSavedbgLeveltextView.setText(t.getMessage());
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_LONG).show();
+                System.err.println(t.getMessage());
             }
         });
     }
 
     private String selectedBloodGlucoseTime() {
         int selectedRadioBtn = bglevelRadiogroup.getCheckedRadioButtonId();
+        RadioButton radioTimeButton = findViewById(selectedRadioBtn);
+        return radioTimeButton.getText().toString();
+    }
+
+    private String selectedMealTime() {
+        int selectedRadioBtn = mealTimeRadiogroup.getCheckedRadioButtonId();
         RadioButton radioTimeButton = findViewById(selectedRadioBtn);
         return radioTimeButton.getText().toString();
     }
@@ -292,5 +312,41 @@ public class DailyLogsActivityTest extends AppCompatActivity {
             if (view instanceof ViewGroup && (((ViewGroup) view).getChildCount() > 0))
                 resetFields((ViewGroup) view);
         }
+    }
+
+//    public void recordDailyData(){
+//        bloodGlucoseSaved = new BloodGlucose(55D,"fasting",1L);
+//        exerciseSaved = new Exercise(23D,30D,"Running",1L);
+//        mealSaved = new Meal("Rice","Lunch",1L);
+//        Call<DailyLogs> dailyLogsCall = laravelAPI.recordDailyData(new DailyLogs(bloodGlucoseSaved,exerciseSaved,mealSaved));
+//        dailyLogsCall.enqueue(new Callback<DailyLogs>() {
+//            @Override
+//            public void onResponse(Call<DailyLogs> call, Response<DailyLogs> response) {
+//                if (!response.isSuccessful()) {
+//                    Toast.makeText(getApplicationContext(),"Code: " + response.code() + "\n" + "Message: " + response.message(),Toast.LENGTH_LONG).show();
+//                    return;
+//                } else {
+//                    DailyLogs dailyLogs = response.body();
+//                    Toast.makeText(getApplicationContext(),"Record saved",Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<DailyLogs> call, Throwable t) {
+//                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_LONG).show();
+//                exerciseTextView.setText(t.getMessage());
+//            }
+//        });
+//    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String item = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

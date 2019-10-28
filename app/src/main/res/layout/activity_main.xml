@@ -63,6 +63,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textEmail" >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signin_password"
+            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

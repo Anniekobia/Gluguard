@@ -7,20 +7,18 @@ import com.example.gluconnect.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 public class DailyLogsActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-
+    private  Bundle extras;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +30,8 @@ public class DailyLogsActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        extras = getIntent().getExtras();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -44,6 +44,7 @@ public class DailyLogsActivity extends AppCompatActivity {
                 case R.id.diary_icon:
                     toolbar.setTitle("Diary");
                     fragment = new DiaryFragment();
+                    fragment.setArguments(extras);
                     loadFragment(fragment);
                     return true;
                 case R.id.analytics_icon:
@@ -53,10 +54,10 @@ public class DailyLogsActivity extends AppCompatActivity {
                     return true;
                 case R.id.record_icon:
                     toolbar.setTitle("Log");
-                    Intent intent = new Intent(DailyLogsActivity.this, DailyLogsActivityTest.class);
-                    startActivity(intent);
-//                    fragment = new DailyLogsFragment();
-//                    loadFragment(fragment);
+//                    Intent intent = new Intent(DailyLogsActivity.this, DailyLogsActivityTest.class);
+//                    startActivity(intent);
+                    fragment = new DailyLogsFragment();
+                    loadFragment(fragment);
                     return true;
                 case R.id.tips_icon:
                     toolbar.setTitle("Tips");

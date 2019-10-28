@@ -4,33 +4,27 @@ package com.example.gluconnect.Models;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("unused")
-public class BloodGlucose {
+public class Meal {
 
-    @SerializedName("blood_glucose_level")
-    private Double mBloodGlucoseLevel;
     @SerializedName("created_at")
     private String mCreatedAt;
+    @SerializedName("day")
+    private String mDay;
     @SerializedName("id")
     private Long mId;
-    @SerializedName("type")
-    private String mType;
+    @SerializedName("meal_name")
+    private String mMealName;
+    @SerializedName("meal_type")
+    private String mMealType;
     @SerializedName("updated_at")
     private String mUpdatedAt;
     @SerializedName("user_id")
     private Long mUserId;
 
-    public BloodGlucose(Double mBloodGlucoseLevel, String mType, Long mUserId) {
-        this.mBloodGlucoseLevel = mBloodGlucoseLevel;
-        this.mType = mType;
+    public Meal( String mMealName, String mMealType, Long mUserId) {
+        this.mMealName = mMealName;
+        this.mMealType = mMealType;
         this.mUserId = mUserId;
-    }
-
-    public Double getBloodGlucoseLevel() {
-        return mBloodGlucoseLevel;
-    }
-
-    public void setBloodGlucoseLevel(Double bloodGlucoseLevel) {
-        mBloodGlucoseLevel = bloodGlucoseLevel;
     }
 
     public String getCreatedAt() {
@@ -41,6 +35,14 @@ public class BloodGlucose {
         mCreatedAt = createdAt;
     }
 
+    public String getDay() {
+        return mDay;
+    }
+
+    public void setDay(String day) {
+        mDay = day;
+    }
+
     public Long getId() {
         return mId;
     }
@@ -49,12 +51,20 @@ public class BloodGlucose {
         mId = id;
     }
 
-    public String getType() {
-        return mType;
+    public String getMealName() {
+        return mMealName;
     }
 
-    public void setType(String type) {
-        mType = type;
+    public void setMealName(String mealName) {
+        mMealName = mealName;
+    }
+
+    public String getMealType() {
+        return mMealType;
+    }
+
+    public void setMealType(String mealType) {
+        mMealType = mealType;
     }
 
     public String getUpdatedAt() {
