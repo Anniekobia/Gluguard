@@ -8,24 +8,24 @@ import com.google.gson.annotations.SerializedName;
 public class BloodGlucoseResponse {
 
     @SerializedName("blood_glucose_records")
-    private List<BloodGlucose> mBloodGlucoseOlds;
+    private List<BloodGlucose> bloodGlucoses;
     @SerializedName("success")
-    private Long mSuccess;
+    private Long Success;
 
     public List<BloodGlucose> getBloodGlucoseRecords() {
-        return mBloodGlucoseOlds;
+        return bloodGlucoses;
     }
 
     public void setBloodGlucoseRecords(List<BloodGlucose> bloodGlucoseOlds) {
-        mBloodGlucoseOlds = bloodGlucoseOlds;
+        bloodGlucoses = bloodGlucoseOlds;
     }
 
     public Long getSuccess() {
-        return mSuccess;
+        return Success;
     }
 
     public void setSuccess(Long success) {
-        mSuccess = success;
+        Success = success;
     }
 
 }

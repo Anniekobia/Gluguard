@@ -43,7 +43,7 @@
         app:layout_constraintStart_toEndOf="@id/analytics_filter_by_year"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.jjoe64.graphview.GraphView
+    <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/linechart"
         android:layout_width="match_parent"
         android:layout_height="300dp"

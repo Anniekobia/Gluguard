@@ -20,14 +20,12 @@ public interface LaravelAPI {
 
 
     @Headers({"Content-Type: application/json"})
-    @GET("bgGET")
-    Call<BloodGlucoseResponse> getBloodGlucoseLevel();
-
-
-    @Headers({"Content-Type: application/json"})
     @POST("daily/bloodglucose")
     Call<BloodGlucose> recordBloodGlucoseLevel(@Body BloodGlucose bloodGlucose);
 
+    @Headers({"Content-Type: application/json"})
+    @GET("bloodglucose")
+    Call<BloodGlucoseResponse> getBloodGlucoseLevel();
 
 
     @Headers({"Content-Type: application/json"})
