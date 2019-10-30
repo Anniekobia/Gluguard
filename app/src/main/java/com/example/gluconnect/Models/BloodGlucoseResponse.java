@@ -8,15 +8,15 @@ import com.google.gson.annotations.SerializedName;
 public class BloodGlucoseResponse {
 
     @SerializedName("blood_glucose_records")
-    private List<BloodGlucoseOld> mBloodGlucoseOlds;
+    private List<BloodGlucose> mBloodGlucoseOlds;
     @SerializedName("success")
     private Long mSuccess;
 
-    public List<BloodGlucoseOld> getBloodGlucoseRecords() {
+    public List<BloodGlucose> getBloodGlucoseRecords() {
         return mBloodGlucoseOlds;
     }
 
-    public void setBloodGlucoseRecords(List<BloodGlucoseOld> bloodGlucoseOlds) {
+    public void setBloodGlucoseRecords(List<BloodGlucose> bloodGlucoseOlds) {
         mBloodGlucoseOlds = bloodGlucoseOlds;
     }
 

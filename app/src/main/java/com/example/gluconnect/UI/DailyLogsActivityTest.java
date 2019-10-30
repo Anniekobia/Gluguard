@@ -256,10 +256,10 @@ public class DailyLogsActivityTest extends AppCompatActivity implements AdapterV
     }
 
     private void recordBloodGlucoseLevel() {
-        final Double bgValue = Double.parseDouble(bloodGlucoseLevelEditText.getText().toString());
+        final Float bgValue = Float.parseFloat(bloodGlucoseLevelEditText.getText().toString());
         final String bgTime = selectedBloodGlucoseTime();
         Call<BloodGlucose> bloodGlucoseCall = laravelAPI.recordBloodGlucoseLevel(new BloodGlucose(
-                bgValue, bgTime,1L));
+                bgTime, bgValue,1L));
         bloodGlucoseCall.enqueue(new Callback<BloodGlucose>() {
             @Override
             public void onResponse(Call<BloodGlucose> call, Response<BloodGlucose> response) {
@@ -271,7 +271,7 @@ public class DailyLogsActivityTest extends AppCompatActivity implements AdapterV
                     Toast.makeText(getApplicationContext(), "Record saved", Toast.LENGTH_LONG).show();
                     bloodGlucoseLevelEditText.getText().clear();
                     bglevelRadiogroup.clearCheck();
-                    bloodGlucoseSaved = new BloodGlucose(bgValue,bgTime,1L);
+                    bloodGlucoseSaved = new BloodGlucose(bgTime,bgValue,1L);
                 }
             }
             @Override

@@ -11,9 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.gluconnect.Models.BloodGlucoseOld;
+import com.example.gluconnect.Models.BloodGlucose;
 import com.example.gluconnect.Models.BloodGlucoseResponse;
 import com.example.gluconnect.R;
 import com.example.gluconnect.Utils.LaravelAPI;
@@ -47,7 +46,7 @@ public class AnalyticsFragment extends Fragment {
     private View myview;
     private LaravelAPI laravelAPI;
     private GraphView graphView_t;
-    private ArrayList<BloodGlucoseOld> datalist = new ArrayList<>();
+    private ArrayList<BloodGlucose> datalist = new ArrayList<>();
     private ArrayList<Long> bg_value = new ArrayList<>();
     private ArrayList<Date> time_value = new ArrayList<>();
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
@@ -84,30 +83,30 @@ public class AnalyticsFragment extends Fragment {
             @Override
             public void onResponse(Call<BloodGlucoseResponse> call, Response<BloodGlucoseResponse> response) {
                 BloodGlucoseResponse bloodGlucoseResponse = response.body();
-                for (BloodGlucoseOld bloodGlucoseOld : bloodGlucoseResponse.getBloodGlucoseRecords()) {
+                for (BloodGlucose bloodGlucoseOld : bloodGlucoseResponse.getBloodGlucoseRecords()) {
                     datalist.add(bloodGlucoseOld);
                 }
 //                time_value.add(date);
                 for (int i = 0; i < datalist.size(); i++) {
-                    bg_value.add(datalist.get(i).getBloodGlucoseLevel().longValue());
-                    String stringDate = datalist.get(i).getmCreatedAt();
+//                    bg_value.add(datalist.get(i).getBloodGlucoseLevel().longValue());
+//                    String stringDate = datalist.get(i).getmCreatedAt();
 
                     //Convert time from GMT to EAT
-                    System.err.println("Old date"+stringDate);
-                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-                    df.setTimeZone(TimeZone.getTimeZone("EAT"));
-                    Date date = null;
-                    try {
-                        date = df.parse(stringDate);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    df.setTimeZone(TimeZone.getDefault());
-                    String formattedDate = df.format(date);
-                    System.err.println("New date"+formattedDate);
-
-                    Date mydate = fromStringToDate(formattedDate, "yyyy-MM-dd HH:mm:ss");
-                    time_value.add(mydate);
+//                    System.err.println("Old date"+stringDate);
+//                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+//                    df.setTimeZone(TimeZone.getTimeZone("EAT"));
+//                    Date date = null;
+//                    try {
+//                        date = df.parse(stringDate);
+//                    } catch (ParseException e) {
+//                        e.printStackTrace();
+//                    }
+//                    df.setTimeZone(TimeZone.getDefault());
+//                    String formattedDate = df.format(date);
+//                    System.err.println("New date"+formattedDate);
+//
+//                    Date mydate = fromStringToDate(formattedDate, "yyyy-MM-dd HH:mm:ss");
+//                    time_value.add(mydate);
                 }
                 drawGraphs(graphView_t, time_value, bg_value);
             }

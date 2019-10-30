@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gluconnect.Models.BloodGlucose;
-import com.example.gluconnect.Models.BloodGlucoseOld;
 import com.example.gluconnect.R;
 import com.example.gluconnect.Utils.LaravelAPI;
 import com.example.gluconnect.Utils.LaravelAPIRetrofitClient;
@@ -31,12 +29,10 @@ import retrofit2.Retrofit;
 
 public class DailyLogsFragment extends Fragment implements View.OnClickListener {
 
-    private RadioGroup radioGroup;
+    private static final String BGERROR = "";
     private View myView;
     private Button saveDailyLogsBtn;
     private LaravelAPI laravelAPI;
-    private TextView bgLeveltextView;
-    private TextView showSavedbgLeveltextView;
     private EditText bloodGlucoseLevelEditText;
     private RadioGroup bglevelRadiogroup;
 
@@ -77,23 +73,21 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                     recordBloodGlucoseLevel();
                 }
                 break;
-//            case R.id.responseButton2:
-//                break;
-//            default:
-//                break;
+
         }
     }
 
 
     private void recordBloodGlucoseLevel() {
-        Double bgValue = Double.parseDouble(bloodGlucoseLevelEditText.getText().toString());
+        Float bgValue = Float.parseFloat(bloodGlucoseLevelEditText.getText().toString());
         String bgTime = selectedBloodGlucoseTime();
         Call<BloodGlucose> bloodGlucoseCall = laravelAPI.recordBloodGlucoseLevel(new BloodGlucose(
-                bgValue, bgTime,1L));
+                bgTime, bgValue,1L));
         bloodGlucoseCall.enqueue(new Callback<BloodGlucose>() {
             @Override
             public void onResponse(Call<BloodGlucose> call, Response<BloodGlucose> response) {
                 if (!response.isSuccessful()) {
+                    Log.e(BGERROR,response.message());
                     Toast.makeText(getContext(),"Record not saved",Toast.LENGTH_LONG).show();
                     return;
                 } else {
@@ -104,7 +98,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
             }
             @Override
             public void onFailure(Call<BloodGlucose> call, Throwable t) {
-                showSavedbgLeveltextView.setText(t.getMessage());
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -113,26 +107,6 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
         int selectedRadioBtn = bglevelRadiogroup.getCheckedRadioButtonId();
         RadioButton radioTimeButton = myView.findViewById(selectedRadioBtn);
         return radioTimeButton.getText().toString();
-    }
-
-    public static void resetFields(ViewGroup group) {
-        for (int i = 0, count = group.getChildCount(); i < count; ++i) {
-            View view = group.getChildAt(i);
-            if (view instanceof EditText) {
-                ((EditText) view).getText().clear();
-            }
-
-            if (view instanceof RadioGroup) {
-                ((RadioButton)((RadioGroup) view).getChildAt(0)).setChecked(true);
-            }
-
-            if (view instanceof Spinner) {
-                ((Spinner) view).setSelection(0);
-            }
-
-            if (view instanceof ViewGroup && (((ViewGroup) view).getChildCount() > 0))
-                resetFields((ViewGroup) view);
-        }
     }
 
 

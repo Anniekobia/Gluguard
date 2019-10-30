@@ -1,12 +1,9 @@
 package com.example.gluconnect.Utils;
 
 import com.example.gluconnect.Models.BloodGlucose;
-import com.example.gluconnect.Models.BloodGlucoseOld;
 import com.example.gluconnect.Models.BloodGlucoseResponse;
-import com.example.gluconnect.Models.DailyLogs;
 import com.example.gluconnect.Models.LoginResponse;
 import com.example.gluconnect.Models.Meal;
-import com.example.gluconnect.Models.RegisterPost;
 import com.example.gluconnect.Models.RegisterResponse;
 import com.example.gluconnect.Models.UserDetails;
 
@@ -14,8 +11,6 @@ import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -30,7 +25,7 @@ public interface LaravelAPI {
 
 
     @Headers({"Content-Type: application/json"})
-    @POST("bgPOST")
+    @POST("daily/bloodglucose")
     Call<BloodGlucose> recordBloodGlucoseLevel(@Body BloodGlucose bloodGlucose);
 
 

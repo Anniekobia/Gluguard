@@ -6,31 +6,41 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("unused")
 public class BloodGlucose {
 
-    @SerializedName("blood_glucose_level")
-    private Double mBloodGlucoseLevel;
+    @SerializedName("blood_glucose_type")
+    private String mBloodGlucoseType;
+    @SerializedName("blood_glucose_value")
+    private Float mBloodGlucoseValue;
     @SerializedName("created_at")
     private String mCreatedAt;
+    @SerializedName("day")
+    private String mDay;
     @SerializedName("id")
     private Long mId;
-    @SerializedName("type")
-    private String mType;
     @SerializedName("updated_at")
     private String mUpdatedAt;
     @SerializedName("user_id")
     private Long mUserId;
 
-    public BloodGlucose(Double mBloodGlucoseLevel, String mType, Long mUserId) {
-        this.mBloodGlucoseLevel = mBloodGlucoseLevel;
-        this.mType = mType;
+    public BloodGlucose(String mBloodGlucoseType, Float mBloodGlucoseValue, Long mUserId) {
+        this.mBloodGlucoseType = mBloodGlucoseType;
+        this.mBloodGlucoseValue = mBloodGlucoseValue;
         this.mUserId = mUserId;
     }
 
-    public Double getBloodGlucoseLevel() {
-        return mBloodGlucoseLevel;
+    public String getBloodGlucoseType() {
+        return mBloodGlucoseType;
     }
 
-    public void setBloodGlucoseLevel(Double bloodGlucoseLevel) {
-        mBloodGlucoseLevel = bloodGlucoseLevel;
+    public void setBloodGlucoseType(String bloodGlucoseType) {
+        mBloodGlucoseType = bloodGlucoseType;
+    }
+
+    public Float getBloodGlucoseValue() {
+        return mBloodGlucoseValue;
+    }
+
+    public void setBloodGlucoseValue(Float bloodGlucoseValue) {
+        mBloodGlucoseValue = bloodGlucoseValue;
     }
 
     public String getCreatedAt() {
@@ -41,20 +51,20 @@ public class BloodGlucose {
         mCreatedAt = createdAt;
     }
 
+    public String getDay() {
+        return mDay;
+    }
+
+    public void setDay(String day) {
+        mDay = day;
+    }
+
     public Long getId() {
         return mId;
     }
 
     public void setId(Long id) {
         mId = id;
-    }
-
-    public String getType() {
-        return mType;
-    }
-
-    public void setType(String type) {
-        mType = type;
     }
 
     public String getUpdatedAt() {
