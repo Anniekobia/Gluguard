@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gluconnect.Models.BloodGlucose;
@@ -33,12 +34,18 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,6 +64,8 @@ public class AnalyticsFragment extends Fragment {
     private LaravelAPI laravelAPI;
     private List<Entry> lineChartEntries = new ArrayList<Entry>();
     private LineChart mLineChart;
+    private TextView recordtxt;
+    private ArrayList<Entry> entries = new ArrayList<>();
 
     public AnalyticsFragment() {
         // Required empty public constructor
@@ -74,21 +83,95 @@ public class AnalyticsFragment extends Fragment {
         Retrofit retrofit = LaravelAPIRetrofitClient.getRetrofitClient();
         laravelAPI = retrofit.create(LaravelAPI.class);
 
-
+        recordtxt = myview.findViewById(R.id.bgrecords);
         mLineChart = myview.findViewById(R.id.linechart);
-        drawExampleGraph();
+
+//        drawExampleGraph();
+        getBloodGlucoseLevels();
         return myview;
     }
 
     private void getBloodGlucoseLevels() {
+
         Call<BloodGlucoseResponse> bloodGlucoseResponseCall = laravelAPI.getBloodGlucoseLevel();
         bloodGlucoseResponseCall.enqueue(new Callback<BloodGlucoseResponse>() {
             @Override
             public void onResponse(Call<BloodGlucoseResponse> call, Response<BloodGlucoseResponse> response) {
+                ArrayList<Long> timeInMillis = new ArrayList<>();
+                ArrayList<Float> bgLeveValues = new ArrayList<>();
+                String records ="My records: ";
+                Long minValue,maxValue;
                 BloodGlucoseResponse bloodGlucoseResponse = response.body();
                 for (BloodGlucose bloodGlucose : bloodGlucoseResponse.getBloodGlucoseRecords()) {
+                    records = records.concat(bloodGlucose.getBloodGlucoseValue()+bloodGlucose.getDay()+bloodGlucose.getCreatedAt()+"\t");
 
+
+                    try {
+                        timeInMillis = TimeToMilliseconds(bloodGlucose.getCreatedAt());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    minValue = getMinValue(timeInMillis);
+                    maxValue = getMaxValue(timeInMillis);
+                    timeInMillis = changeToSmallerNumbers(minValue,timeInMillis);
+                    for (int i = 0; i < timeInMillis.size(); i++) {
+                        System.err.println("BG: "+timeInMillis.get(i));
+                    }
+                    bgLeveValues.add(bloodGlucose.getBloodGlucoseValue());
                 }
+
+//                for (int i = 0; i < timeInMillis.size(); i++) {
+////                    System.err.println("BG: "+bgLeveValues.get(i));
+//                    System.err.println("BG: "+timeInMillis.get(i));
+////                    entries.add(new Entry(Float.parseFloat(timeInMillis.get(i).toString()),bgLeveValues.get(i)));
+//                }
+//
+//                mLineChart.setDragEnabled(true);
+//                mLineChart.setScaleEnabled(false);
+//
+//                recordtxt.setText(records);
+//
+//                LimitLine upper_limit = new LimitLine(65f,"Too High");
+//                upper_limit.setLineWidth(2f);
+//                upper_limit.enableDashedLine(10f,10f,0f);
+//                upper_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+//                upper_limit.setTextSize(15f);
+//                upper_limit.setTextColor(Color.RED);
+//
+//                LimitLine lower_limit = new LimitLine(35f,"Too Low");
+//                lower_limit.setLineWidth(2f);
+//                lower_limit.enableDashedLine(10f,10f,0f);
+//                lower_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
+//                lower_limit.setTextSize(15f);
+//                lower_limit.setTextColor(Color.RED);
+//
+//                YAxis leftAxis = mLineChart.getAxisLeft();
+//                leftAxis.removeAllLimitLines();
+//                leftAxis.addLimitLine(upper_limit);
+//                leftAxis.addLimitLine(lower_limit);
+//                leftAxis.setAxisMaximum(100f);
+//                leftAxis.setAxisMinimum(0f);
+//                leftAxis.enableGridDashedLine(10f,10f, 0);
+//                leftAxis.setDrawLimitLinesBehindData(true);
+//
+//                mLineChart.getAxisRight().setEnabled(false);
+//                LineDataSet lineDataSet = new LineDataSet(entries,"Blood Glucose Levels");
+//                lineDataSet.setFillAlpha(110);
+//                lineDataSet.setColor(Color.BLUE);
+//                lineDataSet.setValueTextColor(Color.BLUE);
+//                lineDataSet.setValueTextSize(10f);
+////        lineDataSet.setLineWidth(3f);
+////        lineDataSet.setCircleRadius(5f);
+//
+//                ArrayList<ILineDataSet> iLineDataSets = new ArrayList<>();
+//                iLineDataSets.add(lineDataSet);
+//
+//                LineData lineData = new LineData(iLineDataSets);
+//                mLineChart.setData(lineData);
+//
+//                XAxis xAxis = mLineChart.getXAxis();
+////                xAxis.setGranularity(1f);
+//                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
             }
 
@@ -171,5 +254,57 @@ public class AnalyticsFragment extends Fragment {
             return values[(int) value];
         }
     }
+
+    public ArrayList<Long> TimeToMilliseconds(String theDate)throws  ParseException{
+        ArrayList<Long> timeInMillis = new ArrayList<Long>();
+        System.err.println("Database date: "+theDate);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date date = sdf.parse(theDate);
+        System.err.println("Converted date: "+date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        long timeMilli = calendar.getTimeInMillis();
+        System.out.println("Time in milliseconds using Calendar: " + timeMilli);
+        timeInMillis.add(timeMilli);
+        return timeInMillis;
+    }
+
+    public long getMinValue(ArrayList<Long> arrayList) {
+        long minValue = arrayList.get(0);
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (arrayList.get(i) < minValue) {
+                minValue = arrayList.get(i);
+            } else {
+                minValue = minValue;
+            }
+        }
+        return minValue;
+    }
+
+
+    public long getMaxValue(ArrayList<Long> arrayList) {
+        long maxValue = arrayList.get(0);
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (arrayList.get(i) > maxValue) {
+                maxValue = arrayList.get(i);
+            } else {
+                maxValue = maxValue;
+            }
+        }
+        return maxValue;
+    }
+
+    public ArrayList<Long> changeToSmallerNumbers(Long minValue, ArrayList<Long> allValues){
+        ArrayList<Long> smallerTimeValues = new ArrayList<Long>();
+        for (Long value : allValues){
+            Long newSmallValue = value - minValue;
+            smallerTimeValues.add(newSmallValue);
+        }
+        for (int i = 0; i < smallerTimeValues.size(); i++) {
+            System.err.println("Smaller: "+smallerTimeValues.get(i));
+        }
+        return smallerTimeValues;
+    }
+
 
 }
