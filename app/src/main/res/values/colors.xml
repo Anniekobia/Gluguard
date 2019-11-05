@@ -5,6 +5,8 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="ic_launcher_gluconnect_background">#FFFFFF</color>
+    <color name="food_name">#999999</color>
+    <color name="food_category">#222222</color>
 
     //reference colors
     <!-- Purple -->

@@ -2,6 +2,7 @@ package com.example.gluconnect.Utils;
 
 import com.example.gluconnect.Models.BloodGlucose;
 import com.example.gluconnect.Models.BloodGlucoseResponse;
+import com.example.gluconnect.Models.FoodRecommendations;
 import com.example.gluconnect.Models.LoginResponse;
 import com.example.gluconnect.Models.Meal;
 import com.example.gluconnect.Models.RegisterResponse;
@@ -26,6 +27,10 @@ public interface LaravelAPI {
     @Headers({"Content-Type: application/json"})
     @GET("bloodglucose")
     Call<BloodGlucoseResponse> getBloodGlucoseLevel();
+
+    @Headers({"Content-Type: application/json"})
+    @GET("food/recommendations")
+    Call<FoodRecommendations> getFoodRecommendations();
 
 
     @Headers({"Content-Type: application/json"})

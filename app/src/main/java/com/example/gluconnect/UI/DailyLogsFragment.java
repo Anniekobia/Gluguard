@@ -79,7 +79,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
 
 
     private void recordBloodGlucoseLevel() {
-        Float bgValue = Float.parseFloat(bloodGlucoseLevelEditText.getText().toString());
+        final Float bgValue = Float.parseFloat(bloodGlucoseLevelEditText.getText().toString());
         String bgTime = selectedBloodGlucoseTime();
         Call<BloodGlucose> bloodGlucoseCall = laravelAPI.recordBloodGlucoseLevel(new BloodGlucose(
                 bgTime, bgValue,1L));
@@ -92,6 +92,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                     return;
                 } else {
                     Toast.makeText(getContext(), "Record saved", Toast.LENGTH_LONG).show();
+
                     bloodGlucoseLevelEditText.getText().clear();
                     bglevelRadiogroup.clearCheck();
                 }

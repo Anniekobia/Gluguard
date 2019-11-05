@@ -29,23 +29,14 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.jjoe64.graphview.DefaultLabelFormatter;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,7 +56,6 @@ public class AnalyticsFragment extends Fragment {
     private List<Entry> lineChartEntries = new ArrayList<Entry>();
     private LineChart mLineChart;
     private TextView recordtxt;
-    private ArrayList<Entry> entries = new ArrayList<>();
 
     public AnalyticsFragment() {
         // Required empty public constructor
@@ -97,81 +87,84 @@ public class AnalyticsFragment extends Fragment {
         bloodGlucoseResponseCall.enqueue(new Callback<BloodGlucoseResponse>() {
             @Override
             public void onResponse(Call<BloodGlucoseResponse> call, Response<BloodGlucoseResponse> response) {
+                ArrayList<String> dateString = new ArrayList<>();
                 ArrayList<Long> timeInMillis = new ArrayList<>();
                 ArrayList<Float> bgLeveValues = new ArrayList<>();
-                String records ="My records: ";
-                Long minValue,maxValue;
+                String records = "My records: ";
+                Long minValue, maxValue;
                 BloodGlucoseResponse bloodGlucoseResponse = response.body();
                 for (BloodGlucose bloodGlucose : bloodGlucoseResponse.getBloodGlucoseRecords()) {
-                    records = records.concat(bloodGlucose.getBloodGlucoseValue()+bloodGlucose.getDay()+bloodGlucose.getCreatedAt()+"\t");
+                    records = records.concat(bloodGlucose.getBloodGlucoseValue() + bloodGlucose.getDay() + bloodGlucose.getCreatedAt() + "\t");
 
-
-                    try {
-                        timeInMillis = TimeToMilliseconds(bloodGlucose.getCreatedAt());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    minValue = getMinValue(timeInMillis);
-                    maxValue = getMaxValue(timeInMillis);
-                    timeInMillis = changeToSmallerNumbers(minValue,timeInMillis);
-                    for (int i = 0; i < timeInMillis.size(); i++) {
-                        System.err.println("BG: "+timeInMillis.get(i));
-                    }
+                    dateString.add(bloodGlucose.getCreatedAt());
                     bgLeveValues.add(bloodGlucose.getBloodGlucoseValue());
                 }
+                try {
+                    timeInMillis = TimeToMilliseconds(dateString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                minValue = getMinValue(timeInMillis);
+                maxValue = getMaxValue(timeInMillis);
+                timeInMillis = changeToSmallerNumbers(minValue, timeInMillis);
 
-//                for (int i = 0; i < timeInMillis.size(); i++) {
-////                    System.err.println("BG: "+bgLeveValues.get(i));
-//                    System.err.println("BG: "+timeInMillis.get(i));
-////                    entries.add(new Entry(Float.parseFloat(timeInMillis.get(i).toString()),bgLeveValues.get(i)));
-//                }
-//
-//                mLineChart.setDragEnabled(true);
-//                mLineChart.setScaleEnabled(false);
-//
-//                recordtxt.setText(records);
-//
-//                LimitLine upper_limit = new LimitLine(65f,"Too High");
-//                upper_limit.setLineWidth(2f);
-//                upper_limit.enableDashedLine(10f,10f,0f);
-//                upper_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-//                upper_limit.setTextSize(15f);
-//                upper_limit.setTextColor(Color.RED);
-//
-//                LimitLine lower_limit = new LimitLine(35f,"Too Low");
-//                lower_limit.setLineWidth(2f);
-//                lower_limit.enableDashedLine(10f,10f,0f);
-//                lower_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-//                lower_limit.setTextSize(15f);
-//                lower_limit.setTextColor(Color.RED);
-//
-//                YAxis leftAxis = mLineChart.getAxisLeft();
-//                leftAxis.removeAllLimitLines();
-//                leftAxis.addLimitLine(upper_limit);
-//                leftAxis.addLimitLine(lower_limit);
-//                leftAxis.setAxisMaximum(100f);
-//                leftAxis.setAxisMinimum(0f);
-//                leftAxis.enableGridDashedLine(10f,10f, 0);
-//                leftAxis.setDrawLimitLinesBehindData(true);
-//
-//                mLineChart.getAxisRight().setEnabled(false);
-//                LineDataSet lineDataSet = new LineDataSet(entries,"Blood Glucose Levels");
-//                lineDataSet.setFillAlpha(110);
-//                lineDataSet.setColor(Color.BLUE);
-//                lineDataSet.setValueTextColor(Color.BLUE);
-//                lineDataSet.setValueTextSize(10f);
-////        lineDataSet.setLineWidth(3f);
-////        lineDataSet.setCircleRadius(5f);
-//
-//                ArrayList<ILineDataSet> iLineDataSets = new ArrayList<>();
-//                iLineDataSets.add(lineDataSet);
-//
-//                LineData lineData = new LineData(iLineDataSets);
-//                mLineChart.setData(lineData);
-//
-//                XAxis xAxis = mLineChart.getXAxis();
-////                xAxis.setGranularity(1f);
-//                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                mLineChart.setDragEnabled(true);
+                mLineChart.setScaleEnabled(false);
+
+                ArrayList<Entry> entries = new ArrayList<>();
+                for (int i = 0; i < timeInMillis.size(); i++) {
+                    System.err.println("Graph BG: " + bgLeveValues.get(i));
+                    System.err.println("Graph TimeMilli: " + timeInMillis.get(i));
+                    entries.add(new Entry(Float.parseFloat(timeInMillis.get(i).toString()), bgLeveValues.get(i)));
+                }
+                for (Entry entry : entries) {
+                    System.out.println("Entry" + entry);
+                }
+
+                LimitLine upper_limit = new LimitLine(65f, "Too High");
+                upper_limit.setLineWidth(2f);
+                upper_limit.enableDashedLine(10f, 10f, 0f);
+                upper_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+                upper_limit.setTextSize(15f);
+                upper_limit.setTextColor(Color.RED);
+
+                LimitLine lower_limit = new LimitLine(35f, "Too Low");
+                lower_limit.setLineWidth(2f);
+                lower_limit.enableDashedLine(10f, 10f, 0f);
+                lower_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
+                lower_limit.setTextSize(15f);
+                lower_limit.setTextColor(Color.RED);
+
+                YAxis leftAxis = mLineChart.getAxisLeft();
+                leftAxis.removeAllLimitLines();
+                leftAxis.addLimitLine(upper_limit);
+                leftAxis.addLimitLine(lower_limit);
+                leftAxis.setAxisMaximum(100f);
+                leftAxis.setAxisMinimum(0f);
+                leftAxis.enableGridDashedLine(10f, 10f, 0);
+                leftAxis.setDrawLimitLinesBehindData(true);
+
+                mLineChart.getAxisRight().setEnabled(false);
+                mLineChart.setVisibleXRangeMaximum(7);
+                LineDataSet lineDataSet = new LineDataSet(entries, "Blood Glucose Levels");
+                lineDataSet.setFillAlpha(110);
+                lineDataSet.setColor(Color.BLUE);
+                lineDataSet.setValueTextColor(Color.BLUE);
+                lineDataSet.setValueTextSize(10f);
+//        lineDataSet.setLineWidth(3f);
+//        lineDataSet.setCircleRadius(5f);
+
+                ArrayList<ILineDataSet> iLineDataSets = new ArrayList<>();
+                iLineDataSets.add(lineDataSet);
+
+                LineData lineData = new LineData(iLineDataSets);
+                mLineChart.setData(lineData);
+
+                XAxis xAxis = mLineChart.getXAxis();
+//                xAxis.setValueFormatter(new myXAxisValueFormatter(value));
+//                xAxis.setGranularity(1f);
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//                ;
 
             }
 
@@ -183,29 +176,29 @@ public class AnalyticsFragment extends Fragment {
         });
     }
 
-    public void drawExampleGraph(){
+    public void drawExampleGraph() {
         mLineChart.setDragEnabled(true);
         mLineChart.setScaleEnabled(false);
 
         ArrayList<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(0,60f));
-        entries.add(new Entry(1,10f));
-        entries.add(new Entry(2,40f));
-        entries.add(new Entry(3,90f));
-        entries.add(new Entry(4,40f));
-        entries.add(new Entry(5,10f));
-        entries.add(new Entry(6,80f));
+        entries.add(new Entry(0, 60f));
+        entries.add(new Entry(1, 10f));
+        entries.add(new Entry(2, 40f));
+        entries.add(new Entry(3, 90f));
+        entries.add(new Entry(4, 40f));
+        entries.add(new Entry(5, 10f));
+        entries.add(new Entry(6, 70f));
 
-        LimitLine upper_limit = new LimitLine(65f,"Too High");
+        LimitLine upper_limit = new LimitLine(65f, "Too High");
         upper_limit.setLineWidth(2f);
-        upper_limit.enableDashedLine(10f,10f,0f);
+        upper_limit.enableDashedLine(10f, 10f, 0f);
         upper_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
         upper_limit.setTextSize(15f);
         upper_limit.setTextColor(Color.RED);
 
-        LimitLine lower_limit = new LimitLine(35f,"Too Low");
+        LimitLine lower_limit = new LimitLine(35f, "Too Low");
         lower_limit.setLineWidth(2f);
-        lower_limit.enableDashedLine(10f,10f,0f);
+        lower_limit.enableDashedLine(10f, 10f, 0f);
         lower_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
         lower_limit.setTextSize(15f);
         lower_limit.setTextColor(Color.RED);
@@ -216,11 +209,11 @@ public class AnalyticsFragment extends Fragment {
         leftAxis.addLimitLine(lower_limit);
         leftAxis.setAxisMaximum(100f);
         leftAxis.setAxisMinimum(0f);
-        leftAxis.enableGridDashedLine(10f,10f, 0);
+        leftAxis.enableGridDashedLine(10f, 10f, 0);
         leftAxis.setDrawLimitLinesBehindData(true);
 
         mLineChart.getAxisRight().setEnabled(false);
-        LineDataSet lineDataSet = new LineDataSet(entries,"Blood Glucose Levels");
+        LineDataSet lineDataSet = new LineDataSet(entries, "Blood Glucose Levels");
         lineDataSet.setFillAlpha(110);
         lineDataSet.setColor(Color.BLUE);
         lineDataSet.setValueTextColor(Color.BLUE);
@@ -234,7 +227,7 @@ public class AnalyticsFragment extends Fragment {
         LineData lineData = new LineData(iLineDataSets);
         mLineChart.setData(lineData);
 
-        String[] value = new String[]{"Jan","Feb","Mar","Apr","May","Jun","Jul"};
+        String[] value = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"};
         XAxis xAxis = mLineChart.getXAxis();
         xAxis.setValueFormatter(new myXAxisValueFormatter(value));
         xAxis.setGranularity(1f);
@@ -242,11 +235,13 @@ public class AnalyticsFragment extends Fragment {
 
     }
 
-    public  class myXAxisValueFormatter implements IAxisValueFormatter{
-        private String [] values;
 
-        public myXAxisValueFormatter(String[] values){
-            this.values=values;
+
+    public class myXAxisValueFormatter implements IAxisValueFormatter {
+        private String[] values;
+
+        public myXAxisValueFormatter(String[] values) {
+            this.values = values;
         }
 
         @Override
@@ -255,17 +250,20 @@ public class AnalyticsFragment extends Fragment {
         }
     }
 
-    public ArrayList<Long> TimeToMilliseconds(String theDate)throws  ParseException{
+    public ArrayList<Long> TimeToMilliseconds(ArrayList<String> theStringDates) throws ParseException {
         ArrayList<Long> timeInMillis = new ArrayList<Long>();
-        System.err.println("Database date: "+theDate);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        Date date = sdf.parse(theDate);
-        System.err.println("Converted date: "+date);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        long timeMilli = calendar.getTimeInMillis();
-        System.out.println("Time in milliseconds using Calendar: " + timeMilli);
-        timeInMillis.add(timeMilli);
+        for (String theDate : theStringDates) {
+            System.err.println("Sent date: " + theDate);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date date = sdf.parse(theDate);
+            System.out.println("HHMMSS Value: " + new SimpleDateFormat("HH:mm:ss").format(date));
+            System.err.println("Converted date: " + date);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            long timeMilli = calendar.getTimeInMillis();
+            System.out.println("Time in milliseconds: " + timeMilli);
+            timeInMillis.add(timeMilli);
+        }
         return timeInMillis;
     }
 
@@ -294,14 +292,17 @@ public class AnalyticsFragment extends Fragment {
         return maxValue;
     }
 
-    public ArrayList<Long> changeToSmallerNumbers(Long minValue, ArrayList<Long> allValues){
+    public ArrayList<Long> changeToSmallerNumbers(Long minValue, ArrayList<Long> allValues) {
         ArrayList<Long> smallerTimeValues = new ArrayList<Long>();
-        for (Long value : allValues){
+        for (Long value : allValues) {
             Long newSmallValue = value - minValue;
             smallerTimeValues.add(newSmallValue);
+            System.err.println("Old Value: " + value);
+            System.err.println("Min Value: " + minValue);
+            System.err.println("New Value: " + newSmallValue);
         }
         for (int i = 0; i < smallerTimeValues.size(); i++) {
-            System.err.println("Smaller: "+smallerTimeValues.get(i));
+            System.err.println("Smaller Value: " + smallerTimeValues.get(i));
         }
         return smallerTimeValues;
     }
