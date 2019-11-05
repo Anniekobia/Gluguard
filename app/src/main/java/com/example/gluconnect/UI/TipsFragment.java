@@ -96,7 +96,7 @@ public class TipsFragment extends Fragment {
     }
 
     private void getFoodRecommendations(final Float bloodglucose, final String bloodGlucoseType) {
-        Toast.makeText(getContext(),bloodglucose.toString(),Toast.LENGTH_LONG).show();
+//        Toast.makeText(getContext(),bloodglucose.toString(),Toast.LENGTH_LONG).show();
         Call<FoodRecommendations> foodRecommendationsCall = laravelAPI.getFoodRecommendations();
         foodRecommendationsCall.enqueue(new Callback<FoodRecommendations>() {
             @Override
@@ -111,10 +111,11 @@ public class TipsFragment extends Fragment {
                     List<FoodRecommendation> highGIFoods = new ArrayList<>();
                     FoodRecommendations foodRecommendations = response.body();
                     for (FoodRecommendation foodRecommendation: foodRecommendations.getFoodRecommendations()){
-                        FoodRecommendation food = new FoodRecommendation(foodRecommendation.getFoodCategory(),foodRecommendation.getFoodName(),foodRecommendation.getServingSize());
-                        if(food.getGlycemicIndex()<55){
+                        FoodRecommendation food = new FoodRecommendation(foodRecommendation.getFoodCategory(),foodRecommendation.getFoodName(),foodRecommendation.getServingSize(),foodRecommendation.getGlycemicIndex());
+                        Toast.makeText(getContext(),food.getGlycemicIndex().toString(),Toast.LENGTH_LONG).show();
+                        if(food.getGlycemicIndex()<=55){
                             lowGIFoods.add(food);
-                        }else if (food.getGlycemicIndex()>=56&& food.getGlycemicIndex()<=69){
+                        }else if (food.getGlycemicIndex()>55 && food.getGlycemicIndex()<=69){
                             mediumGIFoods.add(food);
                         }else if (food.getGlycemicIndex()>=70){
                             highGIFoods.add(food);
@@ -128,10 +129,15 @@ public class TipsFragment extends Fragment {
                             FoodRecommendation food = lowGIFoods.get(randomIndex);
                             lowGIFoods.remove(randomIndex);
                             foodsList.add(food);
-                        }else if ((bloodglucose<=126&&bloodGlucoseType.equals("fasting"))||(bloodglucose<=198&&(bloodGlucoseType.equals("before meal")||bloodGlucoseType.equals("after meal")||bloodGlucoseType.equals("at night")))){
+                        }else if (bloodglucose>70.2&&((bloodglucose<=126&&bloodGlucoseType.equals("fasting"))||(bloodglucose<=198&&(bloodGlucoseType.equals("before meal")||bloodGlucoseType.equals("after meal")||bloodGlucoseType.equals("at night"))))){
                             int randomIndex = rand.nextInt(mediumGIFoods.size());
-                            FoodRecommendation food = lowGIFoods.get(randomIndex);
+                            FoodRecommendation food = mediumGIFoods.get(randomIndex);
                             mediumGIFoods.remove(randomIndex);
+                            foodsList.add(food);
+                        }else if (bloodglucose<70.2){
+                            int randomIndex = rand.nextInt(highGIFoods.size());
+                            FoodRecommendation food = highGIFoods.get(randomIndex);
+                            highGIFoods.remove(randomIndex);
                             foodsList.add(food);
                         }
                     }

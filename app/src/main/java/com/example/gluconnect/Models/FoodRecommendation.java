@@ -17,10 +17,12 @@ public class FoodRecommendation {
     @SerializedName("serving_size")
     private Long mServingSize;
 
-    public FoodRecommendation(String mFoodCategory, String mFoodName, Long mServingSize) {
+
+    public FoodRecommendation(String mFoodCategory, String mFoodName, Long mServingSize,Long mGlycemicIndex) {
         this.mFoodCategory = mFoodCategory;
         this.mFoodName = mFoodName;
         this.mServingSize = mServingSize;
+        this.mGlycemicIndex =mGlycemicIndex;
     }
 
     public String getFoodCategory() {
@@ -63,4 +65,14 @@ public class FoodRecommendation {
         mServingSize = servingSize;
     }
 
+    @Override
+    public String toString() {
+        return "FoodRecommendation{" +
+                "mFoodCategory='" + mFoodCategory + '\'' +
+                ", mFoodName='" + mFoodName + '\'' +
+                ", mGlycemicIndex=" + mGlycemicIndex +
+                ", mId=" + mId +
+                ", mServingSize=" + mServingSize +
+                '}';
+    }
 }
