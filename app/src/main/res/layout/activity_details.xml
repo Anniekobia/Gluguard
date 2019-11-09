@@ -34,46 +34,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        android:id="@+id/username"-->
+<!--    <EditText-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/birthday"-->
+<!--        android:clickable="true"-->
+<!--        android:hint="Date Of Birth"-->
 <!--        android:layout_marginStart="24dp"-->
 <!--        android:layout_marginTop="8dp"-->
 <!--        android:layout_marginEnd="24dp"-->
-<!--        android:ems="10"-->
-<!--        android:hint="@string/username"-->
-<!--        android:inputType="textPersonName"-->
-<!--        app:errorEnabled="true"-->
-
-
 <!--        app:layout_constraintEnd_toEndOf="@+id/more_info_msg"-->
 <!--        app:layout_constraintStart_toStartOf="@+id/more_info_msg"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/more_info_msg">-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/more_info_msg"/>-->
 
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-<!--            android:id="@+id/usernametxt"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content" />-->
-
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/age"
+        android:id="@+id/birthday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
-        android:hint="Age"
-        android:inputType="number"
+        android:hint="Date of birth"
+        android:clickable="true"
+        android:focusable="false"
         app:layout_constraintEnd_toEndOf="@+id/more_info_msg"
         app:layout_constraintStart_toStartOf="@+id/more_info_msg"
         app:layout_constraintTop_toBottomOf="@+id/more_info_msg">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/agetxt"
+            android:id="@+id/dobtxt"
+            android:inputType="date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -89,14 +81,14 @@
         android:ems="10"
         android:hint="Gender"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/age"
-        app:layout_constraintStart_toStartOf="@+id/age"
-        app:layout_constraintTop_toBottomOf="@+id/age">
+        app:layout_constraintEnd_toEndOf="@+id/birthday"
+        app:layout_constraintStart_toStartOf="@+id/birthday"
+        app:layout_constraintTop_toBottomOf="@+id/birthday">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/gendertxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/gender_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -109,13 +101,13 @@
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:hint="@string/weight"
-        android:inputType="number"
         app:layout_constraintEnd_toEndOf="@+id/gender"
         app:layout_constraintStart_toStartOf="@+id/gender"
         app:layout_constraintTop_toBottomOf="@+id/gender">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/weighttxt"
+            android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -130,13 +122,13 @@
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:hint="@string/height"
-        android:inputType="number"
         app:layout_constraintEnd_toEndOf="@+id/weight"
         app:layout_constraintStart_toStartOf="@+id/weight"
         app:layout_constraintTop_toBottomOf="@+id/weight">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/heighttxt"
+            android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -151,15 +143,14 @@
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:hint="Activity Level"
-        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="@+id/height"
         app:layout_constraintStart_toStartOf="@+id/height"
         app:layout_constraintTop_toBottomOf="@+id/height">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/activityleveltxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/activity_level_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -173,11 +164,22 @@
         android:background="@drawable/rounded_corners"
         android:backgroundTint="#3359df"
         android:text="@string/save_and_proceed_btn"
-        android:onClick="openDailyLogsActivity"
         app:layout_constraintBottom_toBottomOf="@+id/include"
         app:layout_constraintEnd_toEndOf="@+id/activity_level"
         app:layout_constraintStart_toStartOf="@+id/activity_level"
         app:layout_constraintTop_toBottomOf="@+id/activity_level" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:indeterminate="true"
+        android:visibility="gone"/>
 
     <include
         android:id="@+id/include"

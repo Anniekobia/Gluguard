@@ -17,17 +17,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gluconnect.Adapters.FoodAutoSuggestAdapter;
-import com.example.gluconnect.Models.BloodGlucose;
 import com.example.gluconnect.Models.BrandedFoodItemSuggestions;
-import com.example.gluconnect.Models.DailyLogs;
-import com.example.gluconnect.Models.Exercise;
 import com.example.gluconnect.Models.Food;
 import com.example.gluconnect.Models.FoodItemSuggestionsList;
 import com.example.gluconnect.Models.Meal;
@@ -207,8 +203,8 @@ public class DiaryFragment extends Fragment {
                     Food food = response.body();
                     String foodName = food.getFoodName();
                     String mealTime = selectedMealTime();
-                    Meal mealnew = new Meal(foodName,mealTime,1L);
-                    recordMeals(mealnew);
+//                    Meal mealnew = new Meal(foodName,mealTime,1L);
+//                    recordMeals(mealnew);
                 }
             }
             @Override
@@ -226,31 +222,31 @@ public class DiaryFragment extends Fragment {
     }
 
     private void recordMeals(Meal meal) {
-        Call<Meal> mealCall = laravelAPI.recordMealData(meal);
-        mealCall.enqueue(new Callback<Meal>() {
-            @Override
-            public void onResponse(Call<Meal> call, Response<Meal> response) {
-                if (!response.isSuccessful()) {
-//                    Toast.makeText(getContext(),"Code: " + response.code() + "\n" + "Message" + response.message(),Toast.LENGTH_LONG).show();
-                    try {
-                        Log.e("Response Failed",response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    return;
-                } else {
-                    Meal meal1 = response.body();
-                    Toast.makeText(getContext(),"Record saved",Toast.LENGTH_LONG).show();
-                    Log.e("Response Success",response.body().toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Meal> call, Throwable t) {
-//                Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_LONG).show();
-                Log.e("Response Error",t.getMessage());
-            }
-        });
+//        Call<Meal> mealCall = laravelAPI.recordMealData(meal);
+//        mealCall.enqueue(new Callback<Meal>() {
+//            @Override
+//            public void onResponse(Call<Meal> call, Response<Meal> response) {
+//                if (!response.isSuccessful()) {
+////                    Toast.makeText(getContext(),"Code: " + response.code() + "\n" + "Message" + response.message(),Toast.LENGTH_LONG).show();
+//                    try {
+//                        Log.e("Response Failed",response.errorBody().string());
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    return;
+//                } else {
+//                    Meal meal1 = response.body();
+//                    Toast.makeText(getContext(),"Record saved",Toast.LENGTH_LONG).show();
+//                    Log.e("Response Success",response.body().toString());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Meal> call, Throwable t) {
+////                Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_LONG).show();
+//                Log.e("Response Error",t.getMessage());
+//            }
+//        });
 
     }
 

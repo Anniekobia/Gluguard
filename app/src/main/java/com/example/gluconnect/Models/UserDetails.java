@@ -8,112 +8,127 @@ public class UserDetails {
 
     @SerializedName("activity_level")
     private String mActivityLevel;
-    @SerializedName("age")
-    private int mAge;
     @SerializedName("created_at")
     private String mCreatedAt;
     @SerializedName("daily_calories")
-    private Long mDailyCalories;
+    private Double mDailyCalories;
+    @SerializedName("date_of_birth")
+    private String mDateOfBirth;
     @SerializedName("gender")
     private String mGender;
     @SerializedName("height")
-    private float mHeight;
+    private String mHeight;
     @SerializedName("id")
     private Long mId;
     @SerializedName("updated_at")
     private String mUpdatedAt;
     @SerializedName("user_id")
-    private int mUserId;
+    private Long mUserId;
     @SerializedName("weight")
-    private float mWeight;
+    private String mWeight;
 
-    public UserDetails(String mActivityLevel, int mAge, String mGender, float mHeight, int mUserId, float mWeight) {
+    public UserDetails(Long user_id,String mActivityLevel, String mDateOfBirth, String mGender, String mHeight, String mWeight) {
+        this.mUserId = user_id;
         this.mActivityLevel = mActivityLevel;
-        this.mAge = mAge;
+        this.mDateOfBirth = mDateOfBirth;
         this.mGender = mGender;
         this.mHeight = mHeight;
-        this.mUserId = mUserId;
         this.mWeight = mWeight;
     }
 
-
-    public String getmActivityLevel() {
+    public String getActivityLevel() {
         return mActivityLevel;
     }
 
-    public void setmActivityLevel(String mActivityLevel) {
-        this.mActivityLevel = mActivityLevel;
+    public void setActivityLevel(String activityLevel) {
+        mActivityLevel = activityLevel;
     }
 
-    public int getmAge() {
-        return mAge;
-    }
-
-    public void setmAge(int mAge) {
-        this.mAge = mAge;
-    }
-
-    public String getmCreatedAt() {
+    public String getCreatedAt() {
         return mCreatedAt;
     }
 
-    public void setmCreatedAt(String mCreatedAt) {
-        this.mCreatedAt = mCreatedAt;
+    public void setCreatedAt(String createdAt) {
+        mCreatedAt = createdAt;
     }
 
-    public Long getmDailyCalories() {
+    public Double getDailyCalories() {
         return mDailyCalories;
     }
 
-    public void setmDailyCalories(Long mDailyCalories) {
-        this.mDailyCalories = mDailyCalories;
+    public void setDailyCalories(Double dailyCalories) {
+        mDailyCalories = dailyCalories;
     }
 
-    public String getmGender() {
+    public String getDateOfBirth() {
+        return mDateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        mDateOfBirth = dateOfBirth;
+    }
+
+    public String getGender() {
         return mGender;
     }
 
-    public void setmGender(String mGender) {
-        this.mGender = mGender;
+    public void setGender(String gender) {
+        mGender = gender;
     }
 
-    public float getmHeight() {
+    public String getHeight() {
         return mHeight;
     }
 
-    public void setmHeight(float mHeight) {
-        this.mHeight = mHeight;
+    public void setHeight(String height) {
+        mHeight = height;
     }
 
-    public Long getmId() {
+    public Long getId() {
         return mId;
     }
 
-    public void setmId(Long mId) {
-        this.mId = mId;
+    public void setId(Long id) {
+        mId = id;
     }
 
-    public String getmUpdatedAt() {
+    public String getUpdatedAt() {
         return mUpdatedAt;
     }
 
-    public void setmUpdatedAt(String mUpdatedAt) {
-        this.mUpdatedAt = mUpdatedAt;
+    public void setUpdatedAt(String updatedAt) {
+        mUpdatedAt = updatedAt;
     }
 
-    public int getmUserId() {
+    public Long getUserId() {
         return mUserId;
     }
 
-    public void setmUserId(int mUserId) {
-        this.mUserId = mUserId;
+    public void setUserId(Long userId) {
+        mUserId = userId;
     }
 
-    public float getmWeight() {
+    public String getWeight() {
         return mWeight;
     }
 
-    public void setmWeight(float mWeight) {
-        this.mWeight = mWeight;
+    public void setWeight(String weight) {
+        mWeight = weight;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDetails{" +
+                "mActivityLevel='" + mActivityLevel + '\'' +
+                ", mCreatedAt='" + mCreatedAt + '\'' +
+                ", mDailyCalories=" + mDailyCalories +
+                ", mDateOfBirth='" + mDateOfBirth + '\'' +
+                ", mGender='" + mGender + '\'' +
+                ", mHeight='" + mHeight + '\'' +
+                ", mId=" + mId +
+                ", mUpdatedAt='" + mUpdatedAt + '\'' +
+                ", mUserId='" + mUserId + '\'' +
+                ", mWeight='" + mWeight + '\'' +
+                '}';
     }
 }

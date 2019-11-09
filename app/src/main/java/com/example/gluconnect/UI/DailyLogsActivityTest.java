@@ -218,8 +218,8 @@ public class DailyLogsActivityTest extends AppCompatActivity implements AdapterV
                     Food food = response.body();
                     String foodName = food.getFoodName();
                     String mealTime = selectedMealTime();
-                    Meal mealnew = new Meal(foodName,mealTime,1L);
-                    mealSaved = mealnew;
+//                    Meal mealnew = new Meal(foodName,mealTime,1L);
+//                    mealSaved = mealnew;
                     }
                 }
             @Override

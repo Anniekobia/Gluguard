@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -46,6 +47,7 @@ public class TipsFragment extends Fragment {
     private View myview;
     private LaravelAPI laravelAPI;
     private ProgressBar progressBar;
+    TextView usermsg;
 
     public TipsFragment() {
         // Required empty public constructor
@@ -67,6 +69,7 @@ public class TipsFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+        usermsg = myview.findViewById(R.id.usermessage);
 
         getBloodGlucoseLevels();
         return myview;
@@ -80,12 +83,20 @@ public class TipsFragment extends Fragment {
                 ArrayList<BloodGlucose> BG = new ArrayList<>();
                 ArrayList<Float> bgLeveValues = new ArrayList<>();
                 BloodGlucoseResponse bloodGlucoseResponse = response.body();
-                for (BloodGlucose bloodGlucose : bloodGlucoseResponse.getBloodGlucoseRecords()) {
-                    BG.add(bloodGlucose);
-                    bgLeveValues.add(bloodGlucose.getBloodGlucoseValue());
-                }
-                BloodGlucose latest = BG.get(BG.size()-1);
-                getFoodRecommendations(latest.getBloodGlucoseValue(),latest.getBloodGlucoseType());
+                    for (BloodGlucose bloodGlucose : bloodGlucoseResponse.getBloodGlucoseRecords()) {
+                        Log.e("BGw",bloodGlucose.toString());
+                        BG.add(bloodGlucose);
+                        bgLeveValues.add(bloodGlucose.getBloodGlucoseValue());
+                    }
+                    try {
+                        BloodGlucose latest = BG.get(BG.size()-1);
+                        getFoodRecommendations(latest.getBloodGlucoseValue(),latest.getBloodGlucoseType());
+                    }catch (Exception e){
+                        Log.e("Exception",e.getMessage());
+                        progressBar.setVisibility(View.GONE);
+                        usermsg.setText("Record your blood glucose to get recommendations");
+                        usermsg.setVisibility(View.VISIBLE);
+                    }
             }
             @Override
             public void onFailure(Call<BloodGlucoseResponse> call, Throwable t) {

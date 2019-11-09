@@ -3,9 +3,10 @@ package com.example.gluconnect.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-@SuppressWarnings("unused")
 public class Meal {
 
+    @SerializedName("calories")
+    private Float mCalories;
     @SerializedName("created_at")
     private String mCreatedAt;
     @SerializedName("day")
@@ -14,17 +15,29 @@ public class Meal {
     private Long mId;
     @SerializedName("meal_name")
     private String mMealName;
-    @SerializedName("meal_type")
-    private String mMealType;
+    @SerializedName("meal_time")
+    private String mMealTime;
+    @SerializedName("quantity")
+    private Float mQuantity;
     @SerializedName("updated_at")
     private String mUpdatedAt;
     @SerializedName("user_id")
     private Long mUserId;
 
-    public Meal( String mMealName, String mMealType, Long mUserId) {
+    public Meal(Float mCalories, String mMealName, String mMealTime, Float mQuantity, Long mUserId) {
+        this.mCalories = mCalories;
         this.mMealName = mMealName;
-        this.mMealType = mMealType;
+        this.mMealTime = mMealTime;
+        this.mQuantity = mQuantity;
         this.mUserId = mUserId;
+    }
+
+    public Float getCalories() {
+        return mCalories;
+    }
+
+    public void setCalories(Float calories) {
+        mCalories = calories;
     }
 
     public String getCreatedAt() {
@@ -59,12 +72,20 @@ public class Meal {
         mMealName = mealName;
     }
 
-    public String getMealType() {
-        return mMealType;
+    public String getMealTime() {
+        return mMealTime;
     }
 
-    public void setMealType(String mealType) {
-        mMealType = mealType;
+    public void setMealTime(String mealTime) {
+        mMealTime = mealTime;
+    }
+
+    public Float getQuantity() {
+        return mQuantity;
+    }
+
+    public void setQuantity(Float quantity) {
+        mQuantity = quantity;
     }
 
     public String getUpdatedAt() {
