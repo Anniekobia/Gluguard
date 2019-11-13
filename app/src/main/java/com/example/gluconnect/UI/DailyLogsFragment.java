@@ -16,12 +16,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,10 @@ import com.example.gluconnect.Adapters.FoodAutoSuggestAdapter;
 import com.example.gluconnect.Adapters.FoodAutoSuggestAdapterSET;
 import com.example.gluconnect.Models.BloodGlucose;
 import com.example.gluconnect.Models.BrandedFoodItemSuggestions;
+import com.example.gluconnect.Models.Exercise;
+import com.example.gluconnect.Models.ExerciseData;
+import com.example.gluconnect.Models.ExerciseDetails;
+import com.example.gluconnect.Models.ExerciseDetailsList;
 import com.example.gluconnect.Models.Food;
 import com.example.gluconnect.Models.FoodItemSuggestionsList;
 import com.example.gluconnect.Models.Meal;
@@ -77,7 +83,14 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
     private ConstraintLayout selectedFoodItemlayout;
     Float originalCalories;
 
-//    private Button bgNextBtn;
+    private Spinner spinner;
+    private EditText exercise_distance;
+    private EditText exercise_duration;
+    private Button exeSaveBtn;
+    private TextView exercise_calories_metrics_txtview;
+    private TextView exercise_calories_txtview;
+
+    //    private Button bgNextBtn;
     public DailyLogsFragment() {
         // Required empty public constructor
     }
@@ -113,6 +126,16 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
         mealNextBtn = myView.findViewById(R.id.next_meal_btn);
         mealSaveBtn = myView.findViewById(R.id.save_meal_btn);
 
+        spinner = myView.findViewById(R.id.exercises_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.exercises_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        exercise_distance = myView.findViewById(R.id.exercise_distance_edittext);
+        exercise_duration = myView.findViewById(R.id.exercise_duration_edittext);
+        exeSaveBtn = myView.findViewById(R.id.save_exercise_btn);
+        exercise_calories_txtview = myView.findViewById(R.id.exercise_calories);
+        exercise_calories_metrics_txtview  = myView.findViewById(R.id.exercise_calories_m);
 
         bloodGlucoseLevelEditText.setOnClickListener(this);
         bgSaveBtn.setOnClickListener(this);
@@ -120,44 +143,47 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
         mealSaveBtn.setOnClickListener(this);
         mealNextBtn.setOnClickListener(this);
         saveDailyLogsBtn.setOnClickListener(this);
+        exeSaveBtn.setOnClickListener(this);
         bloodGlucoseLevelEditText.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() != 0&&bglevelRadiogroup.getCheckedRadioButtonId() != -1){
+                if (s.length() != 0 && bglevelRadiogroup.getCheckedRadioButtonId() != -1) {
                     bgSaveBtn.setVisibility(View.VISIBLE);
                     bgNextBtn.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     bgSaveBtn.setVisibility(View.GONE);
                     bgNextBtn.setVisibility(View.GONE);
                 }
             }
+
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+            }
+
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
         });
-        bglevelRadiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        bglevelRadiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 String bglevel = bloodGlucoseLevelEditText.getText().toString();
-                if (!TextUtils.isEmpty(bglevel)){
+                if (!TextUtils.isEmpty(bglevel)) {
                     bgSaveBtn.setVisibility(View.VISIBLE);
                     bgNextBtn.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     bgSaveBtn.setVisibility(View.GONE);
                     bgNextBtn.setVisibility(View.GONE);
                 }
             }
         });
-        mealTimeRadiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        mealTimeRadiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 String mealtime = selected_food_item.getText().toString();
-                if (!TextUtils.isEmpty(mealtime)){
+                if (!TextUtils.isEmpty(mealtime)) {
                     mealNextBtn.setVisibility(View.VISIBLE);
                     mealSaveBtn.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     mealNextBtn.setVisibility(View.GONE);
                     mealSaveBtn.setVisibility(View.GONE);
                 }
@@ -167,18 +193,22 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() != 0&&mealTimeRadiogroup.getCheckedRadioButtonId() != -1){
+                if (s.length() != 0 && mealTimeRadiogroup.getCheckedRadioButtonId() != -1) {
                     mealNextBtn.setVisibility(View.VISIBLE);
                     mealSaveBtn.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     mealNextBtn.setVisibility(View.GONE);
                     mealSaveBtn.setVisibility(View.GONE);
                 }
             }
+
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+            }
+
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
         });
         selectedFoodItemQuantity.addTextChangedListener(new TextWatcher() {
             @Override
@@ -192,16 +222,52 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(selectedFoodItemQuantity.getText().toString().length()>0&&selectedFoodItemCalories.getText().toString().length()>0){
+                if (selectedFoodItemQuantity.getText().toString().length() > 0 && selectedFoodItemCalories.getText().toString().length() > 0) {
                     Float quantity = Float.parseFloat(selectedFoodItemQuantity.getText().toString());
-                    Log.e("Quantity",quantity.toString());
-                    Log.e("Original cals",originalCalories.toString());
-                    Float calories = (originalCalories*quantity);
+                    Log.e("Quantity", quantity.toString());
+                    Log.e("Original cals", originalCalories.toString());
+                    Float calories = (originalCalories * quantity);
                     selectedFoodItemCalories.setText(calories.toString());
-                }else {
+                } else {
 
 
                 }
+            }
+        });
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        exercise_duration.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+//                String exercise = spinner.getSelectedItem().toString();
+//                String distance = exercise_distance.getText().toString();
+//                String duration = exercise_duration.getText().toString();
+//                if (TextUtils.isEmpty(exercise)){
+//
+//                }else {
+//                    String query = exercise + "\t" + distance + "km\t" + duration+"mins";
+//                    getExerciseDetails(query);
+//                }
             }
         });
         getFoodItemsSuggestions();
@@ -211,6 +277,12 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
 
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.save_meal_btn:
+                Log.e("Save Meal", "Saving");
+                recordMealData();
+            case R.id.next_meal_btn:
+                Log.e("Next Meal", "Blood Glucose");
+                bloodGlucoseLevelEditText.requestFocus();
             case R.id.save_blood_glucose_btn:
                 String bglevel = bloodGlucoseLevelEditText.getText().toString();
                 if (TextUtils.isEmpty(bglevel) || bglevelRadiogroup.getCheckedRadioButtonId() == -1) {
@@ -220,27 +292,36 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                     recordBloodGlucoseLevel();
                 }
                 break;
-            case R.id.save_meal_btn:
-                Log.e("Save","Saving");
-                recordMealData();
+            case R.id.save_exercise_btn:
+                String exercise = spinner.getSelectedItem().toString();
+                String distance = exercise_distance.getText().toString();
+                String duration = exercise_duration.getText().toString();
+                if (TextUtils.isEmpty(exercise)){
+
+                }else {
+                    String query = exercise + "\t" + distance + "km\t" + duration+"mins";
+                    getExerciseDetails(query);
+                }
+            case R.id.save_logs_btn:
+                //save all
 
         }
     }
 
-    private void recordMealData(){
+    private void recordMealData() {
         progressBar.setVisibility(View.VISIBLE);
         String name = selected_food_item.getText().toString();
         String time = selectedMealTime();
         Float calories = Float.parseFloat(selectedFoodItemCalories.getText().toString());
         Float quantity = Float.parseFloat(selectedFoodItemQuantity.getText().toString());
-        Call<Meal> mealCall = laravelAPI.recordMealData(new Meal(calories,name,time,quantity,1L));
+        Call<Meal> mealCall = laravelAPI.recordMealData(new Meal(calories, name, time, quantity, 1L));
         mealCall.enqueue(new Callback<Meal>() {
             @Override
             public void onResponse(Call<Meal> call, Response<Meal> response) {
                 if (!response.isSuccessful()) {
                     progressBar.setVisibility(View.GONE);
-                    Log.e("MealError",response.message());
-                    Toast.makeText(getContext(),"Record not saved",Toast.LENGTH_LONG).show();
+                    Log.e("MealError", response.message());
+                    Toast.makeText(getContext(), "Record not saved", Toast.LENGTH_LONG).show();
                     return;
                 } else {
                     progressBar.setVisibility(View.GONE);
@@ -254,6 +335,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                     mealTimeRadiogroup.clearCheck();
                 }
             }
+
             @Override
             public void onFailure(Call<Meal> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
@@ -267,14 +349,14 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
         final Float bgValue = Float.parseFloat(bloodGlucoseLevelEditText.getText().toString());
         String bgTime = selectedBloodGlucoseTime();
         Call<BloodGlucose> bloodGlucoseCall = laravelAPI.recordBloodGlucoseLevel(new BloodGlucose(
-                bgTime, bgValue,1L));
+                bgTime, bgValue, 1L));
         bloodGlucoseCall.enqueue(new Callback<BloodGlucose>() {
             @Override
             public void onResponse(Call<BloodGlucose> call, Response<BloodGlucose> response) {
                 if (!response.isSuccessful()) {
                     progressBar.setVisibility(View.GONE);
-                    Log.e(BGERROR,response.message());
-                    Toast.makeText(getContext(),"Record not saved",Toast.LENGTH_LONG).show();
+                    Log.e(BGERROR, response.message());
+                    Toast.makeText(getContext(), "Record not saved", Toast.LENGTH_LONG).show();
                     return;
                 } else {
                     progressBar.setVisibility(View.GONE);
@@ -283,6 +365,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                     bglevelRadiogroup.clearCheck();
                 }
             }
+
             @Override
             public void onFailure(Call<BloodGlucose> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
@@ -316,7 +399,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                         selectedFoodItemQuantity.setText(separated[1]);
                         selectedFoodItemMetrc.setText(separated[2]);
                         selectedFoodItemCalories.setText(separated[3]);
-                        originalCalories = Float.parseFloat(selectedFoodItemCalories.getText().toString())/Float.parseFloat(selectedFoodItemQuantity.getText().toString());
+                        originalCalories = Float.parseFloat(selectedFoodItemCalories.getText().toString()) / Float.parseFloat(selectedFoodItemQuantity.getText().toString());
                     }
                 });
         auto_complete_edittext.addTextChangedListener(new TextWatcher() {
@@ -324,6 +407,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
             public void beforeTextChanged(CharSequence s, int start, int
                     count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
@@ -332,6 +416,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                         AUTO_COMPLETE_DELAY);
                 selectedFoodItemlayout.setVisibility(View.GONE);
             }
+
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -349,26 +434,85 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
         });
     }
 
+    private void getExerciseDetails(String query) {
+        Log.e("Exe query", query);
+        progressBar.setVisibility(View.VISIBLE);
+        Call<ExerciseDetailsList> exerciseDetailsListCall = nutritionixAPI.getExerciseDetailsList(new ExerciseData(21, "female", 157.0, query, 44.5));
+        exerciseDetailsListCall.enqueue(new Callback<ExerciseDetailsList>() {
+            @Override
+            public void onResponse(Call<ExerciseDetailsList> call, Response<ExerciseDetailsList> response) {
+                if (!response.isSuccessful()) {
+                    progressBar.setVisibility(View.GONE);
+                    Log.e("Exe Unsuccessful", "Code: " + response.code() + "\n" + "Message" + response.message());
+                    return;
+                } else {
+                    ExerciseDetailsList exerciseDetailsList = response.body();
+                    for (ExerciseDetails exercise : exerciseDetailsList.getExercises()) {
+                        progressBar.setVisibility(View.GONE);
+                        exercise_calories_txtview.setText(exercise.getNfCalories().toString());
+                        exercise_calories_txtview.setVisibility(View.VISIBLE);
+                        exercise_calories_metrics_txtview.setVisibility(View.VISIBLE);
+                        Log.e("Exe Exercise", exercise.toString());
+                        Exercise recordedExercise = new Exercise(exercise.getNfCalories(), Double.parseDouble(exercise.getDurationMin().toString()),null, exercise.getName(), 1L);
+                        recordExerciseData(recordedExercise);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ExerciseDetailsList> call, Throwable t) {
+                Log.e("Exe Failed", t.getMessage());
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void recordExerciseData(final Exercise recordedExercise) {
+        Log.e("Exe recorded", recordedExercise.toString());
+        progressBar.setVisibility(View.VISIBLE);
+        Call<Exercise> exerciseCall = laravelAPI.recordExerciseData(recordedExercise);
+        exerciseCall.enqueue(new Callback<Exercise>() {
+            @Override
+            public void onResponse(Call<Exercise> call, Response<Exercise> response) {
+                if (!response.isSuccessful()) {
+                    progressBar.setVisibility(View.GONE);
+                    Log.e("Exe Saved Unsuccessful", "Code: " + response.code() + "\n" + "Message" + response.message());
+                    return;
+                } else {
+                        progressBar.setVisibility(View.GONE);
+                        exercise_calories_txtview.setVisibility(View.GONE);
+                        exercise_calories_metrics_txtview.setVisibility(View.GONE);
+                        Log.e("Exe  Saved", recordedExercise.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Exercise> call, Throwable t) {
+                Log.e("Exe Saved Failed", t.getMessage());
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
+
     private void getFoodItemSuggestionsList(final String inputtext) {
-        Call <FoodItemSuggestionsList> foodItemSuggestionsListCall = nutritionixAPI.getFoodItemSuggestionsList(inputtext);
+        Call<FoodItemSuggestionsList> foodItemSuggestionsListCall = nutritionixAPI.getFoodItemSuggestionsList(inputtext);
         foodItemSuggestionsListCall.enqueue(new Callback<FoodItemSuggestionsList>() {
             @Override
             public void onResponse(Call<FoodItemSuggestionsList> call, Response<FoodItemSuggestionsList> response) {
                 List<String> stringList = new ArrayList<>();
                 List<String> stringListSet = new ArrayList<>();
-                if (!response.isSuccessful()){
-                    foodItemSuggestionsTextView.setText("Code: "+response.code()+"\n Message: "+response.message());
-                }
-                else {
-                    String text="";
-                    String txt ="";
+                if (!response.isSuccessful()) {
+                    foodItemSuggestionsTextView.setText("Code: " + response.code() + "\n Message: " + response.message());
+                } else {
+                    String text = "";
+                    String txt = "";
                     FoodItemSuggestionsList foodItemSuggestionsList = response.body();
-                    if (foodItemSuggestionsList!=null) {
+                    if (foodItemSuggestionsList != null) {
                         for (BrandedFoodItemSuggestions branded : foodItemSuggestionsList.getBranded()) {
                             if (branded == null) {
                             } else {
                                 stringList.add(branded.getFoodName());
-                                stringListSet.add(branded.getFoodName()+":"+branded.getServingQty()+":"+branded.getServingUnit()+":"+branded.getNfCalories());
+                                stringListSet.add(branded.getFoodName() + ":" + branded.getServingQty() + ":" + branded.getServingUnit() + ":" + branded.getNfCalories());
                             }
                         }
                         foodAutoSuggestAdapter.setData(stringList);
@@ -376,7 +520,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                         foodAutoSuggestAdapterSET.setData(stringListSet);
                         foodAutoSuggestAdapterSET.notifyDataSetChanged();
                         response.errorBody();
-                    }else {
+                    } else {
                         getFoodItemDetails(inputtext);
                     }
                 }
@@ -396,7 +540,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onResponse(Call<Food> call, Response<Food> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(getContext(),"Code: " + response.code() + "\n" + "Message" + response.message(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Code: " + response.code() + "\n" + "Message" + response.message(), Toast.LENGTH_LONG).show();
                     return;
                 } else {
                     Food food = response.body();
@@ -404,6 +548,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
 //                    selected_food_item.setText(foodName);
                 }
             }
+
             @Override
             public void onFailure(Call<Food> call, Throwable t) {
                 auto_complete_edittext.setText(t.getMessage());
@@ -411,6 +556,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
         });
         return foodName;
     }
+
     private String selectedMealTime() {
         int selectedRadioBtn = mealTimeRadiogroup.getCheckedRadioButtonId();
         RadioButton radioTimeButton = myView.findViewById(selectedRadioBtn);

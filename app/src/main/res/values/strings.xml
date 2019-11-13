@@ -25,9 +25,10 @@
     <string name="title_tips">Tips</string>
     <string name="title_details">Profile</string>
 
-    <string-array name="planets_array">
-        <item>Running</item>
+    <string-array name="exercises_array">
+        <item>Walking</item>
         <item>Jogging</item>
+        <item>Running</item>
     </string-array>
 
     <string-array name="gender_array">
@@ -42,6 +43,8 @@
         <item>Very Active</item>
         <item>Extra Active</item>
     </string-array>
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

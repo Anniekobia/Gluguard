@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_margin="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -186,6 +187,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_margin="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/meals_cardview">
@@ -301,6 +303,110 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/exercises_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_margin="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blood_glucose_units_cardview">
+
+        <RelativeLayout
+            android:id="@+id/exercise_rl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/exercise_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Exercise"
+                android:textSize="@dimen/log_headings_textsize"
+                android:textStyle="bold"
+                tools:ignore="SpUsage" />
+
+            <Spinner
+                android:id="@+id/exercises_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/exercise_textview"
+                android:layout_marginTop="9dp" />
+
+            <EditText
+                android:id="@+id/exercise_distance_edittext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/exercises_spinner"
+                android:hint="Distance"
+                android:inputType="numberDecimal" />
+
+
+            <TextView
+                android:id="@+id/exercise_distance_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/exercises_spinner"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toEndOf="@+id/exercise_distance_edittext"
+                android:text="km" />
+
+            <EditText
+                android:id="@+id/exercise_duration_edittext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/exercises_spinner"
+                android:layout_toRightOf="@id/exercise_distance_textview"
+                android:hint="Duration "
+                android:inputType="number" />
+
+
+            <TextView
+                android:id="@+id/exercise_duration_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/exercises_spinner"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toEndOf="@+id/exercise_duration_edittext"
+                android:text="mins" />
+
+            <TextView
+                android:id="@+id/exercise_calories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:layout_below="@+id/exercises_spinner"
+                android:layout_toLeftOf="@id/exercise_calories_m"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/exercise_calories_m"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:layout_marginLeft="3dp"
+                android:layout_below="@id/exercises_spinner"
+                android:layout_alignParentEnd="true"
+                android:text="kCals"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/save_exercise_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/exercise_distance_edittext"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="25dp"
+                android:text="Save" />
+        </RelativeLayout>
+
+
+
+    </com.google.android.material.card.MaterialCardView>
 
     <Button
         android:id="@+id/save_logs_btn"

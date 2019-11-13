@@ -81,8 +81,5 @@ public class DailyLogsActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    public void openLogTest(View view) {
-        Intent intent = new Intent(this, DailyLogsActivityTest.class);
-        startActivity(intent);
-    }
+
 }

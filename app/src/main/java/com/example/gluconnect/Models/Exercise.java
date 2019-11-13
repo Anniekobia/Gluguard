@@ -12,6 +12,8 @@ public class Exercise {
     private String mCreatedAt;
     @SerializedName("duration")
     private Double mDuration;
+    @SerializedName("distance")
+    private Double mDistance;
     @SerializedName("exercise_name")
     private String mExerciseName;
     @SerializedName("id")
@@ -21,11 +23,12 @@ public class Exercise {
     @SerializedName("user_id")
     private Long mUserId;
 
-    public Exercise(Double mCaloriesBurnt, Double mDuration, String mExerciseName,  Long mUserId) {
+    public Exercise(Double mCaloriesBurnt, Double mDuration,Double mDistance, String mExerciseName,  Long mUserId) {
         this.mCaloriesBurnt = mCaloriesBurnt;
         this.mDuration = mDuration;
         this.mExerciseName = mExerciseName;
         this.mUserId = mUserId;
+        this.mDistance = mDistance;
     }
 
     public Double getCaloriesBurnt() {
@@ -84,4 +87,11 @@ public class Exercise {
         mUserId = userId;
     }
 
+    public Double getmDistance() {
+        return mDistance;
+    }
+
+    public void setmDistance(Double mDistance) {
+        this.mDistance = mDistance;
+    }
 }
