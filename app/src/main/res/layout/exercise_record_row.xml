@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/food_category"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="20dp"
         app:layout_constraintStart_toEndOf="@id/exercisename"
         app:layout_constraintTop_toTopOf="parent" />
     <TextView
@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/food_category"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="20dp"
         app:layout_constraintStart_toEndOf="@id/duration_metrics"
         app:layout_constraintTop_toTopOf="parent" />
     <TextView

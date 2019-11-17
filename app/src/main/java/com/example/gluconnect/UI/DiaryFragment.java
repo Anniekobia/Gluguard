@@ -80,7 +80,7 @@ public class DiaryFragment extends Fragment {
     private MealRecordAdapter mealRecordAdapter;
     private List<Exercise> exerciseList = new ArrayList<>();
     private ExerciseRecordAdapter exerciseRecordAdapter;
-    private TextView bg,bgmsg,meal,mealsmsg,exe,exemsg;
+    private TextView bg,bgmsg,meal,mealsmsg,exe,exemsg,duration_metric,distance_metric;
 
 
     public DiaryFragment() {
@@ -106,6 +106,8 @@ public class DiaryFragment extends Fragment {
         blood_glucose_rv.setAdapter(bloodGlucoseRecordAdapter);
         bgmsg = myView.findViewById(R.id.bloodGlucosemsg);
         bg = myView.findViewById(R.id.bloodGlucose);
+        distance_metric = myView.findViewById(R.id.distance_metrics);
+        duration_metric = myView.findViewById(R.id.duration_metrics);
 
         meals_rv =  myView.findViewById(R.id.meals_recycler_view);
         mealRecordAdapter = new MealRecordAdapter(mealList);
@@ -125,9 +127,7 @@ public class DiaryFragment extends Fragment {
         exemsg = myView.findViewById(R.id.exercisemsg);
         exe = myView.findViewById(R.id.exercises);
 
-        getMealRecords();
-        getExerciseRecords();
-        getBloodGlucoseLevels();
+
         setCurrentDate();
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -137,6 +137,22 @@ public class DiaryFragment extends Fragment {
                 String newDate = sdf.format(date.getTime());
                 datetxtview.setText(newDate);
                 Log.e("New Date", newDate);
+
+                bloodGlucoseList.clear();
+                bgmsg.setVisibility(View.GONE);
+                bloodGlucoseRecordAdapter.notifyDataSetChanged();
+                mealList.clear();
+                mealsmsg.setVisibility(View.GONE);
+                mealRecordAdapter.notifyDataSetChanged();
+                exerciseList.clear();
+                exemsg.setVisibility(View.GONE);
+                exerciseRecordAdapter.notifyDataSetChanged();
+                SimpleDateFormat f = new SimpleDateFormat("YYYY-MM-dd");
+                String datePicked = f.format(date.getTime());
+                Log.e("Date Formatted 2", datePicked);
+                getBloodGlucoseLevels(datePicked);
+                getMealRecords(datePicked);
+                getExerciseRecords(datePicked);
             }
         });
         return myView;
@@ -146,12 +162,18 @@ public class DiaryFragment extends Fragment {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMM d");
         String date = sdf.format(cal.getTime());
-        Log.e("Date 2", date);
+        Log.e("Date ", date);
         datetxtview.setText(date);
 
+        SimpleDateFormat f = new SimpleDateFormat("YYYY-MM-dd");
+        String datePicked = f.format(cal.getTime());
+        Log.e("Date Formatted", datePicked);
+        getBloodGlucoseLevels(datePicked);
+        getMealRecords(datePicked);
+        getExerciseRecords(datePicked);
     }
 
-    private void getBloodGlucoseLevels() {
+    private void getBloodGlucoseLevels(final String selectedDay) {
 //        progressBar.setVisibility(View.VISIBLE);
         Call<BloodGlucoseResponse> bloodGlucoseResponseCall = laravelAPI.getBloodGlucoseLevel();
         bloodGlucoseResponseCall.enqueue(new Callback<BloodGlucoseResponse>() {
@@ -164,8 +186,11 @@ public class DiaryFragment extends Fragment {
                 } else {
                     BloodGlucoseResponse bloodGlucoseResponse = response.body();
                     for (BloodGlucose bloodGlucose : bloodGlucoseResponse.getBloodGlucoseRecords()) {
+                        String day = bloodGlucose.getDay();
                         Log.e("BGw", bloodGlucose.toString());
-                        bloodGlucoseList.add(bloodGlucose);
+                        if (selectedDay.equals(day)){
+                            bloodGlucoseList.add(bloodGlucose);
+                        }
                     }
                     if (bloodGlucoseList.isEmpty()){
                         bgmsg.setVisibility(View.VISIBLE);
@@ -185,7 +210,7 @@ public class DiaryFragment extends Fragment {
         });
     }
 
-    private void getMealRecords() {
+    private void getMealRecords(final String selectedDay) {
 //        progressBar.setVisibility(View.VISIBLE);
         Call<MealResponse> mealResponseCall = laravelAPI.getMeals();
         mealResponseCall.enqueue(new Callback<MealResponse>() {
@@ -198,8 +223,11 @@ public class DiaryFragment extends Fragment {
                 } else {
                     MealResponse mealResponse = response.body();
                     for (Meal meal : mealResponse.getMeals()) {
+                        String day = meal.getDay();
                         Log.e("BGw", meal.toString());
-                        mealList.add(meal);
+                        if (selectedDay.equals(day)){
+                            mealList.add(meal);
+                        }
                     }
                     if (mealList.isEmpty()){
                         mealsmsg.setVisibility(View.VISIBLE);
@@ -220,7 +248,7 @@ public class DiaryFragment extends Fragment {
         });
     }
 
-    public void getExerciseRecords(){
+    public void getExerciseRecords(final String selectedDay){
 //        progressBar.setVisibility(View.VISIBLE);
         Call<ExerciseResponse> exerciseCall = laravelAPI.getExercises();
         exerciseCall.enqueue(new Callback<ExerciseResponse>() {
@@ -233,14 +261,19 @@ public class DiaryFragment extends Fragment {
                 } else {
                     ExerciseResponse exerciseResponse = response.body();
                     for (Exercise exercise : exerciseResponse.getExercises()) {
+                        String day = exercise.getmDay();
                         Log.e("BGw", exercise.toString());
-                        exerciseList.add(exercise);
+                        if (selectedDay.equals(day)) {
+                            exerciseList.add(exercise);
+                        }
                     }
                     if (exerciseList.isEmpty()){
                         exemsg.setVisibility(View.VISIBLE);
                         exe.setVisibility(View.VISIBLE);
                     }else {
                         exe.setVisibility(View.VISIBLE);
+                        distance_metric.setVisibility(View.VISIBLE);
+                        duration_metric.setVisibility(View.VISIBLE);
                         Log.e("Check", exerciseList.toString());
                         exerciseRecordAdapter.notifyDataSetChanged();
                     }

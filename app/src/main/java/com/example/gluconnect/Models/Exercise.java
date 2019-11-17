@@ -22,6 +22,9 @@ public class Exercise {
     private String mUpdatedAt;
     @SerializedName("user_id")
     private Long mUserId;
+    @SerializedName("day")
+    private String mDay;
+
 
     public Exercise(Double mCaloriesBurnt, Double mDuration,Double mDistance, String mExerciseName,  Long mUserId) {
         this.mCaloriesBurnt = mCaloriesBurnt;
@@ -29,6 +32,14 @@ public class Exercise {
         this.mExerciseName = mExerciseName;
         this.mUserId = mUserId;
         this.mDistance = mDistance;
+    }
+
+    public String getmDay() {
+        return mDay;
+    }
+
+    public void setmDay(String mDay) {
+        this.mDay = mDay;
     }
 
     public Double getCaloriesBurnt() {

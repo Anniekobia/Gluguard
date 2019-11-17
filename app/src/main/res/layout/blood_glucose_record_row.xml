@@ -23,8 +23,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/food_category"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="20dp"
         app:layout_constraintStart_toEndOf="@id/bgtime"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/bgvalue_metric"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/food_category"
+        android:text="mg/dL"
+        app:layout_constraintStart_toEndOf="@id/bgvalue"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
