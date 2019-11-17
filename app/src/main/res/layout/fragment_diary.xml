@@ -1,135 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UI.DailyLogsFragment">
 
-
-
-  <com.google.android.material.card.MaterialCardView
-      android:id="@+id/meals_cardview"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="10dp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
-
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-      <TextView
-          android:id="@+id/meals_textview"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="Meals"
-          android:textSize="@dimen/log_headings_textsize" />
-
-      <com.google.android.material.textfield.TextInputLayout
-          android:id="@+id/food_items_autocomplete_textinputlayout"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_below="@+id/meals_textview"
-          android:hint="Search Food">
-
-        <AutoCompleteTextView
-            android:id="@+id/food_items_autocomplete_textview"
+        <CalendarView
+            android:id="@+id/calenderview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text" />
-      </com.google.android.material.textfield.TextInputLayout>
-
-      <androidx.core.widget.NestedScrollView
-          android:id="@+id/post_food_suggestions_requesttest_scrollview"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_below="@id/food_items_autocomplete_textinputlayout">
+            android:layout_centerInParent="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/post_food_suggestions_requesttest_txtview"
+            android:id="@+id/dateView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-      </androidx.core.widget.NestedScrollView>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:textColor="@android:color/background_dark"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calenderview" />
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dateView">
 
-      <RadioGroup
-          android:id="@+id/meal_time_radiogroup"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_below="@id/post_food_suggestions_requesttest_scrollview"
-          android:layout_marginTop="20dp"
-          android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp">
 
-        <RadioButton
-            android:id="@+id/breakfast_radiobtn"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/rounded_button"
-            android:button="@null"
-            android:text="breakfast"
-            android:textAllCaps="false"
-            android:textSize="10dp" />
+                <TextView
+                    android:id="@+id/bloodGlucose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Blood Glucose"
+                    android:textColor="@android:color/background_dark"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:visibility="gone"/>
 
-        <RadioButton
-            android:id="@+id/lunch_radiobtn"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/rounded_button"
-            android:button="@null"
-            android:text="lunch"
-            android:textAllCaps="false"
-            android:textSize="10dp" />
+                <TextView
+                    android:id="@+id/bloodGlucosemsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No records"
+                    android:visibility="gone"
+                    android:layout_below="@id/bloodGlucose"/>
 
-        <RadioButton
-            android:id="@+id/snack_radiobtn"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/rounded_button"
-            android:button="@null"
-            android:text="snack"
-            android:textAllCaps="false"
-            android:textSize="10dp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/blood_glucose_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical"
+                    android:layout_below="@id/bloodGlucosemsg"/>
 
-        <RadioButton
-            android:id="@+id/dinner_radiobtn"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/rounded_button"
-            android:button="@null"
-            android:text="dinner"
-            android:textAllCaps="false"
-            android:textSize="10dp" />
+                <TextView
+                    android:id="@+id/meals"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Meals"
+                    android:textColor="@android:color/background_dark"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:visibility="gone"
+                    android:layout_below="@id/blood_glucose_recycler_view"/>
 
-      </RadioGroup>
+                <TextView
+                    android:id="@+id/mealsmsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No records"
+                    android:visibility="gone"
+                    android:layout_below="@id/meals"/>
 
-      <TextView
-          android:id="@+id/selected_fooditem"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_below="@id/meal_time_radiogroup"
-          android:padding="20dp" />
-    </RelativeLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/meals_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical"
+                    android:layout_below="@id/mealsmsg"/>
+                <TextView
+                    android:id="@+id/exercises"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Exercises"
+                    android:textColor="@android:color/background_dark"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:visibility="gone"
+                    android:layout_below="@id/meals_recycler_view"/>
 
-  </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:id="@+id/exercisemsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No records"
+                    android:visibility="gone"
+                    android:layout_below="@id/exercises"/>
 
-  <Button
-      android:id="@+id/save_logs_btn"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="250dp"
-      android:layout_marginEnd="24dp"
-      android:layout_marginBottom="60dp"
-      android:text="save"
-      app:layout_constraintTop_toBottomOf="@id/meals_cardview"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.9"
-      app:layout_constraintStart_toStartOf="parent" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/exercises_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical"
+                    android:layout_below="@id/exercisemsg"/>
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

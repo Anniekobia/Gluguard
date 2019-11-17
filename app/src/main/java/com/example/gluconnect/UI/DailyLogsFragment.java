@@ -52,6 +52,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import static android.view.View.GONE;
+
 
 public class DailyLogsFragment extends Fragment implements View.OnClickListener {
 
@@ -152,8 +154,8 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                     bgSaveBtn.setVisibility(View.VISIBLE);
                     bgNextBtn.setVisibility(View.VISIBLE);
                 } else {
-                    bgSaveBtn.setVisibility(View.GONE);
-                    bgNextBtn.setVisibility(View.GONE);
+                    bgSaveBtn.setVisibility(GONE);
+                    bgNextBtn.setVisibility(GONE);
                 }
             }
 
@@ -172,8 +174,8 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                     bgSaveBtn.setVisibility(View.VISIBLE);
                     bgNextBtn.setVisibility(View.VISIBLE);
                 } else {
-                    bgSaveBtn.setVisibility(View.GONE);
-                    bgNextBtn.setVisibility(View.GONE);
+                    bgSaveBtn.setVisibility(GONE);
+                    bgNextBtn.setVisibility(GONE);
                 }
             }
         });
@@ -184,8 +186,8 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                     mealNextBtn.setVisibility(View.VISIBLE);
                     mealSaveBtn.setVisibility(View.VISIBLE);
                 } else {
-                    mealNextBtn.setVisibility(View.GONE);
-                    mealSaveBtn.setVisibility(View.GONE);
+                    mealNextBtn.setVisibility(GONE);
+                    mealSaveBtn.setVisibility(GONE);
                 }
             }
         });
@@ -197,8 +199,8 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                     mealNextBtn.setVisibility(View.VISIBLE);
                     mealSaveBtn.setVisibility(View.VISIBLE);
                 } else {
-                    mealNextBtn.setVisibility(View.GONE);
-                    mealSaveBtn.setVisibility(View.GONE);
+                    mealNextBtn.setVisibility(GONE);
+                    mealSaveBtn.setVisibility(GONE);
                 }
             }
 
@@ -245,6 +247,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
+
         });
         exercise_duration.addTextChangedListener(new TextWatcher() {
             @Override
@@ -259,15 +262,64 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
 
             @Override
             public void afterTextChanged(Editable s) {
-//                String exercise = spinner.getSelectedItem().toString();
-//                String distance = exercise_distance.getText().toString();
-//                String duration = exercise_duration.getText().toString();
-//                if (TextUtils.isEmpty(exercise)){
-//
-//                }else {
-//                    String query = exercise + "\t" + distance + "km\t" + duration+"mins";
-//                    getExerciseDetails(query);
-//                }
+                String exercise = spinner.getSelectedItem().toString();
+                String distance = exercise_distance.getText().toString();
+                String duration = exercise_duration.getText().toString();
+                if (TextUtils.isEmpty(exercise)){
+
+                }else {
+                    if (TextUtils.isEmpty(distance)||TextUtils.isEmpty(duration)){
+
+                    }else {
+                        String query = exercise + "\t" + distance + "km\t" + duration+"mins";
+                        getExerciseDetails(query);
+                    }
+                }
+            }
+        });
+        exercise_distance.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String exercise = spinner.getSelectedItem().toString();
+                String distance = exercise_distance.getText().toString();
+                String duration = exercise_duration.getText().toString();
+                if (TextUtils.isEmpty(exercise)){
+
+                }else {
+                    if (TextUtils.isEmpty(distance)||TextUtils.isEmpty(duration)){
+
+                    }else {
+                        String query = exercise + "\t" + distance + "km\t" + duration+"mins";
+                        getExerciseDetails(query);
+                    }
+
+                }
+            }
+        });
+        exercise_calories_txtview.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                exeSaveBtn.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
         getFoodItemsSuggestions();
@@ -283,24 +335,36 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
             case R.id.next_meal_btn:
                 Log.e("Next Meal", "Blood Glucose");
                 bloodGlucoseLevelEditText.requestFocus();
+                mealNextBtn.setVisibility(GONE);
+                mealSaveBtn.setVisibility(GONE);
             case R.id.save_blood_glucose_btn:
                 String bglevel = bloodGlucoseLevelEditText.getText().toString();
                 if (TextUtils.isEmpty(bglevel) || bglevelRadiogroup.getCheckedRadioButtonId() == -1) {
-                    Toast.makeText(getContext(), "Please fill in all the details", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Please fill in all the details", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     recordBloodGlucoseLevel();
                 }
                 break;
+            case R.id.next_blood_glucose_btn:
+                Log.e("Next BG", "Blood Glucose");
+//                exercise_distance.requestFocus();
+                bgNextBtn.setVisibility(GONE);
+                bgSaveBtn.setVisibility(GONE);
             case R.id.save_exercise_btn:
                 String exercise = spinner.getSelectedItem().toString();
                 String distance = exercise_distance.getText().toString();
                 String duration = exercise_duration.getText().toString();
-                if (TextUtils.isEmpty(exercise)){
+                String calories = exercise_calories_txtview.getText().toString();
+                if (TextUtils.isEmpty(exercise)||TextUtils.isEmpty(calories)){
 
                 }else {
-                    String query = exercise + "\t" + distance + "km\t" + duration+"mins";
-                    getExerciseDetails(query);
+                    if (TextUtils.isEmpty(distance)&&TextUtils.isEmpty(duration)){
+                        distance = "0";
+                        duration = "1";
+                    }
+                    Exercise newExercise = new Exercise(Double.parseDouble(calories),Double.parseDouble(duration),Double.parseDouble(distance),exercise,1l);
+                    recordExerciseData(newExercise);
                 }
             case R.id.save_logs_btn:
                 //save all
@@ -319,14 +383,13 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onResponse(Call<Meal> call, Response<Meal> response) {
                 if (!response.isSuccessful()) {
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(GONE);
                     Log.e("MealError", response.message());
-                    Toast.makeText(getContext(), "Record not saved", Toast.LENGTH_LONG).show();
                     return;
                 } else {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), "Record saved", Toast.LENGTH_LONG).show();
-                    selectedFoodItemlayout.setVisibility(View.GONE);
+                    progressBar.setVisibility(GONE);
+                    Log.e("Meal" ,"Record saved");
+                    selectedFoodItemlayout.setVisibility(GONE);
                     auto_complete_edittext.getText().clear();
                     selected_food_item.setText("");
                     selectedFoodItemCalories.setText("");
@@ -338,8 +401,8 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
 
             @Override
             public void onFailure(Call<Meal> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(GONE);
+                Log.e("Meal Failed", t.getMessage());
             }
         });
     }
@@ -354,13 +417,12 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onResponse(Call<BloodGlucose> call, Response<BloodGlucose> response) {
                 if (!response.isSuccessful()) {
-                    progressBar.setVisibility(View.GONE);
-                    Log.e(BGERROR, response.message());
-                    Toast.makeText(getContext(), "Record not saved", Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(GONE);
+                    Log.e("Blood Glucose", response.message());
                     return;
                 } else {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), "Record saved", Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(GONE);
+                    Log.e("Blood Glucose","Record saved");
                     bloodGlucoseLevelEditText.getText().clear();
                     bglevelRadiogroup.clearCheck();
                 }
@@ -368,8 +430,8 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
 
             @Override
             public void onFailure(Call<BloodGlucose> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(GONE);
+                Log.e("Blood Glucose", t.getMessage());
             }
         });
     }
@@ -414,7 +476,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                 handler.removeMessages(TRIGGER_AUTO_COMPLETE);
                 handler.sendEmptyMessageDelayed(TRIGGER_AUTO_COMPLETE,
                         AUTO_COMPLETE_DELAY);
-                selectedFoodItemlayout.setVisibility(View.GONE);
+                selectedFoodItemlayout.setVisibility(GONE);
             }
 
             @Override
@@ -442,19 +504,18 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onResponse(Call<ExerciseDetailsList> call, Response<ExerciseDetailsList> response) {
                 if (!response.isSuccessful()) {
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(GONE);
                     Log.e("Exe Unsuccessful", "Code: " + response.code() + "\n" + "Message" + response.message());
                     return;
                 } else {
                     ExerciseDetailsList exerciseDetailsList = response.body();
                     for (ExerciseDetails exercise : exerciseDetailsList.getExercises()) {
-                        progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(GONE);
                         exercise_calories_txtview.setText(exercise.getNfCalories().toString());
                         exercise_calories_txtview.setVisibility(View.VISIBLE);
                         exercise_calories_metrics_txtview.setVisibility(View.VISIBLE);
                         Log.e("Exe Exercise", exercise.toString());
-                        Exercise recordedExercise = new Exercise(exercise.getNfCalories(), Double.parseDouble(exercise.getDurationMin().toString()),null, exercise.getName(), 1L);
-                        recordExerciseData(recordedExercise);
+
                     }
                 }
             }
@@ -462,7 +523,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onFailure(Call<ExerciseDetailsList> call, Throwable t) {
                 Log.e("Exe Failed", t.getMessage());
-                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(GONE);
             }
         });
     }
@@ -475,21 +536,24 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onResponse(Call<Exercise> call, Response<Exercise> response) {
                 if (!response.isSuccessful()) {
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(GONE);
                     Log.e("Exe Saved Unsuccessful", "Code: " + response.code() + "\n" + "Message" + response.message());
                     return;
                 } else {
-                        progressBar.setVisibility(View.GONE);
-                        exercise_calories_txtview.setVisibility(View.GONE);
-                        exercise_calories_metrics_txtview.setVisibility(View.GONE);
                         Log.e("Exe  Saved", recordedExercise.toString());
+                        exercise_distance.getText().clear();
+                        exercise_duration.getText().clear();
+                        exercise_calories_txtview.setVisibility(View.GONE);
+                        exercise_calories_metrics_txtview.setVisibility(GONE);
+                        exeSaveBtn.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<Exercise> call, Throwable t) {
                 Log.e("Exe Saved Failed", t.getMessage());
-                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(GONE);
             }
         });
     }
@@ -540,7 +604,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onResponse(Call<Food> call, Response<Food> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(getContext(), "Code: " + response.code() + "\n" + "Message" + response.message(), Toast.LENGTH_LONG).show();
+                    Log.e("Meal Suggestions", "Code: " + response.code() + "\n" + "Message" + response.message());
                     return;
                 } else {
                     Food food = response.body();

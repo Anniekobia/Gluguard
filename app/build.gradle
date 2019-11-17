@@ -51,5 +51,6 @@ dependencies {
 //    //GraphView setup
 //    implementation 'com.jjoe64:graphview:4.2.2'
 
-
+    //Calendarview library
+    implementation 'com.applandeo:material-calendar-view:1.7.0'
 }

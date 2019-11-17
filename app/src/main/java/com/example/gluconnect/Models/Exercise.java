@@ -94,4 +94,18 @@ public class Exercise {
     public void setmDistance(Double mDistance) {
         this.mDistance = mDistance;
     }
+
+    @Override
+    public String toString() {
+        return "Exercise{" +
+                "mCaloriesBurnt=" + mCaloriesBurnt +
+                ", mCreatedAt='" + mCreatedAt + '\'' +
+                ", mDuration=" + mDuration +
+                ", mDistance=" + mDistance +
+                ", mExerciseName='" + mExerciseName + '\'' +
+                ", mId=" + mId +
+                ", mUpdatedAt='" + mUpdatedAt + '\'' +
+                ", mUserId=" + mUserId +
+                '}';
+    }
 }

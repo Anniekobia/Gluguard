@@ -29,25 +29,21 @@
                 android:textSize="@dimen/log_headings_textsize"
                 android:textStyle="bold" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/food_items_autocomplete_textinputlayout"
+
+            <AutoCompleteTextView
+                android:id="@+id/food_items_autocomplete_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/meals_textview"
-                android:hint="Search Food">
+                android:inputType="textCapWords"
+                android:hint="Search Food"/>
 
-                <AutoCompleteTextView
-                    android:id="@+id/food_items_autocomplete_textview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/post_food_suggestions_requesttest_scrollview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/food_items_autocomplete_textinputlayout"
+                android:layout_below="@id/food_items_autocomplete_textview"
                 android:visibility="gone">
 
                 <TextView
@@ -121,7 +117,7 @@
                 <TextView
                     android:id="@+id/selected_fooditem"
                     android:layout_width="162dp"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
                     android:padding="5dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -401,7 +397,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="25dp"
-                android:text="Save" />
+                android:text="Save"
+                android:visibility="gone"/>
         </RelativeLayout>
 
 

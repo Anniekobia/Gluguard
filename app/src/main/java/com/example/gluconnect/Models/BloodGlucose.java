@@ -83,4 +83,16 @@ public class BloodGlucose {
         mUserId = userId;
     }
 
+    @Override
+    public String toString() {
+        return "BloodGlucose{" +
+                "mBloodGlucoseType='" + mBloodGlucoseType + '\'' +
+                ", mBloodGlucoseValue=" + mBloodGlucoseValue +
+                ", mCreatedAt='" + mCreatedAt + '\'' +
+                ", mDay='" + mDay + '\'' +
+                ", mId=" + mId +
+                ", mUpdatedAt='" + mUpdatedAt + '\'' +
+                ", mUserId=" + mUserId +
+                '}';
+    }
 }

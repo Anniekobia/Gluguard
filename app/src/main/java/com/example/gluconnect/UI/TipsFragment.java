@@ -100,21 +100,19 @@ public class TipsFragment extends Fragment {
             }
             @Override
             public void onFailure(Call<BloodGlucoseResponse> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG);
-                Log.e(TAG, "Failed" + t.getMessage());
+                Log.e("Get BG",  t.getMessage());
             }
         });
     }
 
     private void getFoodRecommendations(final Float bloodglucose, final String bloodGlucoseType) {
-//        Toast.makeText(getContext(),bloodglucose.toString(),Toast.LENGTH_LONG).show();
         Call<FoodRecommendations> foodRecommendationsCall = laravelAPI.getFoodRecommendations();
         foodRecommendationsCall.enqueue(new Callback<FoodRecommendations>() {
             @Override
             public void onResponse(Call<FoodRecommendations> call, Response<FoodRecommendations> response) {
                 if (!response.isSuccessful()) {
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), "Food Items not picked", Toast.LENGTH_LONG).show();
+                    Log.e("Get Food", "Food Items not picked");
                     return;
                 } else {
                     List<FoodRecommendation> lowGIFoods = new ArrayList<>();
@@ -123,7 +121,6 @@ public class TipsFragment extends Fragment {
                     FoodRecommendations foodRecommendations = response.body();
                     for (FoodRecommendation foodRecommendation: foodRecommendations.getFoodRecommendations()){
                         FoodRecommendation food = new FoodRecommendation(foodRecommendation.getFoodCategory(),foodRecommendation.getFoodName(),foodRecommendation.getServingSize(),foodRecommendation.getGlycemicIndex());
-                        Toast.makeText(getContext(),food.getGlycemicIndex().toString(),Toast.LENGTH_LONG).show();
                         if(food.getGlycemicIndex()<=55){
                             lowGIFoods.add(food);
                         }else if (food.getGlycemicIndex()>55 && food.getGlycemicIndex()<=69){
@@ -160,7 +157,7 @@ public class TipsFragment extends Fragment {
             @Override
             public void onFailure(Call<FoodRecommendations> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e("Failed", t.getMessage());
             }
         });
     }
