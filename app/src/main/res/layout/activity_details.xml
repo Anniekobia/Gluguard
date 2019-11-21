@@ -6,8 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".UI.DetailsActivity">
 
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_details"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="71dp" />
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
     <TextView
         android:id="@+id/more_info_msg"
         android:layout_width="match_parent"
@@ -19,33 +39,9 @@
         android:backgroundTint="#3359df"
         android:padding="15dp"
         android:text="@string/more_information_message"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toStartOf="@+id/include"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="22sp"/>
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-<!--    <EditText-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/birthday"-->
-<!--        android:clickable="true"-->
-<!--        android:hint="Date Of Birth"-->
-<!--        android:layout_marginStart="24dp"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:layout_marginEnd="24dp"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/more_info_msg"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/more_info_msg"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/more_info_msg"/>-->
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -59,9 +55,7 @@
         android:hint="Date of birth"
         android:clickable="true"
         android:focusable="false"
-        app:layout_constraintEnd_toEndOf="@+id/more_info_msg"
-        app:layout_constraintStart_toStartOf="@+id/more_info_msg"
-        app:layout_constraintTop_toBottomOf="@+id/more_info_msg">
+        android:layout_below="@id/more_info_msg">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/dobtxt"
@@ -81,13 +75,12 @@
         android:ems="10"
         android:hint="Gender"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/birthday"
-        app:layout_constraintStart_toStartOf="@+id/birthday"
-        app:layout_constraintTop_toBottomOf="@+id/birthday">
+        android:layout_below="@id/birthday">
 
         <Spinner
             android:id="@+id/gender_spinner"
             android:layout_width="fill_parent"
+            style="@style/Base.Widget.AppCompat.Spinner.Underlined"
             android:layout_height="wrap_content"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -101,9 +94,7 @@
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:hint="@string/weight"
-        app:layout_constraintEnd_toEndOf="@+id/gender"
-        app:layout_constraintStart_toStartOf="@+id/gender"
-        app:layout_constraintTop_toBottomOf="@+id/gender">
+        android:layout_below="@id/gender">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/weighttxt"
@@ -122,9 +113,7 @@
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:hint="@string/height"
-        app:layout_constraintEnd_toEndOf="@+id/weight"
-        app:layout_constraintStart_toStartOf="@+id/weight"
-        app:layout_constraintTop_toBottomOf="@+id/weight">
+        android:layout_below="@id/weight">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/heighttxt"
@@ -143,14 +132,13 @@
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:hint="Activity Level"
-        app:layout_constraintEnd_toEndOf="@+id/height"
-        app:layout_constraintStart_toStartOf="@+id/height"
-        app:layout_constraintTop_toBottomOf="@+id/height">
+        android:layout_below="@id/height">
 
         <Spinner
             android:id="@+id/activity_level_spinner"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            style="@style/Base.Widget.AppCompat.Spinner.Underlined"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -160,32 +148,24 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_corners"
         android:backgroundTint="#3359df"
         android:text="@string/save_and_proceed_btn"
-        app:layout_constraintBottom_toBottomOf="@+id/include"
-        app:layout_constraintEnd_toEndOf="@+id/activity_level"
-        app:layout_constraintStart_toStartOf="@+id/activity_level"
-        app:layout_constraintTop_toBottomOf="@+id/activity_level" />
+        android:layout_below="@id/activity_level" />
 
+    </RelativeLayout>
     <ProgressBar
         android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_centerInParent="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:indeterminate="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:visibility="gone"/>
-
-    <include
-        android:id="@+id/include"
-        layout="@layout/content_details"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="71dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

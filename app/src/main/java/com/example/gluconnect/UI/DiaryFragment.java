@@ -272,8 +272,6 @@ public class DiaryFragment extends Fragment {
                         exe.setVisibility(View.VISIBLE);
                     }else {
                         exe.setVisibility(View.VISIBLE);
-                        distance_metric.setVisibility(View.VISIBLE);
-                        duration_metric.setVisibility(View.VISIBLE);
                         Log.e("Check", exerciseList.toString());
                         exerciseRecordAdapter.notifyDataSetChanged();
                     }

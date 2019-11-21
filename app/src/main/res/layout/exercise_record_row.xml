@@ -33,8 +33,7 @@
         android:textColor="@color/food_category"
         android:text="mins"
         app:layout_constraintStart_toEndOf="@id/duration"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toTopOf="parent"/>
     <TextView
         android:id="@+id/distance"
         android:layout_width="wrap_content"
@@ -50,7 +49,6 @@
         android:textColor="@color/food_category"
         android:text="km"
         app:layout_constraintStart_toEndOf="@id/distance"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -76,8 +76,8 @@ public class AnalyticsFragment extends Fragment {
         recordtxt = myview.findViewById(R.id.bgrecords);
         mLineChart = myview.findViewById(R.id.linechart);
 
-//        drawExampleGraph();
-        getBloodGlucoseLevels();
+        drawExampleGraph();
+//        getBloodGlucoseLevels();
         return myview;
     }
 

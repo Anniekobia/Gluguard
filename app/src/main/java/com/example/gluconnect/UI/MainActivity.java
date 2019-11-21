@@ -2,75 +2,84 @@ package com.example.gluconnect.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.TextView;
 
-import com.example.gluconnect.Models.LoginResponse;
 import com.example.gluconnect.R;
-import com.example.gluconnect.Utils.LaravelAPI;
-import com.example.gluconnect.Utils.LaravelAPIRetrofitClient;
+import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button signinbtn;
-    private TextInputEditText signinemail;
-    private TextInputEditText signpass;
-    private LaravelAPI laravelAPI;
+    private ViewPager viewPager;
+    private TextInputEditText username;
+    private TextInputEditText email;
+    TextInputEditText password;
+    TextInputEditText confirmPassword;
+    TextView errorMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        Retrofit retrofit = LaravelAPIRetrofitClient.getRetrofitClient();
-        laravelAPI = retrofit.create(LaravelAPI.class);
+        viewPager = findViewById(R.id.viewpager);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new FeaturesFragment(), "");
+        adapter.addFragment(new RegisterFragment(), "");
+        viewPager.setAdapter(adapter);
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager, true);
 
-        signinbtn = findViewById(R.id.signin_button);
-        signinemail = findViewById(R.id.signin_email);
-        signpass = findViewById(R.id.signin_password);
-
-        signinbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Call<LoginResponse> loginResponseCall = laravelAPI.login(signinemail.getText().toString(),signpass.getText().toString());
-                loginResponseCall.enqueue(new Callback<LoginResponse>() {
-                    @Override
-                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                        if (!response.isSuccessful()) {
-//                            Toast.makeText(getApplicationContext(),"Code: " + response.code() + "\n" + "Message: " + response.message(),Toast.LENGTH_LONG).show();
-//                            noth
-                        } else {
-                            LoginResponse loginResponse = response.body();
-                            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-                            startActivity(intent);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<LoginResponse> call, Throwable t) {
-//                        Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-        });
-
+        username = findViewById(R.id.username);
+        email= findViewById(R.id.signup_email);
+        errorMsg = findViewById(R.id.error_msg);
+        password = findViewById(R.id.signup_password);
+        confirmPassword = findViewById(R.id.confirm_signup_password);
     }
 
-    public void openRegisterActivity(View view) {
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mList = new ArrayList<>();
+        private final List<String> mTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager supportFragmentManager) {
+            super(supportFragmentManager);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            return mList.get(i);
+        }
+
+        @Override
+        public int getCount() {
+            return mList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mList.add(fragment);
+            mTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mTitleList.get(position);
+        }
     }
+
 }

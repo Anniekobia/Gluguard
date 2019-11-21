@@ -12,6 +12,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 
 import android.util.Log;
 import android.view.View;
@@ -84,32 +85,35 @@ public class DetailsActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void setDOB() {
-        myCalendar = Calendar.getInstance();
-        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
-            }
-
-        };
+//        myCalendar = Calendar.getInstance();
+//        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+//            @Override
+//            public void onDateSet(DatePicker view, int year, int monthOfYear,
+//                                  int dayOfMonth) {
+//                myCalendar.set(Calendar.YEAR, year);
+//                myCalendar.set(Calendar.MONTH, monthOfYear);
+//                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+//                updateLabel();
+//            }
+//
+//        };
         dob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(DetailsActivity.this, date, 2000, 0,
-                        1).show();
+//                new DatePickerDialog(DetailsActivity.this, date, 2000, 0,
+//                        1).show();
+
+                DialogFragment dialogfragment = new DatePickerDialogTheme();
+                dialogfragment.show(getSupportFragmentManager(),"Theme");
             }
         });
     }
 
-    private void updateLabel() {
-        String myFormat = "dd/MM/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
-        dob.setText(sdf.format(myCalendar.getTime()));
-    }
+//    private void updateLabel() {
+//        String myFormat = "dd/MM/yyyy";
+//        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
+//        dob.setText(sdf.format(myCalendar.getTime()));
+//    }
 
     private void setSpinners() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -152,7 +156,6 @@ public class DetailsActivity extends AppCompatActivity implements AdapterView.On
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String item = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
     }
 
     @Override

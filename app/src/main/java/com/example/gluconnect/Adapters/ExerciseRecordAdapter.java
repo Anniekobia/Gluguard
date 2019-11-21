@@ -45,6 +45,7 @@ public class ExerciseRecordAdapter extends RecyclerView.Adapter<ExerciseRecordAd
         Exercise exercise = exercises.get(position);
         holder.exerciseName.setText(exercise.getExerciseName());
         holder.distance.setText(exercise.getmDistance().toString());
+//        Integer duration = Integer.parseInt(exercise.getDuration().toString());
         holder.duration.setText(exercise.getDuration().toString());
     }
 
