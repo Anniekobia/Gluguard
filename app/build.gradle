@@ -54,5 +54,8 @@ dependencies {
     //Calendarview library
     implementation 'com.applandeo:material-calendar-view:1.7.0'
 
+    //circular imageview
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
+
 
 }

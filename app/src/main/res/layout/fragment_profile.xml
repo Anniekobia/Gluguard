@@ -6,19 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".UI.ProfileFragment">
 
-    <ImageView
-        android:id="@+id/profile_photo_imageview"
-        android:layout_width="276dp"
-        android:layout_height="228dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:padding="5dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/profile_icon"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/imegeview_cv"
+        android:layout_width="match_parent"
+        android:layout_height="192dp"
+        app:cardBackgroundColor="#283990"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_photo_imageview"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:clickable="true"
+                android:layout_centerInParent="true"
+                android:src="@drawable/profile"/>
+
+
+
+            <Button
+                android:id="@+id/edit_profile_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit Profile"
+                android:layout_margin="16dp"
+                android:padding="5dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/rounded_corners"
+                android:backgroundTint="#3359df"/>
+
+            <Button
+                android:id="@+id/save_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:layout_margin="16dp"
+                android:padding="5dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/rounded_corners"
+                android:backgroundTint="#3359df"
+                android:visibility="gone"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/profile_username"
@@ -27,58 +62,96 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:text="Username"
-        android:textSize="18dp"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/profile_separator"
-        app:layout_constraintTop_toBottomOf="@+id/profile_separator" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imegeview_cv" />
+
+    <EditText
+        android:id="@+id/profile_username_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:background="@null"
+        android:textColor="#FF000000"
+        android:enabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_username"/>
 
     <TextView
         android:id="@+id/email_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="10dp"
         android:text="Email Address"
-        android:textSize="18dp"
-        app:layout_constraintStart_toStartOf="@+id/profile_username"
-        app:layout_constraintTop_toBottomOf="@+id/profile_username" />
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_username_et" />
 
-
-    <TextView
-        android:id="@+id/phonenumber_textview"
+    <EditText
+        android:id="@+id/email_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@null"
+        android:enabled="false"
+        android:textColor="#FF000000"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="Phonenumber"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toStartOf="@+id/include"
-        app:layout_constraintStart_toStartOf="@+id/email_textview"
-        app:layout_constraintTop_toBottomOf="@+id/email_textview" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_textview"/>
 
     <TextView
         android:id="@+id/hospital_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:text="Hospital"
-        android:textSize="18dp"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/phonenumber_textview"
-        app:layout_constraintTop_toBottomOf="@+id/phonenumber_textview" />
-
-
-    <View
-        android:id="@+id/profile_separator"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="16dp"
-        android:background="#C4C0C0"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_photo_imageview" />
+        app:layout_constraintTop_toBottomOf="@+id/email_et" />
+
+    <EditText
+        android:id="@+id/hospital_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:enabled="false"
+        android:textColor="#FF000000"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hospital_textview"/>
+
+    <TextView
+        android:id="@+id/password_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:text="Password"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hospital_et" />
+
+    <EditText
+        android:id="@+id/password_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:enabled="false"
+        android:textColor="#FF000000"
+        android:inputType="textPassword"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_textview"/>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

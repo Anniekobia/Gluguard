@@ -1,6 +1,5 @@
 package com.example.gluconnect.UI;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.gluconnect.R;
@@ -13,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.MenuItem;
-import android.view.View;
 
 public class DailyLogsActivity extends AppCompatActivity {
 
@@ -24,7 +22,7 @@ public class DailyLogsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_logs);
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Dairy");
+        toolbar.setTitle("Diary");
         setSupportActionBar(toolbar);
         loadFragment(new DiaryFragment());
 

@@ -1,6 +1,7 @@
 package com.example.gluconnect.UI;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -80,11 +82,15 @@ public class DiaryFragment extends Fragment {
     private MealRecordAdapter mealRecordAdapter;
     private List<Exercise> exerciseList = new ArrayList<>();
     private ExerciseRecordAdapter exerciseRecordAdapter;
-    private TextView bg,bgmsg,meal,mealsmsg,exe,exemsg,duration_metric,distance_metric;
+    private TextView bg,bgmsg,meal,mealsmsg,exe,exemsg,duration_metric,distance_metric,dailyCalories,dayCalories,dayCaloriesMetic;
+    private SharedPreferences sharedPreferences;
+    private ProgressBar progressBar;
+    private Float initialDayCalories;
+    Integer userID;
 
 
     public DiaryFragment() {
-        // Required empty public constructor
+
     }
 
 
@@ -94,6 +100,7 @@ public class DiaryFragment extends Fragment {
 
         Retrofit retrofitl = LaravelAPIRetrofitClient.getRetrofitClient();
         laravelAPI = retrofitl.create(LaravelAPI.class);
+        sharedPreferences= getContext().getSharedPreferences("MyPreferences", 0);
 
         calendarView = myView.findViewById(R.id.calenderview);
         datetxtview = myView.findViewById(R.id.dateView);
@@ -126,7 +133,12 @@ public class DiaryFragment extends Fragment {
         exercise_rv.setAdapter(exerciseRecordAdapter);
         exemsg = myView.findViewById(R.id.exercisemsg);
         exe = myView.findViewById(R.id.exercises);
-
+        dailyCalories =myView.findViewById(R.id.daily_calorie_txt);
+        progressBar = myView.findViewById(R.id.progressBar);
+        dayCalories =myView.findViewById(R.id.dayCaloriesValue);
+        dayCaloriesMetic = myView.findViewById(R.id.dayCaloriesmetric);
+        initialDayCalories = 0f;
+        userID  = sharedPreferences.getInt("UserID", 1);
 
         setCurrentDate();
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -147,14 +159,18 @@ public class DiaryFragment extends Fragment {
                 exerciseList.clear();
                 exemsg.setVisibility(View.GONE);
                 exerciseRecordAdapter.notifyDataSetChanged();
+                dayCalories.setVisibility(View.GONE);
+                dayCaloriesMetic.setVisibility(View.GONE);
+                initialDayCalories = 0f;
                 SimpleDateFormat f = new SimpleDateFormat("YYYY-MM-dd");
                 String datePicked = f.format(date.getTime());
                 Log.e("Date Formatted 2", datePicked);
                 getBloodGlucoseLevels(datePicked);
-                getMealRecords(datePicked);
-                getExerciseRecords(datePicked);
             }
         });
+        Long calories = sharedPreferences.getLong("Daily Calorie Requirement", 0L);
+        dailyCalories.setText(calories.toString());
+
         return myView;
     }
 
@@ -169,26 +185,31 @@ public class DiaryFragment extends Fragment {
         String datePicked = f.format(cal.getTime());
         Log.e("Date Formatted", datePicked);
         getBloodGlucoseLevels(datePicked);
-        getMealRecords(datePicked);
-        getExerciseRecords(datePicked);
+//        getExerciseRecords(datePicked);
+//        getMealRecords(datePicked);
+
+        dayCalories.setVisibility(View.GONE);
+        dayCaloriesMetic.setVisibility(View.GONE);
+        initialDayCalories = 0f;
     }
 
     private void getBloodGlucoseLevels(final String selectedDay) {
-//        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
         Call<BloodGlucoseResponse> bloodGlucoseResponseCall = laravelAPI.getBloodGlucoseLevel();
         bloodGlucoseResponseCall.enqueue(new Callback<BloodGlucoseResponse>() {
             @Override
             public void onResponse(Call<BloodGlucoseResponse> call, Response<BloodGlucoseResponse> response) {
                 if (!response.isSuccessful()) {
-//                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                     Log.e("BG", "BG unsuccessful");
                     return;
                 } else {
+//                    progressBar.setVisibility(View.GONE);
                     BloodGlucoseResponse bloodGlucoseResponse = response.body();
                     for (BloodGlucose bloodGlucose : bloodGlucoseResponse.getBloodGlucoseRecords()) {
                         String day = bloodGlucose.getDay();
                         Log.e("BGw", bloodGlucose.toString());
-                        if (selectedDay.equals(day)){
+                        if (selectedDay.equals(day)&&userID==bloodGlucose.getUserId().intValue()){
                             bloodGlucoseList.add(bloodGlucose);
                         }
                     }
@@ -200,6 +221,7 @@ public class DiaryFragment extends Fragment {
                         Log.e("Check",bloodGlucoseList.toString());
                         bloodGlucoseRecordAdapter.notifyDataSetChanged();
                     }
+                    getMealRecords(selectedDay);
                 }
             }
 
@@ -217,16 +239,19 @@ public class DiaryFragment extends Fragment {
             @Override
             public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
                 if (!response.isSuccessful()) {
-//                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                     Log.e("BG", "BG unsuccessful");
                     return;
                 } else {
                     MealResponse mealResponse = response.body();
                     for (Meal meal : mealResponse.getMeals()) {
+//                        progressBar.setVisibility(View.GONE);
                         String day = meal.getDay();
                         Log.e("BGw", meal.toString());
-                        if (selectedDay.equals(day)){
+                        if (selectedDay.equals(day)&&userID==meal.getUserId().intValue()){
                             mealList.add(meal);
+                            Float mealCals = meal.getCalories();
+                            initialDayCalories = initialDayCalories + mealCals;
                         }
                     }
                     if (mealList.isEmpty()){
@@ -237,7 +262,11 @@ public class DiaryFragment extends Fragment {
                         meal.setVisibility(View.VISIBLE);
                         Log.e("Check", mealList.toString());
                         mealRecordAdapter.notifyDataSetChanged();
+                        dayCalories.setVisibility(View.VISIBLE);
+                        dayCaloriesMetic.setVisibility(View.VISIBLE);
+                        dayCalories.setText(initialDayCalories.toString());
                     }
+                    getExerciseRecords(selectedDay);
                 }
             }
 
@@ -255,16 +284,19 @@ public class DiaryFragment extends Fragment {
             @Override
             public void onResponse(Call<ExerciseResponse> call, Response<ExerciseResponse> response) {
                 if (!response.isSuccessful()) {
-//                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                     Log.e("BG", "BG unsuccessful");
                     return;
                 } else {
+                    progressBar.setVisibility(View.GONE);
                     ExerciseResponse exerciseResponse = response.body();
                     for (Exercise exercise : exerciseResponse.getExercises()) {
                         String day = exercise.getmDay();
                         Log.e("BGw", exercise.toString());
-                        if (selectedDay.equals(day)) {
+                        if (selectedDay.equals(day)&&userID==exercise.getUserId().intValue()) {
                             exerciseList.add(exercise);
+                            Float exeCals = exercise.getCaloriesBurnt().floatValue();
+                            initialDayCalories = initialDayCalories - exeCals;
                         }
                     }
                     if (exerciseList.isEmpty()){
@@ -274,7 +306,11 @@ public class DiaryFragment extends Fragment {
                         exe.setVisibility(View.VISIBLE);
                         Log.e("Check", exerciseList.toString());
                         exerciseRecordAdapter.notifyDataSetChanged();
+                        dayCalories.setVisibility(View.VISIBLE);
+                        dayCaloriesMetic.setVisibility(View.VISIBLE);
+                        dayCalories.setText(initialDayCalories.toString());
                     }
+
                 }
             }
 

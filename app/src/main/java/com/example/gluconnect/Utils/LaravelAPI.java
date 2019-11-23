@@ -8,6 +8,7 @@ import com.example.gluconnect.Models.FoodRecommendations;
 import com.example.gluconnect.Models.LoginResponse;
 import com.example.gluconnect.Models.Meal;
 import com.example.gluconnect.Models.MealResponse;
+import com.example.gluconnect.Models.RegisterPOST;
 import com.example.gluconnect.Models.RegisterResponse;
 import com.example.gluconnect.Models.UserDetails;
 
@@ -55,22 +56,25 @@ public interface LaravelAPI {
     @POST("daily/exercise")
     Call<Exercise> recordExerciseData(@Body Exercise exercise);
 
-
-
-
     @Headers({"Content-Type: application/json"})
-    @POST("login")
-    Call<LoginResponse> login(@Query("email") String email, @Query("password") String password);
+    @POST("auth/signup")
+    Call<RegisterResponse> register(@Body RegisterPOST registerPOST);
 
-    @Headers({"Content-Type: application/json"})
-    @POST("register")
-    Call<RegisterResponse> register(@Query("name") String name,
-                                    @Query("email") String email,
-                                    @Query("password") String password,
-                                    @Query("gender") char gender,
-                                    @Query("height") double height,
-                                    @Query("weight") double weight,
-                                    @Query("activity_level") String activity_level,
-                                    @Query("date_of_birth") Date date_of_birth );
+
+
+//    @Headers({"Content-Type: application/json"})
+//    @POST("login")
+//    Call<LoginResponse> login(@Query("email") String email, @Query("password") String password);
+//
+//    @Headers({"Content-Type: application/json"})
+//    @POST("register")
+//    Call<RegisterResponse> register(@Query("name") String name,
+//                                    @Query("email") String email,
+//                                    @Query("password") String password,
+//                                    @Query("gender") char gender,
+//                                    @Query("height") double height,
+//                                    @Query("weight") double weight,
+//                                    @Query("activity_level") String activity_level,
+//                                    @Query("date_of_birth") Date date_of_birth );
 
 }

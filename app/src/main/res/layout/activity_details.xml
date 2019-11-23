@@ -24,148 +24,177 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-    <TextView
-        android:id="@+id/more_info_msg"
-        android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/rounded_corners"
-        android:backgroundTint="#3359df"
-        android:padding="15dp"
-        android:text="@string/more_information_message"
-        android:textSize="22sp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/birthday"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:ems="10"
-        android:hint="Date of birth"
-        android:clickable="true"
-        android:focusable="false"
-        android:layout_below="@id/more_info_msg">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/dobtxt"
-            android:inputType="date"
+        <TextView
+            android:id="@+id/error_msg"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/gender"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:ems="10"
-        android:hint="Gender"
-        android:inputType="textPersonName"
-        android:layout_below="@id/birthday">
-
-        <Spinner
-            android:id="@+id/gender_spinner"
-            android:layout_width="fill_parent"
-            style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-            android:layout_height="wrap_content"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/weight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:ems="10"
-        android:hint="@string/weight"
-        android:layout_below="@id/gender">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/weighttxt"
-            android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/height"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:ems="10"
-        android:hint="@string/height"
-        android:layout_below="@id/weight">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/heighttxt"
-            android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/activity_level"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:ems="10"
-        android:hint="Activity Level"
-        android:layout_below="@id/height">
-
-        <Spinner
-            android:id="@+id/activity_level_spinner"
-            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            style="@style/Base.Widget.AppCompat.Spinner.Underlined"/>
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="center"
+            android:visibility="gone"
+            android:textColor="#ed2648"
+            android:layout_marginBottom="40dp"
+            android:textSize="16dp"/>
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/more_info_msg"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_below="@id/error_msg"
+            android:background="@drawable/rounded_corners"
+            android:backgroundTint="#3359df"
+            android:padding="15dp"
+            android:text="@string/more_information_message"
+            android:textSize="22sp" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/rounded_corners"
-        android:backgroundTint="#3359df"
-        android:text="@string/save_and_proceed_btn"
-        android:layout_below="@id/activity_level" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/birthday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/more_info_msg"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:clickable="true"
+            android:ems="10"
+            android:focusable="false"
+            android:hint="Date of birth">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/dobtxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/birthday"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:ems="10"
+            android:inputType="textPersonName">
+
+            <Spinner
+                android:id="@+id/gender_spinner"
+                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gender"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:ems="10"
+            android:hint="@string/weight">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/weighttxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/height"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/weight"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:ems="10"
+            android:hint="@string/height">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/heighttxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/activity_level"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/height"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:ems="10">
+
+            <Spinner
+                android:id="@+id/activity_level_spinner"
+                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/hospital_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_level"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:ems="10">
+
+            <Spinner
+                android:id="@+id/hospital_spinner"
+                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hospital_textview"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_corners"
+            android:backgroundTint="#3359df"
+            android:text="@string/save_and_proceed_btn" />
 
     </RelativeLayout>
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

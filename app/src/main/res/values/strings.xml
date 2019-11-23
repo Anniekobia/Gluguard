@@ -44,6 +44,12 @@
         <item>Extra Active</item>
     </string-array>
 
+    <string-array name="hospital_array">
+        <item>Aga khan Hospital</item>
+        <item>Nairobi Hospital</item>
+        <item>Kenyatta National Hospital</item>
+    </string-array>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -41,30 +41,30 @@ public class LoginActivity extends AppCompatActivity {
         signinemail = findViewById(R.id.signin_email);
         signpass = findViewById(R.id.signin_password);
 
-        signinbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Call<LoginResponse> loginResponseCall = laravelAPI.login(signinemail.getText().toString(),signpass.getText().toString());
-                loginResponseCall.enqueue(new Callback<LoginResponse>() {
-                    @Override
-                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                        if (!response.isSuccessful()) {
-//                            Toast.makeText(getApplicationContext(),"Code: " + response.code() + "\n" + "Message: " + response.message(),Toast.LENGTH_LONG).show();
-//                            noth
-                        } else {
-                            LoginResponse loginResponse = response.body();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<LoginResponse> call, Throwable t) {
-//                        Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-        });
+//        signinbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final Call<LoginResponse> loginResponseCall = laravelAPI.login(signinemail.getText().toString(),signpass.getText().toString());
+//                loginResponseCall.enqueue(new Callback<LoginResponse>() {
+//                    @Override
+//                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+//                        if (!response.isSuccessful()) {
+////                            Toast.makeText(getApplicationContext(),"Code: " + response.code() + "\n" + "Message: " + response.message(),Toast.LENGTH_LONG).show();
+////                            noth
+//                        } else {
+//                            LoginResponse loginResponse = response.body();
+//                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                            startActivity(intent);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+////                        Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_LONG).show();
+//                    }
+//                });
+//            }
+//        });
 
     }
 

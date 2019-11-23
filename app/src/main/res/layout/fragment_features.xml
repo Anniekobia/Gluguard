@@ -9,23 +9,83 @@
     <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="20dp">
 
-        <TextView
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Application features"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="16dp"
-            android:text="Swipe right"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <ImageView
+                android:id="@+id/logIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logs"/>
+
+            <TextView
+                android:id="@+id/logTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_toRightOf="@+id/logIV"
+                android:text="Record your daily data and share them directly with your doctor"
+                android:layout_marginTop="20dp"/>
+
+            <ImageView
+                android:id="@+id/tipsIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/tips"
+                android:layout_below="@id/logIV"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/tipsTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Receive recommendations on meals to eat to regulate your blood glucose level"
+                android:layout_toRightOf="@+id/tipsIV"
+                android:layout_below="@id/logIV"
+                android:layout_marginTop="50dp"/>
+
+            <ImageView
+                android:id="@+id/analyticsIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/history2"
+                android:layout_below="@id/tipsIV"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/analyticsTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View the history of your records"
+                android:layout_toRightOf="@+id/tipsIV"
+                android:layout_below="@id/tipsIV"
+                android:layout_marginTop="50dp"/>
+
+            <ImageView
+                android:id="@+id/historyIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/analytics"
+                android:layout_below="@id/analyticsIV"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/historyTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Get analytics of your blood glucose level"
+                android:layout_toRightOf="@+id/tipsIV"
+                android:layout_below="@id/analyticsIV"
+                android:layout_marginTop="50dp"/>
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

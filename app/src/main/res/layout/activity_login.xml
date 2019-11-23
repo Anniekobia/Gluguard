@@ -58,7 +58,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/rounded_corners"
-            android:backgroundTint="#ed2648"
+            android:backgroundTint="#3359df"
             android:layout_below="@id/textPass"
             android:text="@string/sign_in" />
 

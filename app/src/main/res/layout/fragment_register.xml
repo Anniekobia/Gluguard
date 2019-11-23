@@ -55,6 +55,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/signup_email"
+                android:inputType="textEmailAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -106,7 +107,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/rounded_corners"
-            android:backgroundTint="#ed2648"
+            android:backgroundTint="#3359df"
             android:text="@string/sign_up" />
 
         <TextView

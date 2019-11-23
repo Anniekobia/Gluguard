@@ -76,12 +76,22 @@ public class AnalyticsFragment extends Fragment {
         recordtxt = myview.findViewById(R.id.bgrecords);
         mLineChart = myview.findViewById(R.id.linechart);
 
-        drawExampleGraph();
+
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMM d");
+        String date = sdf.format(cal.getTime());
+        Log.e("Date ", date);
+
+        SimpleDateFormat f = new SimpleDateFormat("YYYY-MM-dd");
+        String datePicked = f.format(cal.getTime());
+        Log.e("Date Formatted", datePicked);
+        getBloodGlucoseLevels(datePicked);
 //        getBloodGlucoseLevels();
+        drawExampleGraph();
         return myview;
     }
 
-    private void getBloodGlucoseLevels() {
+    private void getBloodGlucoseLevels(final String selectedDay) {
 
         Call<BloodGlucoseResponse> bloodGlucoseResponseCall = laravelAPI.getBloodGlucoseLevel();
         bloodGlucoseResponseCall.enqueue(new Callback<BloodGlucoseResponse>() {
@@ -95,9 +105,11 @@ public class AnalyticsFragment extends Fragment {
                 BloodGlucoseResponse bloodGlucoseResponse = response.body();
                 for (BloodGlucose bloodGlucose : bloodGlucoseResponse.getBloodGlucoseRecords()) {
                     records = records.concat(bloodGlucose.getBloodGlucoseValue() + bloodGlucose.getDay() + bloodGlucose.getCreatedAt() + "\t");
-
-                    dateString.add(bloodGlucose.getCreatedAt());
-                    bgLeveValues.add(bloodGlucose.getBloodGlucoseValue());
+                    String day = bloodGlucose.getDay();
+                    if (day.equals(selectedDay)){
+                        dateString.add(bloodGlucose.getCreatedAt());
+                        bgLeveValues.add(bloodGlucose.getBloodGlucoseValue());
+                    }
                 }
                 try {
                     timeInMillis = TimeToMilliseconds(dateString);

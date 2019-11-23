@@ -2,6 +2,7 @@ package com.example.gluconnect.UI;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.gluconnect.Models.UserDetails;
@@ -22,6 +23,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -42,8 +44,11 @@ public class DetailsActivity extends AppCompatActivity implements AdapterView.On
     Calendar myCalendar;
     Spinner spinner_gender;
     Spinner spinner_activity_level;
+    Spinner spinner_hospital;
     LaravelAPI laravelAPI;
     ProgressBar progressBar;
+    TextView errorMsg;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,8 @@ public class DetailsActivity extends AppCompatActivity implements AdapterView.On
 
         Retrofit retrofit = LaravelAPIRetrofitClient.getRetrofitClient();
         laravelAPI = retrofit.create(LaravelAPI.class);
+        sharedPreferences= getApplicationContext().getSharedPreferences("MyPreferences", 0); // 0 - for private mode
+
 
         btn = findViewById(R.id.button);
         dob = findViewById(R.id.dobtxt);
@@ -61,7 +68,9 @@ public class DetailsActivity extends AppCompatActivity implements AdapterView.On
         height = findViewById(R.id.heighttxt);
         spinner_gender = findViewById(R.id.gender_spinner);
         spinner_activity_level = findViewById(R.id.activity_level_spinner);
+        spinner_hospital = findViewById(R.id.hospital_spinner);
         progressBar = findViewById(R.id.progressBar);
+        errorMsg = findViewById(R.id.error_msg);
 
         setDOB();
         setSpinners();
@@ -73,48 +82,29 @@ public class DetailsActivity extends AppCompatActivity implements AdapterView.On
                 String dobU = dob.getText().toString();
                 String gender = spinner_gender.getSelectedItem().toString();
                 String activity_level = spinner_activity_level.getSelectedItem().toString();
-                if (weightU.isEmpty()||heightU.isEmpty()||dobU.isEmpty()||gender.isEmpty()||activity_level.isEmpty()){
-                    Toast.makeText(getApplicationContext(),"Please fill in all the details",Toast.LENGTH_LONG).show();
+                String hospital = spinner_hospital.getSelectedItem().toString();
+                if (weightU.isEmpty()||heightU.isEmpty()||dobU.isEmpty()||gender.isEmpty()||activity_level.isEmpty()||hospital.isEmpty()){
+                    errorMsg.setText("Please fill in all the details");
+                    errorMsg.setVisibility(View.VISIBLE);
                 }else {
                     Log.e("Activity",activity_level);
                     Log.e("DOB",dobU);
-                    saveUserDetails(weightU,heightU,dobU,gender,activity_level);
+                    saveUserDetails(weightU,heightU,dobU,gender,activity_level,hospital);
                 }
             }
         });
+
     }
 
     private void setDOB() {
-//        myCalendar = Calendar.getInstance();
-//        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker view, int year, int monthOfYear,
-//                                  int dayOfMonth) {
-//                myCalendar.set(Calendar.YEAR, year);
-//                myCalendar.set(Calendar.MONTH, monthOfYear);
-//                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-//                updateLabel();
-//            }
-//
-//        };
         dob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                new DatePickerDialog(DetailsActivity.this, date, 2000, 0,
-//                        1).show();
-
                 DialogFragment dialogfragment = new DatePickerDialogTheme();
                 dialogfragment.show(getSupportFragmentManager(),"Theme");
             }
         });
     }
-
-//    private void updateLabel() {
-//        String myFormat = "dd/MM/yyyy";
-//        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
-//        dob.setText(sdf.format(myCalendar.getTime()));
-//    }
-
     private void setSpinners() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.gender_array, android.R.layout.simple_spinner_item);
@@ -127,11 +117,19 @@ public class DetailsActivity extends AppCompatActivity implements AdapterView.On
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_activity_level.setAdapter(adapter1);
         spinner_activity_level.setOnItemSelectedListener(this);
+
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
+                R.array.hospital_array, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_hospital.setAdapter(adapter2);
+        spinner_hospital.setOnItemSelectedListener(this);
     }
 
-    private void saveUserDetails(String weightU, String heightU, String dobU, String gender, String activity_level) {
+    private void saveUserDetails(String weightU, String heightU, String dobU, String gender, String activity_level,String hospital) {
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
         progressBar.setVisibility(View.VISIBLE);
-        Call<UserDetails> userDetailsCall = laravelAPI.saveUserDetails(new UserDetails(1L,activity_level,dobU,gender,heightU,weightU));
+        Integer userID = sharedPreferences.getInt("UserID", 1);
+        Call<UserDetails> userDetailsCall = laravelAPI.saveUserDetails(new UserDetails(Long.parseLong(userID.toString()),activity_level,dobU,gender,heightU,weightU,hospital));
         userDetailsCall.enqueue(new Callback<UserDetails>() {
             @Override
             public void onResponse(Call<UserDetails> call, Response<UserDetails> response) {
@@ -141,6 +139,16 @@ public class DetailsActivity extends AppCompatActivity implements AdapterView.On
                 }
                 else {
                     progressBar.setVisibility(View.GONE);
+                    UserDetails userDetails = response.body();
+
+                    editor.putString("Gender",userDetails.getGender());
+                    editor.putString("Activity Level",userDetails.getActivityLevel());
+                    editor.putString("Weight",userDetails.getWeight());
+                    editor.putString("Height",userDetails.getHeight());
+                    editor.putString("Date of Birth",userDetails.getDateOfBirth());
+                    editor.putString("Hospital",userDetails.getmHospital());
+                    editor.putLong("Daily Calorie Requirement",userDetails.getDailyCalories().longValue());
+                    editor.commit();
                     Intent intent = new Intent(DetailsActivity.this,DailyLogsActivity.class);
                     startActivity(intent);
                 }

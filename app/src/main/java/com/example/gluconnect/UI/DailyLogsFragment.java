@@ -1,5 +1,6 @@
 package com.example.gluconnect.UI;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -91,6 +92,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
     private Button exeSaveBtn;
     private TextView exercise_calories_metrics_txtview;
     private TextView exercise_calories_txtview;
+    private SharedPreferences sharedPreferences;
 
     //    private Button bgNextBtn;
     public DailyLogsFragment() {
@@ -109,6 +111,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
         laravelAPI = retrofit.create(LaravelAPI.class);
         Retrofit retrofit1 = NutritionixAPIRetrofitClient.getRetrofitClient();
         nutritionixAPI = retrofit1.create(NutritionixAPI.class);
+        sharedPreferences= getContext().getSharedPreferences("MyPreferences", 0);
 
         saveDailyLogsBtn = myView.findViewById(R.id.save_logs_btn);
         bloodGlucoseLevelEditText = myView.findViewById(R.id.blood_glucose_level_edittext);
@@ -363,7 +366,8 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                         distance = "0";
                         duration = "1";
                     }
-                    Exercise newExercise = new Exercise(Double.parseDouble(calories),Double.parseDouble(duration),Double.parseDouble(distance),exercise,1l);
+                    Integer userID = sharedPreferences.getInt("UserID", 1);
+                    Exercise newExercise = new Exercise(Double.parseDouble(calories),Double.parseDouble(duration),Double.parseDouble(distance),exercise,userID.longValue());
                     recordExerciseData(newExercise);
                 }
             case R.id.save_logs_btn:
@@ -373,12 +377,13 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
     }
 
     private void recordMealData() {
+        Integer userID = sharedPreferences.getInt("UserID", 1);
         progressBar.setVisibility(View.VISIBLE);
         String name = selected_food_item.getText().toString();
         String time = selectedMealTime();
         Float calories = Float.parseFloat(selectedFoodItemCalories.getText().toString());
         Float quantity = Float.parseFloat(selectedFoodItemQuantity.getText().toString());
-        Call<Meal> mealCall = laravelAPI.recordMealData(new Meal(calories, name, time, quantity, 1L));
+        Call<Meal> mealCall = laravelAPI.recordMealData(new Meal(calories, name, time, quantity, userID.longValue()));
         mealCall.enqueue(new Callback<Meal>() {
             @Override
             public void onResponse(Call<Meal> call, Response<Meal> response) {
@@ -408,11 +413,12 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
     }
 
     private void recordBloodGlucoseLevel() {
+        Integer userID = sharedPreferences.getInt("UserID", 1);
         progressBar.setVisibility(View.VISIBLE);
         final Float bgValue = Float.parseFloat(bloodGlucoseLevelEditText.getText().toString());
         String bgTime = selectedBloodGlucoseTime();
         Call<BloodGlucose> bloodGlucoseCall = laravelAPI.recordBloodGlucoseLevel(new BloodGlucose(
-                bgTime, bgValue, 1L));
+                bgTime, bgValue, userID.longValue()));
         bloodGlucoseCall.enqueue(new Callback<BloodGlucose>() {
             @Override
             public void onResponse(Call<BloodGlucose> call, Response<BloodGlucose> response) {

@@ -18,6 +18,8 @@ public class UserDetails {
     private String mGender;
     @SerializedName("height")
     private String mHeight;
+    @SerializedName("hospital")
+    private String mHospital;
     @SerializedName("id")
     private Long mId;
     @SerializedName("updated_at")
@@ -27,13 +29,14 @@ public class UserDetails {
     @SerializedName("weight")
     private String mWeight;
 
-    public UserDetails(Long user_id,String mActivityLevel, String mDateOfBirth, String mGender, String mHeight, String mWeight) {
+    public UserDetails(Long user_id,String mActivityLevel, String mDateOfBirth, String mGender, String mHeight, String mWeight,String hospital) {
         this.mUserId = user_id;
         this.mActivityLevel = mActivityLevel;
         this.mDateOfBirth = mDateOfBirth;
         this.mGender = mGender;
         this.mHeight = mHeight;
         this.mWeight = mWeight;
+        this.mHospital = hospital;
     }
 
     public String getActivityLevel() {
@@ -116,6 +119,14 @@ public class UserDetails {
         mWeight = weight;
     }
 
+    public String getmHospital() {
+        return mHospital;
+    }
+
+    public void setmHospital(String mHospital) {
+        this.mHospital = mHospital;
+    }
+
     @Override
     public String toString() {
         return "UserDetails{" +
@@ -129,6 +140,7 @@ public class UserDetails {
                 ", mUpdatedAt='" + mUpdatedAt + '\'' +
                 ", mUserId='" + mUserId + '\'' +
                 ", mWeight='" + mWeight + '\'' +
+                ", mHospital='" + mHospital + '\'' +
                 '}';
     }
 }
