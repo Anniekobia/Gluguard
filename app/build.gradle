@@ -57,5 +57,8 @@ dependencies {
     //circular imageview
     implementation 'de.hdodenhof:circleimageview:3.0.1'
 
+    //toolbar
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+
 
 }

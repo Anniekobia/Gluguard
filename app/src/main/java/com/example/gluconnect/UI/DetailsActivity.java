@@ -1,11 +1,10 @@
 package com.example.gluconnect.UI;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.example.gluconnect.Models.UserDetails;
+import com.example.gluconnect.Models.UserDetailsN;
 import com.example.gluconnect.R;
 import com.example.gluconnect.Utils.LaravelAPI;
 import com.example.gluconnect.Utils.LaravelAPIRetrofitClient;
@@ -20,15 +19,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -129,32 +124,32 @@ public class DetailsActivity extends AppCompatActivity implements AdapterView.On
         final SharedPreferences.Editor editor = sharedPreferences.edit();
         progressBar.setVisibility(View.VISIBLE);
         Integer userID = sharedPreferences.getInt("UserID", 1);
-        Call<UserDetails> userDetailsCall = laravelAPI.saveUserDetails(new UserDetails(Long.parseLong(userID.toString()),activity_level,dobU,gender,heightU,weightU,hospital));
-        userDetailsCall.enqueue(new Callback<UserDetails>() {
+        Call<UserDetailsN> userDetailsCall = laravelAPI.saveUserDetails(new UserDetailsN(Long.parseLong(userID.toString()),activity_level,dobU,gender,heightU,weightU,hospital));
+        userDetailsCall.enqueue(new Callback<UserDetailsN>() {
             @Override
-            public void onResponse(Call<UserDetails> call, Response<UserDetails> response) {
+            public void onResponse(Call<UserDetailsN> call, Response<UserDetailsN> response) {
                 if (!response.isSuccessful()){
                     progressBar.setVisibility(View.GONE);
                     Log.e("Not Successful:", "Not Details not saved");
                 }
                 else {
                     progressBar.setVisibility(View.GONE);
-                    UserDetails userDetails = response.body();
+                    UserDetailsN userDetailsN = response.body();
 
-                    editor.putString("Gender",userDetails.getGender());
-                    editor.putString("Activity Level",userDetails.getActivityLevel());
-                    editor.putString("Weight",userDetails.getWeight());
-                    editor.putString("Height",userDetails.getHeight());
-                    editor.putString("Date of Birth",userDetails.getDateOfBirth());
-                    editor.putString("Hospital",userDetails.getmHospital());
-                    editor.putLong("Daily Calorie Requirement",userDetails.getDailyCalories().longValue());
+                    editor.putString("Gender", userDetailsN.getGender());
+                    editor.putString("Activity Level", userDetailsN.getActivityLevel());
+                    editor.putString("Weight", userDetailsN.getWeight());
+                    editor.putString("Height", userDetailsN.getHeight());
+                    editor.putString("Date of Birth", userDetailsN.getDateOfBirth());
+                    editor.putString("Hospital", userDetailsN.getmHospital());
+                    editor.putLong("Daily Calorie Requirement", userDetailsN.getDailyCalories().longValue());
                     editor.commit();
                     Intent intent = new Intent(DetailsActivity.this,DailyLogsActivity.class);
                     startActivity(intent);
                 }
             }
             @Override
-            public void onFailure(Call<UserDetails> call, Throwable t) {
+            public void onFailure(Call<UserDetailsN> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 Log.e("Error here:", t.getMessage());
             }

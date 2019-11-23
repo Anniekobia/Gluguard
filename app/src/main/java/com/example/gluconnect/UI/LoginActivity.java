@@ -4,11 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.example.gluconnect.Models.Error;
 import com.example.gluconnect.Models.LoginPost;
 import com.example.gluconnect.Models.LoginResponse;
-import com.example.gluconnect.Models.RegisterPOST;
-import com.example.gluconnect.Models.RegisterResponse;
 import com.example.gluconnect.Models.UserDetailResponse;
 import com.example.gluconnect.R;
 import com.example.gluconnect.Utils.LaravelAPI;
@@ -24,8 +21,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -80,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
             errormsg.setText("Please fill in all the fields");
             errormsg.setVisibility(View.VISIBLE);
         } else {
-            LoginPost loginPost = new LoginPost(emailu,pwd);
+            LoginPost loginPost = new LoginPost(pwd,emailu);
             LoginUser(loginPost);
             errormsg.setText("");
             errormsg.setVisibility(View.GONE);
@@ -96,15 +91,16 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse loginResponse = response.body();
-                Log.e("log",loginResponse.getStatus().toString());
                 if (loginResponse.getStatus()==0) {
                     errormsg.setText(loginResponse.getMessage());
                     errormsg.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(GONE);
                 } else {
                     int userid = loginResponse.getUser().getId().intValue();
                     editor.putString("Username",loginResponse.getUser().getUsername());
                     editor.putString("Email",loginResponse.getUser().getEmail());
                     editor.putString("Password",signpass.getText().toString());
+                    editor.commit();
 
                     getUserDetails(userid);
                     signinemail.setText("");
@@ -121,19 +117,21 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public  void getUserDetails(Integer userid){
+//        UserID userID = new UserID(userid);
         Call<UserDetailResponse> userDetailResponseCall = laravelAPI.getUserDetails(userid);
         userDetailResponseCall.enqueue(new Callback<UserDetailResponse>() {
             @Override
             public void onResponse(Call<UserDetailResponse> call, Response<UserDetailResponse> response) {
                 UserDetailResponse userDetailResponse = response.body();
                 progressBar.setVisibility(GONE);
-                if (userDetailResponse.getSuccess()!=0) {
+                if (userDetailResponse.getSuccess()==0) {
                     errormsg.setText("Something went wrong, try again later");
                     errormsg.setVisibility(View.VISIBLE);
                 } else {
 
+//                        Log.e("UserDets",userDetailResponse.getUserDetails().toString());
                     editor.putInt("UserID",userDetailResponse.getUserDetails().getUserId().intValue());
-                    editor.putString("Hospital",userDetailResponse.getUserDetails().getmHospital());
+                    editor.putString("Hospital",userDetailResponse.getUserDetails().getHospital());
                     editor.commit();
 
                     Intent intent = new Intent(getApplicationContext(), DailyLogsActivity.class);
@@ -151,8 +149,4 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void openRegisterActivity(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
 }

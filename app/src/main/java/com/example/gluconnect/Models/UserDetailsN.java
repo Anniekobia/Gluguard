@@ -4,7 +4,7 @@ package com.example.gluconnect.Models;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("unused")
-public class UserDetails {
+public class UserDetailsN {
 
     @SerializedName("activity_level")
     private String mActivityLevel;
@@ -17,7 +17,7 @@ public class UserDetails {
     @SerializedName("gender")
     private String mGender;
     @SerializedName("height")
-    private Long mHeight;
+    private String mHeight;
     @SerializedName("hospital")
     private String mHospital;
     @SerializedName("id")
@@ -27,7 +27,17 @@ public class UserDetails {
     @SerializedName("user_id")
     private Long mUserId;
     @SerializedName("weight")
-    private Long mWeight;
+    private String mWeight;
+
+    public UserDetailsN(Long user_id, String mActivityLevel, String mDateOfBirth, String mGender, String mHeight, String mWeight, String hospital) {
+        this.mUserId = user_id;
+        this.mActivityLevel = mActivityLevel;
+        this.mDateOfBirth = mDateOfBirth;
+        this.mGender = mGender;
+        this.mHeight = mHeight;
+        this.mWeight = mWeight;
+        this.mHospital = hospital;
+    }
 
     public String getActivityLevel() {
         return mActivityLevel;
@@ -69,20 +79,12 @@ public class UserDetails {
         mGender = gender;
     }
 
-    public Long getHeight() {
+    public String getHeight() {
         return mHeight;
     }
 
-    public void setHeight(Long height) {
+    public void setHeight(String height) {
         mHeight = height;
-    }
-
-    public String getHospital() {
-        return mHospital;
-    }
-
-    public void setHospital(String hospital) {
-        mHospital = hospital;
     }
 
     public Long getId() {
@@ -109,28 +111,36 @@ public class UserDetails {
         mUserId = userId;
     }
 
-    public Long getWeight() {
+    public String getWeight() {
         return mWeight;
     }
 
-    public void setWeight(Long weight) {
+    public void setWeight(String weight) {
         mWeight = weight;
+    }
+
+    public String getmHospital() {
+        return mHospital;
+    }
+
+    public void setmHospital(String mHospital) {
+        this.mHospital = mHospital;
     }
 
     @Override
     public String toString() {
-        return "UserDetails{" +
+        return "UserDetailsN{" +
                 "mActivityLevel='" + mActivityLevel + '\'' +
                 ", mCreatedAt='" + mCreatedAt + '\'' +
                 ", mDailyCalories=" + mDailyCalories +
                 ", mDateOfBirth='" + mDateOfBirth + '\'' +
                 ", mGender='" + mGender + '\'' +
-                ", mHeight=" + mHeight +
-                ", mHospital='" + mHospital + '\'' +
+                ", mHeight='" + mHeight + '\'' +
                 ", mId=" + mId +
                 ", mUpdatedAt='" + mUpdatedAt + '\'' +
-                ", mUserId=" + mUserId +
-                ", mWeight=" + mWeight +
+                ", mUserId='" + mUserId + '\'' +
+                ", mWeight='" + mWeight + '\'' +
+                ", mHospital='" + mHospital + '\'' +
                 '}';
     }
 }

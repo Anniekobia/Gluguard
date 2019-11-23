@@ -11,11 +11,8 @@ import com.example.gluconnect.Models.Meal;
 import com.example.gluconnect.Models.MealResponse;
 import com.example.gluconnect.Models.RegisterPOST;
 import com.example.gluconnect.Models.RegisterResponse;
-import com.example.gluconnect.Models.User;
 import com.example.gluconnect.Models.UserDetailResponse;
-import com.example.gluconnect.Models.UserDetails;
-
-import java.util.Date;
+import com.example.gluconnect.Models.UserDetailsN;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -53,7 +50,7 @@ public interface LaravelAPI {
 
     @Headers({"Content-Type: application/json"})
     @POST("user/details")
-    Call<UserDetails> saveUserDetails(@Body UserDetails userDetails);
+    Call<UserDetailsN> saveUserDetails(@Body UserDetailsN userDetailsN);
 
     @Headers({"Content-Type: application/json"})
     @POST("daily/exercise")
@@ -68,7 +65,7 @@ public interface LaravelAPI {
     Call<LoginResponse> login(@Body LoginPost loginPost);
 
     @Headers({"Content-Type: application/json"})
-    @POST("auth/login")
+    @GET("userdetails")
     Call<UserDetailResponse> getUserDetails(@Query("user_id") int user_id);
 
 //    @Headers({"Content-Type: application/json"})

@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.view.Menu;
 import android.view.MenuItem;
 
 public class DailyLogsActivity extends AppCompatActivity {
@@ -32,6 +33,15 @@ public class DailyLogsActivity extends AppCompatActivity {
         extras = getIntent().getExtras();
     }
 
+    // Menu icons are inflated just as they were with actionbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -52,19 +62,12 @@ public class DailyLogsActivity extends AppCompatActivity {
                     return true;
                 case R.id.record_icon:
                     toolbar.setTitle("Log");
-//                    Intent intent = new Intent(DailyLogsActivity.this, DailyLogsActivityTest.class);
-//                    startActivity(intent);
                     fragment = new DailyLogsFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.tips_icon:
                     toolbar.setTitle("Tips");
                     fragment = new TipsFragment();
-                    loadFragment(fragment);
-                    return true;
-                case R.id.profile_details_icon:
-                    toolbar.setTitle("Profile");
-                    fragment = new ProfileFragment();
                     loadFragment(fragment);
                     return true;
             }
@@ -80,4 +83,10 @@ public class DailyLogsActivity extends AppCompatActivity {
     }
 
 
+    public void openProfile(MenuItem item) {
+        Fragment fragment;
+        toolbar.setTitle("Profile");
+        fragment = new ProfileFragment();
+        loadFragment(fragment);
+    }
 }

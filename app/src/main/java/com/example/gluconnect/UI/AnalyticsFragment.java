@@ -1,6 +1,7 @@
 package com.example.gluconnect.UI;
 
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -56,6 +57,8 @@ public class AnalyticsFragment extends Fragment {
     private List<Entry> lineChartEntries = new ArrayList<Entry>();
     private LineChart mLineChart;
     private TextView recordtxt;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     public AnalyticsFragment() {
         // Required empty public constructor
@@ -72,6 +75,8 @@ public class AnalyticsFragment extends Fragment {
         myview = inflater.inflate(R.layout.fragment_analytics, container, false);
         Retrofit retrofit = LaravelAPIRetrofitClient.getRetrofitClient();
         laravelAPI = retrofit.create(LaravelAPI.class);
+        sharedPreferences= getContext().getSharedPreferences("MyPreferences", 0);
+        editor = sharedPreferences.edit();
 
         recordtxt = myview.findViewById(R.id.bgrecords);
         mLineChart = myview.findViewById(R.id.linechart);
@@ -85,6 +90,8 @@ public class AnalyticsFragment extends Fragment {
         SimpleDateFormat f = new SimpleDateFormat("YYYY-MM-dd");
         String datePicked = f.format(cal.getTime());
         Log.e("Date Formatted", datePicked);
+
+        Log.e("UserID", String.valueOf(sharedPreferences.getInt("UserID",6)));
 //        getBloodGlucoseLevels(datePicked);
 //        getBloodGlucoseLevels();
         drawExampleGraph();

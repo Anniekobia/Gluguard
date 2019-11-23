@@ -1,6 +1,7 @@
 package com.example.gluconnect.UI;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,6 +49,9 @@ public class TipsFragment extends Fragment {
     private LaravelAPI laravelAPI;
     private ProgressBar progressBar;
     TextView usermsg;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private  int userid;
 
     public TipsFragment() {
         // Required empty public constructor
@@ -61,6 +65,8 @@ public class TipsFragment extends Fragment {
 
         Retrofit retrofit = LaravelAPIRetrofitClient.getRetrofitClient();
         laravelAPI = retrofit.create(LaravelAPI.class);
+        sharedPreferences= getContext().getSharedPreferences("MyPreferences", 0);
+        editor = sharedPreferences.edit();
 
         progressBar = myview.findViewById(R.id.progressBar);
         recyclerView = (myview.findViewById(R.id.meals_recycler_view));
@@ -71,11 +77,13 @@ public class TipsFragment extends Fragment {
         recyclerView.setAdapter(mAdapter);
         usermsg = myview.findViewById(R.id.usermessage);
 
+        Log.e("UserID", String.valueOf(sharedPreferences.getInt("UserID",6)));
         getBloodGlucoseLevels();
         return myview;
     }
     private void getBloodGlucoseLevels() {
         progressBar.setVisibility(View.VISIBLE);
+        userid = sharedPreferences.getInt("UserID",6);
         Call<BloodGlucoseResponse> bloodGlucoseResponseCall = laravelAPI.getBloodGlucoseLevel();
         bloodGlucoseResponseCall.enqueue(new Callback<BloodGlucoseResponse>() {
             @Override
@@ -85,8 +93,10 @@ public class TipsFragment extends Fragment {
                 BloodGlucoseResponse bloodGlucoseResponse = response.body();
                     for (BloodGlucose bloodGlucose : bloodGlucoseResponse.getBloodGlucoseRecords()) {
                         Log.e("BGw",bloodGlucose.toString());
-                        BG.add(bloodGlucose);
-                        bgLeveValues.add(bloodGlucose.getBloodGlucoseValue());
+                        if (bloodGlucose.getUserId()==userid){
+                            BG.add(bloodGlucose);
+                            bgLeveValues.add(bloodGlucose.getBloodGlucoseValue());
+                        }
                     }
                     try {
                         BloodGlucose latest = BG.get(BG.size()-1);

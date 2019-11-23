@@ -1,30 +1,30 @@
 
 package com.example.gluconnect.Models;
 
-import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("unused")
 public class UserDetailResponse {
 
-    @Expose
-    private Long success;
-    @Expose
-    private UserDetails userDetails;
+    @SerializedName("success")
+    private Long mSuccess;
+    @SerializedName("UserDetails")
+    private UserDetails mUserDetails;
 
     public Long getSuccess() {
-        return success;
+        return mSuccess;
     }
 
     public void setSuccess(Long success) {
-        this.success = success;
+        mSuccess = success;
     }
 
     public UserDetails getUserDetails() {
-        return userDetails;
+        return mUserDetails;
     }
 
     public void setUserDetails(UserDetails userDetails) {
-        this.userDetails = userDetails;
+        mUserDetails = userDetails;
     }
 
 }
