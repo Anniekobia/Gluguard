@@ -14,6 +14,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -39,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private ProgressBar progressBar;
     SharedPreferences.Editor editor;
+    private  Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         signpass = findViewById(R.id.signin_password);
         errormsg = findViewById(R.id.error_msg);
         progressBar = findViewById(R.id.progressBar);
+        extras = getIntent().getExtras();
 
 
         signinbtn.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                 validateDetails();
             }
         });
+
 
     }
 
@@ -149,4 +153,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    public void openRegisterActivity(View view) {
+       Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+       startActivity(intent);
+    }
 }
