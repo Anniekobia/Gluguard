@@ -10,7 +10,7 @@
         android:id="@+id/imegeview_cv"
         android:layout_width="match_parent"
         android:layout_height="192dp"
-        app:cardBackgroundColor="#283990"
+        app:cardBackgroundColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
