@@ -5,11 +5,14 @@ import com.example.gluconnect.Models.BloodGlucoseResponse;
 import com.example.gluconnect.Models.Exercise;
 import com.example.gluconnect.Models.ExerciseResponse;
 import com.example.gluconnect.Models.FoodRecommendations;
+import com.example.gluconnect.Models.LoginPost;
 import com.example.gluconnect.Models.LoginResponse;
 import com.example.gluconnect.Models.Meal;
 import com.example.gluconnect.Models.MealResponse;
 import com.example.gluconnect.Models.RegisterPOST;
 import com.example.gluconnect.Models.RegisterResponse;
+import com.example.gluconnect.Models.User;
+import com.example.gluconnect.Models.UserDetailResponse;
 import com.example.gluconnect.Models.UserDetails;
 
 import java.util.Date;
@@ -60,7 +63,13 @@ public interface LaravelAPI {
     @POST("auth/signup")
     Call<RegisterResponse> register(@Body RegisterPOST registerPOST);
 
+    @Headers({"Content-Type: application/json"})
+    @POST("auth/login")
+    Call<LoginResponse> login(@Body LoginPost loginPost);
 
+    @Headers({"Content-Type: application/json"})
+    @POST("auth/login")
+    Call<UserDetailResponse> getUserDetails(@Query("user_id") int user_id);
 
 //    @Headers({"Content-Type: application/json"})
 //    @POST("login")

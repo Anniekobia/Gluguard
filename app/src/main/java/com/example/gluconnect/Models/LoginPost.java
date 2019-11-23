@@ -5,44 +5,18 @@ import com.google.gson.annotations.SerializedName;
 
 public class LoginPost {
 
-    @SerializedName("status")
+
+    @SerializedName("password")
     @Expose
-    private Integer status;
-    @SerializedName("firstname")
-    @Expose
-    private String firstname;
-    @SerializedName("lastname")
-    @Expose
-    private String lastname;
+    private String password;
+
     @SerializedName("email")
     @Expose
     private String email;
-    @SerializedName("message")
-    @Expose
-    private String message;
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public LoginPost(String password, String email) {
+        this.password = password;
+        this.email = email;
     }
 
     public String getEmail() {
@@ -53,12 +27,11 @@ public class LoginPost {
         this.email = email;
     }
 
-    public String getMessage() {
-        return message;
+    public String getPassword() {
+        return password;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setPassword(String password) {
+        this.password = password;
     }
-
 }

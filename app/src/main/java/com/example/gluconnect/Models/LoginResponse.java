@@ -6,15 +6,35 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("unused")
 public class LoginResponse {
 
-    @SerializedName("success")
-    private Success mSuccess;
+    @SerializedName("message")
+    private String mMessage;
+    @SerializedName("status")
+    private Long mStatus;
+    @SerializedName("user")
+    private User mUser;
 
-    public Success getSuccess() {
-        return mSuccess;
+    public String getMessage() {
+        return mMessage;
     }
 
-    public void setSuccess(Success success) {
-        mSuccess = success;
+    public void setMessage(String message) {
+        mMessage = message;
+    }
+
+    public Long getStatus() {
+        return mStatus;
+    }
+
+    public void setStatus(Long status) {
+        mStatus = status;
+    }
+
+    public User getUser() {
+        return mUser;
+    }
+
+    public void setUser(User user) {
+        mUser = user;
     }
 
 }

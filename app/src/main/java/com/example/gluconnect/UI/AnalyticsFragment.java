@@ -85,7 +85,7 @@ public class AnalyticsFragment extends Fragment {
         SimpleDateFormat f = new SimpleDateFormat("YYYY-MM-dd");
         String datePicked = f.format(cal.getTime());
         Log.e("Date Formatted", datePicked);
-        getBloodGlucoseLevels(datePicked);
+//        getBloodGlucoseLevels(datePicked);
 //        getBloodGlucoseLevels();
         drawExampleGraph();
         return myview;
