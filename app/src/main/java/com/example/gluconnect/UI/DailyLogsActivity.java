@@ -23,9 +23,9 @@ public class DailyLogsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_logs);
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Diary");
+        toolbar.setTitle("Log");
         setSupportActionBar(toolbar);
-        loadFragment(new DiaryFragment());
+        loadFragment(new DailyLogsFragment());
 
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);

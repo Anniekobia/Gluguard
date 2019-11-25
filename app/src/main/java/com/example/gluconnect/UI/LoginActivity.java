@@ -107,8 +107,6 @@ public class LoginActivity extends AppCompatActivity {
                     editor.commit();
 
                     getUserDetails(userid);
-                    signinemail.setText("");
-                    signpass.setText("");
                 }
             }
 
