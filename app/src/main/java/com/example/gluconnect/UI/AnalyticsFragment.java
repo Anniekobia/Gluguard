@@ -63,9 +63,10 @@ public class AnalyticsFragment extends Fragment {
     private LaravelAPI laravelAPI;
     private List<Entry> lineChartEntries = new ArrayList<Entry>();
     private LineChart mLineChart;
-    private TextView day;
+    private TextView day,noRecords;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    ArrayList<ILineDataSet> iLineDataSets;
     Integer userID;
     DatePickerDialog.OnDateSetListener datePickerDate;
     ProgressBar progressBar;
@@ -90,6 +91,7 @@ public class AnalyticsFragment extends Fragment {
         mLineChart = myview.findViewById(R.id.linechart);
         progressBar = myview.findViewById(R.id.progressBar);
         day = myview.findViewById(R.id.analytics_filter_day);
+        noRecords = myview.findViewById(R.id.no_records_msg);
         day.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,6 +118,11 @@ public class AnalyticsFragment extends Fragment {
                 String datePicked = f.format(myCalendar.getTime());
                 Log.e("Date Formatted", datePicked);
                 progressBar.setVisibility(View.VISIBLE);
+
+                iLineDataSets.clear();
+                mLineChart.invalidate();
+                mLineChart.clear();
+
                 getBloodGlucoseLevels(datePicked);
             }
 
@@ -129,6 +136,7 @@ public class AnalyticsFragment extends Fragment {
         SimpleDateFormat f = new SimpleDateFormat("YYYY-MM-dd");
         String datePicked = f.format(cal.getTime());
         userID = sharedPreferences.getInt("UserID", 6);
+//        drawExampleGraph();
         getBloodGlucoseLevels(datePicked);
         return myview;
     }
@@ -141,13 +149,22 @@ public class AnalyticsFragment extends Fragment {
     }
 
     private void getBloodGlucoseLevels(final String selectedDay) {
+        progressBar.setVisibility(View.VISIBLE);
         Call<BloodGlucoseResponse> bloodGlucoseResponseCall = laravelAPI.getBloodGlucoseLevel();
         bloodGlucoseResponseCall.enqueue(new Callback<BloodGlucoseResponse>() {
             @Override
             public void onResponse(Call<BloodGlucoseResponse> call, Response<BloodGlucoseResponse> response) {
                 progressBar.setVisibility(View.GONE);
+
+                if (iLineDataSets!=null){
+                    iLineDataSets.clear();
+                    mLineChart.clear();
+                    mLineChart.invalidate();
+                }
+
                 mLineChart.notifyDataSetChanged();
                 mLineChart.invalidate();
+
                 ArrayList<String> dateString = new ArrayList<>();
                 ArrayList<Long> timeInMillis = new ArrayList<>();
                 ArrayList<Float> bgLeveValues = new ArrayList<>();
@@ -179,8 +196,6 @@ public class AnalyticsFragment extends Fragment {
                     maxValue = getMaxValue(timeInMillis);
                     timeInMillis = changeToSmallerNumbers(minValue, timeInMillis);
 
-                    mLineChart.setDragEnabled(true);
-                    mLineChart.setScaleEnabled(true);
 
                     ArrayList<Entry> entries = new ArrayList<>();
                     for (int i = 0; i < timeInMillis.size(); i++) {
@@ -192,6 +207,9 @@ public class AnalyticsFragment extends Fragment {
                     for (Entry entry : entries) {
                         System.out.println("Entry" + entry);
                     }
+
+                    mLineChart.setDragEnabled(true);
+                    mLineChart.setScaleEnabled(true);
 
                     LimitLine upper_limit = new LimitLine(198f, "Too High");
                     upper_limit.setLineWidth(2f);
@@ -226,12 +244,14 @@ public class AnalyticsFragment extends Fragment {
                     lineDataSet.setValueTextSize(10f);
 
 
-                    ArrayList<ILineDataSet> iLineDataSets = new ArrayList<>();
+
+                    iLineDataSets = new ArrayList<>();
                     iLineDataSets.add(lineDataSet);
 
                     LineData lineData = new LineData(iLineDataSets);
                     mLineChart.zoom(0.7f, 0.7f, 0.7f, 0.7f);
                     mLineChart.setData(lineData);
+
 
                     IAxisValueFormatter xAxisFormatter = new HourAxisValueFormatter(minValue);
                     XAxis xAxis = mLineChart.getXAxis();
@@ -240,6 +260,7 @@ public class AnalyticsFragment extends Fragment {
                     xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
                 } else {
                     drawExampleGraph();
+                    noRecords.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -377,7 +398,7 @@ public class AnalyticsFragment extends Fragment {
         mLineChart.getAxisRight().setEnabled(false);
         mLineChart.setVisibleXRangeMaximum(7);
 
-        ArrayList<ILineDataSet> iLineDataSets = new ArrayList<>();
+        iLineDataSets = new ArrayList<>();
 
         LineData lineData = new LineData(iLineDataSets);
         mLineChart.setData(lineData);

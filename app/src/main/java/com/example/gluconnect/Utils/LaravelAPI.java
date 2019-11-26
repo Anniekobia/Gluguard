@@ -9,6 +9,8 @@ import com.example.gluconnect.Models.LoginPost;
 import com.example.gluconnect.Models.LoginResponse;
 import com.example.gluconnect.Models.Meal;
 import com.example.gluconnect.Models.MealResponse;
+import com.example.gluconnect.Models.Medication;
+import com.example.gluconnect.Models.MedicationResponse;
 import com.example.gluconnect.Models.RegisterPOST;
 import com.example.gluconnect.Models.RegisterResponse;
 import com.example.gluconnect.Models.UserDetailResponse;
@@ -46,6 +48,10 @@ public interface LaravelAPI {
 
     @Headers({"Content-Type: application/json"})
     @POST("daily/meals")
+    Call<MedicationResponse> recordMedication(@Body Medication medication);
+
+    @Headers({"Content-Type: application/json"})
+    @POST("daily/medications")
     Call<Meal> recordMealData(@Body Meal meal);
 
     @Headers({"Content-Type: application/json"})

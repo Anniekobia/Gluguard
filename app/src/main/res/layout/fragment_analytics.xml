@@ -56,12 +56,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linechart">
 
-
+        <TextView
+            android:id="@+id/no_records_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No records found"
+            android:layout_marginBottom="10dp"
+            android:textSize="18dp"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/alert_levels_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/no_records_msg"
             android:text="Alert Blood glucose levels are represented by the red dotted lines"
             android:textSize="18dp" />
     </RelativeLayout>

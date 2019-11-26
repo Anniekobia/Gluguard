@@ -14,6 +14,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -24,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.gluconnect.R;
 import com.google.android.material.textfield.TextInputLayout;
@@ -40,11 +42,12 @@ public class ProfileFragment extends Fragment {
 
     View myView;
     EditText username, email, hospital, password;
-    Button editProfile, saveProfile;
+    Button editProfile, saveProfile,logoutBtn;
     SharedPreferences sharedPreferences;
     ImageView imageView;
     String picturePath;
     SharedPreferences.Editor editor;
+    ProgressBar progressBar;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -66,6 +69,8 @@ public class ProfileFragment extends Fragment {
         password = myView.findViewById(R.id.password_et);
         editProfile = myView.findViewById(R.id.edit_profile_btn);
         saveProfile = myView.findViewById(R.id.save_btn);
+        logoutBtn = myView.findViewById(R.id.logout_btn);
+        progressBar = myView.findViewById(R.id.progressBar);
 
         setValues();
         editProfile.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +97,21 @@ public class ProfileFragment extends Fragment {
                 password.setEnabled(false);
                 updateDetails();
 
+            }
+        });
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Handler handler = new Handler();
+                progressBar.setVisibility(View.VISIBLE);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        startActivity(intent);
+                    }
+                }, 3000);
             }
         });
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -169,7 +189,6 @@ public class ProfileFragment extends Fragment {
                                 cursor.close();
                             }
                         }
-
                     }
                     break;
             }

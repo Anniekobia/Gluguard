@@ -1,5 +1,6 @@
 package com.example.gluconnect.UI;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.example.gluconnect.R;
@@ -11,8 +12,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.LinearLayout;
+
 
 public class DailyLogsActivity extends AppCompatActivity {
 
@@ -27,10 +34,28 @@ public class DailyLogsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         loadFragment(new DailyLogsFragment());
 
-        BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
+        final BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         extras = getIntent().getExtras();
+        final View activityRootView = findViewById(R.id.root);
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();
+                if (heightDiff > dpToPx(getApplicationContext(), 200)) { // if more than 200 dp, it's probably a keyboard...
+                    navigation.setVisibility(View.GONE);
+                }else {
+                    navigation.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+    }
+
+    public static float dpToPx(Context context, float valueInDp) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
     }
 
     // Menu icons are inflated just as they were with actionbar
