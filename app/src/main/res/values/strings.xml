@@ -31,6 +31,14 @@
         <item>Running</item>
     </string-array>
 
+    <string-array name="medicine_array">
+        <item>Humalog</item>
+        <item>Fiasp</item>
+        <item>Gensulin N</item>
+
+        <item>Lispro</item>
+    </string-array>
+
     <string-array name="gender_array">
         <item>Male</item>
         <item>Female</item>

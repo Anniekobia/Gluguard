@@ -14,27 +14,29 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="  Select Day: "
-        android:textSize="@dimen/title_textsize"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="20dp"
+        android:layout_marginEnd="5dp"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/analytics_filter_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.339"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:focusable="false"
+        android:inputType="date"
+        android:textSize="14dp"
         app:layout_constraintStart_toEndOf="@id/analytics_filter"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/linechart"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="400dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="24dp"
@@ -46,95 +48,33 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linechart">
 
+
+
         <TextView
             android:id="@+id/alert_levels_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="24dp"
             android:text="Alert Blood glucose levels are represented by the red dotted lines"
             android:textSize="18dp" />
     </RelativeLayout>
-
-<!--    <TextView-->
-<!--        android:id="@+id/alert_levels_fasting_msg"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:text="Hypoglycemia"-->
-<!--        android:textSize="18dp"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/alert_levels_textview"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/alert_levels_textview" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/alert_levels_fasting_msg1"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:text=">70 mg/dl"-->
-<!--        android:layout_marginStart="5dp"-->
-<!--        android:textColor="@color/material_red_900"-->
-<!--        android:textSize="18dp"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/alert_levels_fasting_msg"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/alert_levels_textview" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/alert_levels_random_msg"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:text="Random Blood Glucose"-->
-<!--        android:textSize="18dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/alert_levels_fasting_msg"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/alert_levels_fasting_msg" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/alert_levels_random_msg1"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:text="> 200 mg/dl"-->
-<!--        android:layout_marginStart="5dp"-->
-<!--        android:textColor="@color/material_red_900"-->
-<!--        android:textSize="18dp"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/alert_levels_random_msg"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/alert_levels_fasting_msg" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/alert_levels_hypoglycemia_msg"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:text="Fasting Blood Glucose "-->
-<!--        android:textSize="18dp"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/alert_levels_random_msg"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/alert_levels_random_msg"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/alert_levels_random_msg" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/alert_levels_hypoglycemia_msg1"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:text="> 126 mg/dl"-->
-<!--        android:layout_marginStart="5dp"-->
-<!--        android:textColor="@color/material_red_900"-->
-<!--        android:textSize="18dp"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/alert_levels_hypoglycemia_msg"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/alert_levels_random_msg" />-->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

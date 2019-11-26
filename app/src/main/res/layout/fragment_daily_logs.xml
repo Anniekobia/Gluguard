@@ -182,8 +182,9 @@
         android:id="@+id/blood_glucose_units_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_margin="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/meals_cardview">
@@ -303,8 +304,9 @@
         android:id="@+id/exercises_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_margin="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/blood_glucose_units_cardview">
@@ -390,10 +392,107 @@
                 android:visibility="gone"/>
 
             <Button
+                android:id="@+id/next_exercise_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/exercise_distance_edittext"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="2dp"
+                android:layout_toLeftOf="@id/save_exercise_btn"
+                android:text="Next"
+                android:visibility="gone"/>
+
+            <Button
                 android:id="@+id/save_exercise_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/exercise_distance_edittext"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="25dp"
+                android:text="Save"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/medications_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exercises_cardview">
+
+        <RelativeLayout
+            android:id="@+id/medication_rl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/medication_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medication"
+                android:textSize="@dimen/log_headings_textsize"
+                android:textStyle="bold"
+                tools:ignore="SpUsage" />
+
+            <Spinner
+                android:id="@+id/medication_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/medication_textview"
+                android:layout_marginTop="9dp" />
+
+            <EditText
+                android:id="@+id/medication_units"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="18dp"
+                android:layout_below="@id/medication_textview"
+                android:layout_toLeftOf="@+id/medication_units_txtview"
+                android:hint="--------------------------"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/medication_units_txtview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/medication_textview"
+                android:layout_marginRight="10dp"
+                android:text="Units" />
+
+            <TextView
+                android:id="@+id/medication_picked_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/medication_spinner"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="2dp"
+                android:textSize="18dp"
+                android:text="Insulin" />
+
+            <TextView
+                android:id="@+id/medication_picked_units"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/medication_spinner"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="2dp"
+                android:textSize="18dp"
+                android:layout_toEndOf="@+id/medication_picked_textview"
+                android:text="units" />
+
+            <Button
+                android:id="@+id/save_medication_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/medication_picked_textview"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="25dp"

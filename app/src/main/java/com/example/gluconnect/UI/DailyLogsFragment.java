@@ -86,13 +86,17 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
     private ConstraintLayout selectedFoodItemlayout;
     Float originalCalories;
 
-    private Spinner spinner;
+    private Spinner exeSpinner;
     private EditText exercise_distance;
     private EditText exercise_duration;
     private Button exeSaveBtn;
+    private Button exeNextBtn;
     private TextView exercise_calories_metrics_txtview;
     private TextView exercise_calories_txtview;
     private SharedPreferences sharedPreferences;
+
+    private Spinner medSpinner;
+    private EditText medicationUnits;
 
     //    private Button bgNextBtn;
     public DailyLogsFragment() {
@@ -131,16 +135,24 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
         mealNextBtn = myView.findViewById(R.id.next_meal_btn);
         mealSaveBtn = myView.findViewById(R.id.save_meal_btn);
 
-        spinner = myView.findViewById(R.id.exercises_spinner);
+        exeSpinner = myView.findViewById(R.id.exercises_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.exercises_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        exeSpinner.setAdapter(adapter);
         exercise_distance = myView.findViewById(R.id.exercise_distance_edittext);
         exercise_duration = myView.findViewById(R.id.exercise_duration_edittext);
         exeSaveBtn = myView.findViewById(R.id.save_exercise_btn);
+        exeNextBtn = myView.findViewById(R.id.next_exercise_btn);
         exercise_calories_txtview = myView.findViewById(R.id.exercise_calories);
         exercise_calories_metrics_txtview  = myView.findViewById(R.id.exercise_calories_m);
+
+        medSpinner = myView.findViewById(R.id.medication_spinner);
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getContext(),
+                R.array.medicine_array, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        medSpinner.setAdapter(adapter1);
+        medicationUnits = myView.findViewById(R.id.medication_units);
 
         bloodGlucoseLevelEditText.setOnClickListener(this);
         bgSaveBtn.setOnClickListener(this);
@@ -149,6 +161,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
         mealNextBtn.setOnClickListener(this);
         saveDailyLogsBtn.setOnClickListener(this);
         exeSaveBtn.setOnClickListener(this);
+        exeNextBtn.setOnClickListener(this);
         bloodGlucoseLevelEditText.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -239,7 +252,20 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                 }
             }
         });
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        exeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
+        });
+        medSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -265,7 +291,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
 
             @Override
             public void afterTextChanged(Editable s) {
-                String exercise = spinner.getSelectedItem().toString();
+                String exercise = exeSpinner.getSelectedItem().toString();
                 String distance = exercise_distance.getText().toString();
                 String duration = exercise_duration.getText().toString();
                 if (TextUtils.isEmpty(exercise)){
@@ -293,7 +319,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
 
             @Override
             public void afterTextChanged(Editable s) {
-                String exercise = spinner.getSelectedItem().toString();
+                String exercise = exeSpinner.getSelectedItem().toString();
                 String distance = exercise_distance.getText().toString();
                 String duration = exercise_duration.getText().toString();
                 if (TextUtils.isEmpty(exercise)){
@@ -318,6 +344,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 exeSaveBtn.setVisibility(View.VISIBLE);
+                exeNextBtn.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -355,7 +382,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                 bgNextBtn.setVisibility(GONE);
                 bgSaveBtn.setVisibility(GONE);
             case R.id.save_exercise_btn:
-                String exercise = spinner.getSelectedItem().toString();
+                String exercise = exeSpinner.getSelectedItem().toString();
                 String distance = exercise_distance.getText().toString();
                 String duration = exercise_duration.getText().toString();
                 String calories = exercise_calories_txtview.getText().toString();
@@ -370,6 +397,8 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                     Exercise newExercise = new Exercise(Double.parseDouble(calories),Double.parseDouble(duration),Double.parseDouble(distance),exercise,userID.longValue());
                     recordExerciseData(newExercise);
                 }
+            case R.id.next_exercise_btn:
+                medicationUnits.requestFocus();
             case R.id.save_logs_btn:
                 //save all
 

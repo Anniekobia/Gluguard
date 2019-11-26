@@ -1,6 +1,7 @@
 package com.example.gluconnect.UI;
 
 
+import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,9 +63,12 @@ public class AnalyticsFragment extends Fragment {
     private LaravelAPI laravelAPI;
     private List<Entry> lineChartEntries = new ArrayList<Entry>();
     private LineChart mLineChart;
-    private TextView recordtxt;
+    private TextView day;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    Integer userID;
+    DatePickerDialog.OnDateSetListener datePickerDate;
+    ProgressBar progressBar;
 
     public AnalyticsFragment() {
     }
@@ -82,21 +88,56 @@ public class AnalyticsFragment extends Fragment {
         editor = sharedPreferences.edit();
 
         mLineChart = myview.findViewById(R.id.linechart);
+        progressBar = myview.findViewById(R.id.progressBar);
+        day = myview.findViewById(R.id.analytics_filter_day);
+        day.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDatePicker();
+            }
+        });
 
+        final Calendar myCalendar = Calendar.getInstance();
+        datePickerDate = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                String myFormat = "EEEE, MMM d"; //In which you need put here
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                day.setText(sdf.format(myCalendar.getTime()));
+
+                SimpleDateFormat f = new SimpleDateFormat("YYYY-MM-dd");
+                String datePicked = f.format(myCalendar.getTime());
+                Log.e("Date Formatted", datePicked);
+                progressBar.setVisibility(View.VISIBLE);
+                getBloodGlucoseLevels(datePicked);
+            }
+
+        };
 
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMM d");
         String date = sdf.format(cal.getTime());
-        Log.e("Date ", date);
+        day.setText(date);
 
         SimpleDateFormat f = new SimpleDateFormat("YYYY-MM-dd");
         String datePicked = f.format(cal.getTime());
-        Log.e("Date Formatted", datePicked);
-
-        Log.e("UserID", String.valueOf(sharedPreferences.getInt("UserID", 6)));
+        userID = sharedPreferences.getInt("UserID", 6);
         getBloodGlucoseLevels(datePicked);
-//        drawExampleGraph();
         return myview;
+    }
+
+    public void openDatePicker(){
+        final Calendar myCalendar = Calendar.getInstance();
+        new DatePickerDialog(getContext(), datePickerDate, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     private void getBloodGlucoseLevels(final String selectedDay) {
@@ -104,6 +145,9 @@ public class AnalyticsFragment extends Fragment {
         bloodGlucoseResponseCall.enqueue(new Callback<BloodGlucoseResponse>() {
             @Override
             public void onResponse(Call<BloodGlucoseResponse> call, Response<BloodGlucoseResponse> response) {
+                progressBar.setVisibility(View.GONE);
+                mLineChart.notifyDataSetChanged();
+                mLineChart.invalidate();
                 ArrayList<String> dateString = new ArrayList<>();
                 ArrayList<Long> timeInMillis = new ArrayList<>();
                 ArrayList<Float> bgLeveValues = new ArrayList<>();
@@ -113,7 +157,7 @@ public class AnalyticsFragment extends Fragment {
                 for (BloodGlucose bloodGlucose : bloodGlucoseResponse.getBloodGlucoseRecords()) {
                     records = records.concat(bloodGlucose.getBloodGlucoseValue() + bloodGlucose.getDay() + bloodGlucose.getCreatedAt() + "\t");
                     String day = bloodGlucose.getDay();
-                    if (day.equals(selectedDay)) {
+                    if (day.equals(selectedDay)&&userID==bloodGlucose.getUserId().intValue()) {
                         dateString.add(bloodGlucose.getCreatedAt());
                         bgLeveValues.add(bloodGlucose.getBloodGlucoseValue());
                     }
@@ -180,8 +224,7 @@ public class AnalyticsFragment extends Fragment {
                     lineDataSet.setColor(Color.BLUE);
                     lineDataSet.setValueTextColor(Color.BLUE);
                     lineDataSet.setValueTextSize(10f);
-//        lineDataSet.setLineWidth(3f);
-//        lineDataSet.setCircleRadius(5f);
+
 
                     ArrayList<ILineDataSet> iLineDataSets = new ArrayList<>();
                     iLineDataSets.add(lineDataSet);
@@ -194,13 +237,7 @@ public class AnalyticsFragment extends Fragment {
                     XAxis xAxis = mLineChart.getXAxis();
                     xAxis.setValueFormatter(xAxisFormatter);
 
-
-//                    XAxis xAxis = mLineChart.getXAxis();
-////                xAxis.setValueFormatter(new myXAxisValueFormatter(value));
-////                xAxis.setGranularity(1f);
                     xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//                ;
-
                 } else {
                     drawExampleGraph();
                 }
@@ -208,6 +245,7 @@ public class AnalyticsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<BloodGlucoseResponse> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG);
                 Log.e(TAG, "Failed" + t.getMessage());
             }
@@ -312,23 +350,14 @@ public class AnalyticsFragment extends Fragment {
         mLineChart.setDragEnabled(true);
         mLineChart.setScaleEnabled(false);
 
-        ArrayList<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(0, 60f));
-        entries.add(new Entry(1, 10f));
-        entries.add(new Entry(2, 40f));
-        entries.add(new Entry(3, 90f));
-        entries.add(new Entry(4, 40f));
-        entries.add(new Entry(5, 10f));
-        entries.add(new Entry(6, 70f));
-
-        LimitLine upper_limit = new LimitLine(65f, "Too High");
+        LimitLine upper_limit = new LimitLine(198f, "Too High");
         upper_limit.setLineWidth(2f);
         upper_limit.enableDashedLine(10f, 10f, 0f);
         upper_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
         upper_limit.setTextSize(15f);
         upper_limit.setTextColor(Color.RED);
 
-        LimitLine lower_limit = new LimitLine(35f, "Too Low");
+        LimitLine lower_limit = new LimitLine(70.2f, "Too Low");
         lower_limit.setLineWidth(2f);
         lower_limit.enableDashedLine(10f, 10f, 0f);
         lower_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
@@ -339,45 +368,19 @@ public class AnalyticsFragment extends Fragment {
         leftAxis.removeAllLimitLines();
         leftAxis.addLimitLine(upper_limit);
         leftAxis.addLimitLine(lower_limit);
-        leftAxis.setAxisMaximum(100f);
-        leftAxis.setAxisMinimum(0f);
+        leftAxis.setAxisMaximum(220f);
+        leftAxis.setAxisMinimum(50f);
         leftAxis.enableGridDashedLine(10f, 10f, 0);
         leftAxis.setDrawLimitLinesBehindData(true);
 
+
         mLineChart.getAxisRight().setEnabled(false);
-        LineDataSet lineDataSet = new LineDataSet(entries, "Blood Glucose Levels");
-        lineDataSet.setFillAlpha(110);
-        lineDataSet.setColor(Color.BLUE);
-        lineDataSet.setValueTextColor(Color.BLUE);
-        lineDataSet.setValueTextSize(10f);
-//        lineDataSet.setLineWidth(3f);
-//        lineDataSet.setCircleRadius(5f);
+        mLineChart.setVisibleXRangeMaximum(7);
 
         ArrayList<ILineDataSet> iLineDataSets = new ArrayList<>();
-        iLineDataSets.add(lineDataSet);
 
         LineData lineData = new LineData(iLineDataSets);
         mLineChart.setData(lineData);
-
-        String[] value = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"};
-        XAxis xAxis = mLineChart.getXAxis();
-        xAxis.setValueFormatter(new myXAxisValueFormatter(value));
-        xAxis.setGranularity(1f);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-    }
-
-    public class myXAxisValueFormatter implements IAxisValueFormatter {
-        private String[] values;
-
-        public myXAxisValueFormatter(String[] values) {
-            this.values = values;
-        }
-
-        @Override
-        public String getFormattedValue(float value, AxisBase axis) {
-            return values[(int) value];
-        }
     }
 
 
