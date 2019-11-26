@@ -185,6 +185,32 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/exercisemsg"
                         android:scrollbars="vertical" />
+
+                    <TextView
+                        android:id="@+id/medications"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/exercises_recycler_view"
+                        android:text="Medications"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/medsmsg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/medications"
+                        android:text="No records"
+                        android:visibility="gone" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/med_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/medsmsg"
+                        android:scrollbars="vertical" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>

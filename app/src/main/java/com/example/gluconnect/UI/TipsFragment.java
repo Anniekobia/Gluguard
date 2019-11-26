@@ -54,7 +54,6 @@ public class TipsFragment extends Fragment {
     private  int userid;
 
     public TipsFragment() {
-        // Required empty public constructor
     }
 
 

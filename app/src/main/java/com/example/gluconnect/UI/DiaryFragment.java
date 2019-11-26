@@ -34,6 +34,7 @@ import com.example.gluconnect.Adapters.BloodGlucoseRecordAdapter;
 import com.example.gluconnect.Adapters.ExerciseRecordAdapter;
 import com.example.gluconnect.Adapters.FoodAutoSuggestAdapter;
 import com.example.gluconnect.Adapters.MealRecordAdapter;
+import com.example.gluconnect.Adapters.MedicineRecordAdapter;
 import com.example.gluconnect.Models.BloodGlucose;
 import com.example.gluconnect.Models.BloodGlucoseResponse;
 import com.example.gluconnect.Models.BrandedFoodItemSuggestions;
@@ -43,6 +44,8 @@ import com.example.gluconnect.Models.Food;
 import com.example.gluconnect.Models.FoodItemSuggestionsList;
 import com.example.gluconnect.Models.Meal;
 import com.example.gluconnect.Models.MealResponse;
+import com.example.gluconnect.Models.Medication;
+import com.example.gluconnect.Models.MedicationsResponse;
 import com.example.gluconnect.R;
 import com.example.gluconnect.Utils.LaravelAPI;
 import com.example.gluconnect.Utils.LaravelAPIRetrofitClient;
@@ -75,14 +78,16 @@ public class DiaryFragment extends Fragment {
     private TextView datetxtview;
 
     private CardView cardView;
-    RecyclerView meals_rv, exercise_rv, blood_glucose_rv;
+    RecyclerView meals_rv, exercise_rv, blood_glucose_rv,meds_rv;
     private List<BloodGlucose> bloodGlucoseList = new ArrayList<>();
     private BloodGlucoseRecordAdapter bloodGlucoseRecordAdapter;
     private List<Meal> mealList = new ArrayList<>();
     private MealRecordAdapter mealRecordAdapter;
     private List<Exercise> exerciseList = new ArrayList<>();
     private ExerciseRecordAdapter exerciseRecordAdapter;
-    private TextView bg,bgmsg,meal,mealsmsg,exe,exemsg,duration_metric,distance_metric,dailyCalories,dayCalories,dayCaloriesMetic;
+    private List<Medication> medicationList = new ArrayList<>();
+    private MedicineRecordAdapter medicineRecordAdapter;
+    private TextView bg,bgmsg,meal,mealsmsg,exe,exemsg,meds,medsmsg,duration_metric,distance_metric,dailyCalories,dayCalories,dayCaloriesMetic;
     private SharedPreferences sharedPreferences;
     private ProgressBar progressBar;
     private Float initialDayCalories;
@@ -125,6 +130,16 @@ public class DiaryFragment extends Fragment {
         mealsmsg = myView.findViewById(R.id.mealsmsg);
         meal = myView.findViewById(R.id.meals);
 
+        meds_rv =  myView.findViewById(R.id.med_recycler_view);
+        medicineRecordAdapter = new MedicineRecordAdapter(medicationList);
+        RecyclerView.LayoutManager mLayoutManager3 = new LinearLayoutManager(getContext());
+        meds_rv.setLayoutManager(mLayoutManager3);
+        meds_rv.setItemAnimator(new DefaultItemAnimator());
+        meds_rv.setAdapter(medicineRecordAdapter);
+        medsmsg = myView.findViewById(R.id.medsmsg);
+        meds = myView.findViewById(R.id.medications);
+
+
         exercise_rv =  myView.findViewById(R.id.exercises_recycler_view);
         exerciseRecordAdapter = new ExerciseRecordAdapter(exerciseList);
         RecyclerView.LayoutManager mLayoutManager2 = new LinearLayoutManager(getContext());
@@ -153,6 +168,12 @@ public class DiaryFragment extends Fragment {
                 bloodGlucoseList.clear();
                 bgmsg.setVisibility(View.GONE);
                 bloodGlucoseRecordAdapter.notifyDataSetChanged();
+                mealList.clear();
+                mealsmsg.setVisibility(View.GONE);
+                mealRecordAdapter.notifyDataSetChanged();
+                medicationList.clear();
+                medsmsg.setVisibility(View.GONE);
+                medicineRecordAdapter.notifyDataSetChanged();
                 mealList.clear();
                 mealsmsg.setVisibility(View.GONE);
                 mealRecordAdapter.notifyDataSetChanged();
@@ -284,11 +305,11 @@ public class DiaryFragment extends Fragment {
             @Override
             public void onResponse(Call<ExerciseResponse> call, Response<ExerciseResponse> response) {
                 if (!response.isSuccessful()) {
-                    progressBar.setVisibility(View.GONE);
+//                    progressBar.setVisibility(View.GONE);
                     Log.e("BG", "BG unsuccessful");
                     return;
                 } else {
-                    progressBar.setVisibility(View.GONE);
+//                    progressBar.setVisibility(View.GONE);
                     ExerciseResponse exerciseResponse = response.body();
                     for (Exercise exercise : exerciseResponse.getExercises()) {
                         String day = exercise.getmDay();
@@ -303,6 +324,7 @@ public class DiaryFragment extends Fragment {
                         exemsg.setVisibility(View.VISIBLE);
                         exe.setVisibility(View.VISIBLE);
                     }else {
+
                         exe.setVisibility(View.VISIBLE);
                         Log.e("Check", exerciseList.toString());
                         exerciseRecordAdapter.notifyDataSetChanged();
@@ -310,7 +332,7 @@ public class DiaryFragment extends Fragment {
                         dayCaloriesMetic.setVisibility(View.VISIBLE);
                         dayCalories.setText(initialDayCalories.toString());
                     }
-
+                    getMedicationRecords(selectedDay);
                 }
             }
 
@@ -320,5 +342,43 @@ public class DiaryFragment extends Fragment {
             }
         });
     }
+     public  void getMedicationRecords(final String selectedDay){
+         Call<MedicationsResponse> medicationsResponseCall = laravelAPI.getMedications();
+         medicationsResponseCall.enqueue(new Callback<MedicationsResponse>() {
+             @Override
+             public void onResponse(Call<MedicationsResponse> call, Response<MedicationsResponse> response) {
+                 if (!response.isSuccessful()) {
+                     progressBar.setVisibility(View.GONE);
+                     Log.e("BG", "BG unsuccessful");
+                     return;
+                 } else {
+                     progressBar.setVisibility(View.GONE);
+                     MedicationsResponse medicationsResponse = response.body();
+                     for (Medication medication : medicationsResponse.getMedications()) {
+                         String day = medication.getmDay();
+                         if (selectedDay.equals(day)&&userID==medication.getUserId().intValue()) {
+                             medicationList.add(medication);
+                     }
+                     if (medicationList.isEmpty()){
+                         medsmsg.setVisibility(View.VISIBLE);
+                         meds.setVisibility(View.VISIBLE);
+                     }else {
+                         medsmsg.setVisibility(View.GONE);
+                         meds.setVisibility(View.VISIBLE);
+                         Log.e("Check", medicationList.toString());
+                         medicineRecordAdapter.notifyDataSetChanged();
+
+                     }
+
+                 }
+             }
+             }
+             @Override
+             public void onFailure(Call<MedicationsResponse> call, Throwable t) {
+                 Log.e("Get BG", t.getMessage());
+             }
+         });
+
+     }
 
 }

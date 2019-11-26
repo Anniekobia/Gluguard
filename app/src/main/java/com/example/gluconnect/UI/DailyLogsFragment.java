@@ -303,6 +303,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
 
                     } else {
                         String query = exercise + "\t" + distance + "km\t" + duration + "mins";
+                        saveDailyLogsBtn.setVisibility(GONE);
                         getExerciseDetails(query);
                     }
                 }
@@ -356,6 +357,8 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
             }
         });
         medicationUnits.addTextChangedListener(new TextWatcher() {
+            String distance = exercise_distance.getText().toString();
+            String duration = exercise_duration.getText().toString();
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 if (exeSaveBtn.isShown()) {
@@ -370,7 +373,13 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if (!TextUtils.isEmpty(bloodGlucoseLevelEditText.getText())){
+                    saveDailyLogsBtn.setVisibility(View.VISIBLE);
+                    medSaveBtn.setVisibility(GONE);
+                }else{
+//                    saveDailyLogsBtn.setVisibility(GONE);
+                    medSaveBtn.setVisibility(View.VISIBLE);
+                }
             }
         });
         getFoodItemsSuggestions();
@@ -380,6 +389,9 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
 
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.save_logs_btn:
+                saveAll();
+
             case R.id.save_meal_btn:
                 Log.e("Save Meal", "Saving");
                 saveDailyLogsBtn.setVisibility(GONE);
@@ -424,8 +436,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                     saveDailyLogsBtn.setVisibility(GONE);
                     recordMedicationData(medication1);
                 }
-            case R.id.save_logs_btn:
-                //save all
+
 
             case R.id.blood_glucose_level_edittext:
                 mealSaveBtn.setVisibility(GONE);
@@ -439,6 +450,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                 }
         }
     }
+
 
     private void recordMealData() {
         Integer userID = sharedPreferences.getInt("UserID", 1);
@@ -646,6 +658,129 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                     exercise_calories_metrics_txtview.setVisibility(GONE);
                     exeSaveBtn.setVisibility(View.GONE);
                     progressBar.setVisibility(View.GONE);
+                    saveDailyLogsBtn.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Exercise> call, Throwable t) {
+                Log.e("Exe Saved Failed", t.getMessage());
+                progressBar.setVisibility(GONE);
+            }
+        });
+    }
+
+    public void saveAll(){
+        //SaveMeal
+        Integer userID = sharedPreferences.getInt("UserID", 1);
+        progressBar.setVisibility(View.VISIBLE);
+        String name = selected_food_item.getText().toString();
+        String time = selectedMealTime();
+        Float calories = Float.parseFloat(selectedFoodItemCalories.getText().toString());
+        Float quantity = Float.parseFloat(selectedFoodItemQuantity.getText().toString());
+        Call<Meal> mealCall = laravelAPI.recordMealData(new Meal(calories, name, time, quantity, userID.longValue()));
+        mealCall.enqueue(new Callback<Meal>() {
+            @Override
+            public void onResponse(Call<Meal> call, Response<Meal> response) {
+                if (!response.isSuccessful()) {
+                    Log.e("MealError", response.message());
+                    return;
+                } else {
+                    Log.e("Meal", "Record saved");
+                    selectedFoodItemlayout.setVisibility(GONE);
+                    auto_complete_edittext.getText().clear();
+                    selected_food_item.setText("");
+                    selectedFoodItemCalories.setText("");
+                    selectedFoodItemMetrc.setText("");
+                    selectedFoodItemQuantity.getText().clear();
+                    mealTimeRadiogroup.clearCheck();
+
+                    bloodGlucoseLevelEditText.getText().clear();
+                    bglevelRadiogroup.clearCheck();
+
+                    exercise_distance.getText().clear();
+                    exercise_duration.getText().clear();
+
+                    medicationUnits.getText().clear();
+
+                    saveDailyLogsBtn.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Meal> call, Throwable t) {
+                Log.e("Meal Failed", t.getMessage());
+            }
+        });
+
+        //Savebg
+        final Float bgValue = Float.parseFloat(bloodGlucoseLevelEditText.getText().toString());
+        String bgTime = selectedBloodGlucoseTime();
+        Call<BloodGlucose> bloodGlucoseCall = laravelAPI.recordBloodGlucoseLevel(new BloodGlucose(
+                bgTime, bgValue, userID.longValue()));
+        bloodGlucoseCall.enqueue(new Callback<BloodGlucose>() {
+            @Override
+            public void onResponse(Call<BloodGlucose> call, Response<BloodGlucose> response) {
+                if (!response.isSuccessful()) {
+                    Log.e("Blood Glucose", response.message());
+                    return;
+                } else {
+                    Log.e("Blood Glucose", "Record saved");
+                    bloodGlucoseLevelEditText.getText().clear();
+                    bglevelRadiogroup.clearCheck();
+
+                    auto_complete_edittext.getText().clear();
+                    selected_food_item.setText("");
+                    selectedFoodItemCalories.setText("");
+                    selectedFoodItemMetrc.setText("");
+                    selectedFoodItemQuantity.getText().clear();
+                    mealTimeRadiogroup.clearCheck();
+
+                    exercise_distance.getText().clear();
+                    exercise_duration.getText().clear();
+
+                    medicationUnits.getText().clear();
+                    saveDailyLogsBtn.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BloodGlucose> call, Throwable t) {
+                Log.e("Blood Glucose", t.getMessage());
+            }
+        });
+
+        //saveexercise
+        String exercise = exeSpinner.getSelectedItem().toString();
+        String distance = exercise_distance.getText().toString();
+        String duration = exercise_duration.getText().toString();
+        String calories1 = exercise_calories_txtview.getText().toString();
+        Exercise newExercise = new Exercise(Double.parseDouble(calories1), Double.parseDouble(duration), Double.parseDouble(distance), exercise, userID.longValue());
+        Call<Exercise> exerciseCall = laravelAPI.recordExerciseData(newExercise);
+        exerciseCall.enqueue(new Callback<Exercise>() {
+            @Override
+            public void onResponse(Call<Exercise> call, Response<Exercise> response) {
+                if (!response.isSuccessful()) {
+                    Log.e("Exe Saved Unsuccessful", "Code: " + response.code() + "\n" + "Message" + response.message());
+                    return;
+                } else {
+                    exercise_distance.getText().clear();
+                    exercise_duration.getText().clear();
+                    exercise_calories_txtview.setVisibility(View.GONE);
+                    exercise_calories_metrics_txtview.setVisibility(GONE);
+                    exeSaveBtn.setVisibility(View.GONE);
+
+                    auto_complete_edittext.getText().clear();
+                    selected_food_item.setText("");
+                    selectedFoodItemCalories.setText("");
+                    selectedFoodItemMetrc.setText("");
+                    selectedFoodItemQuantity.getText().clear();
+                    mealTimeRadiogroup.clearCheck();
+
+                    bloodGlucoseLevelEditText.getText().clear();
+                    bglevelRadiogroup.clearCheck();
+
+                    medicationUnits.getText().clear();
 
                     saveDailyLogsBtn.setVisibility(View.VISIBLE);
                 }
@@ -657,6 +792,34 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                 progressBar.setVisibility(GONE);
             }
         });
+
+        //savemedication
+        String medication = medSpinner.getSelectedItem().toString();
+        String medunits = medicationUnits.getText().toString();
+        Medication medication1 = new Medication(Float.parseFloat(medunits),medication,userID.longValue());
+        Call<MedicationResponse> medicationResponseCall = laravelAPI.recordMedication(medication1);
+        medicationResponseCall.enqueue(new Callback<MedicationResponse>() {
+            @Override
+            public void onResponse(Call<MedicationResponse> call, Response<MedicationResponse> response) {
+                if (!response.isSuccessful()) {
+                    progressBar.setVisibility(GONE);
+                    Log.e("Med Saved Unsuccessful", "Code: " + response.code() + "\n" + "Message" + response.message());
+                    return;
+                } else {
+                    medicationUnits.getText().clear();
+                    medSaveBtn.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
+                    saveDailyLogsBtn.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MedicationResponse> call, Throwable t) {
+                Log.e("Exe Saved Failed", t.getMessage());
+                progressBar.setVisibility(GONE);
+            }
+        });
+
     }
 
     private void getFoodItemSuggestionsList(final String inputtext) {
