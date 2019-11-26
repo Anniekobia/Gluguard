@@ -382,15 +382,22 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                 }
             }
         });
+        saveDailyLogsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveAll();
+            }
+        });
         getFoodItemsSuggestions();
         return myView;
     }
 
 
+
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.save_logs_btn:
-                saveAll();
+//            case R.id.save_logs_btn:
+//                saveAll();
 
             case R.id.save_meal_btn:
                 Log.e("Save Meal", "Saving");
@@ -448,6 +455,7 @@ public class DailyLogsFragment extends Fragment implements View.OnClickListener 
                 if (exeSaveBtn.isShown()) {
                     exeSaveBtn.setVisibility(GONE);
                 }
+
         }
     }
 
