@@ -20,7 +20,7 @@
 
     <!--    Bottom navigation bar -->
     <string name="title_diary">Diary</string>
-    <string name="title_analytics">Analytics</string>
+    <string name="title_analytics">Trends</string>
     <string name="title_record">Log</string>
     <string name="title_tips">Tips</string>
     <string name="title_details">Profile</string>

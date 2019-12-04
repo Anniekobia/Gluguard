@@ -5,6 +5,10 @@
         android:icon="@drawable/daily_log_icon"
         android:title="@string/title_record"/>
     <item
+        android:id="@+id/steps_icon"
+        android:icon="@drawable/steps"
+        android:title="Steps"/>
+    <item
         android:id="@+id/tips_icon"
         android:icon="@drawable/tips_icon"
         android:title="@string/title_tips"/>

@@ -90,6 +90,11 @@ public class DailyLogsActivity extends AppCompatActivity {
                     fragment = new DailyLogsFragment();
                     loadFragment(fragment);
                     return true;
+                case R.id.steps_icon:
+                    toolbar.setTitle("Steps");
+                    fragment = new StepCounterFragment();
+                    loadFragment(fragment);
+                    return true;
                 case R.id.tips_icon:
                     toolbar.setTitle("Tips");
                     fragment = new TipsFragment();

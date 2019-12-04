@@ -2,6 +2,9 @@ package com.example.gluconnect.Utils;
 
 import com.example.gluconnect.Models.BloodGlucose;
 import com.example.gluconnect.Models.BloodGlucoseResponse;
+import com.example.gluconnect.Models.DailyStepsResponse;
+import com.example.gluconnect.Models.DailyStep;
+import com.example.gluconnect.Models.DailyStepPOST;
 import com.example.gluconnect.Models.Exercise;
 import com.example.gluconnect.Models.ExerciseResponse;
 import com.example.gluconnect.Models.FoodRecommendations;
@@ -26,6 +29,17 @@ import retrofit2.http.Query;
 
 public interface LaravelAPI {
 
+    @Headers({"Content-Type: application/json"})
+    @GET("steps")
+    Call<DailyStepsResponse> getDailySteps();
+
+    @Headers({"Content-Type: application/json"})
+    @POST("daily/steps")
+    Call<DailyStep> recordDailySteps(@Body DailyStep dailystep);
+
+    @Headers({"Content-Type: application/json"})
+    @POST("daily/steps/update")
+    Call<DailyStep> updatedDailySteps(@Body DailyStepPOST dailyStepPOST);
 
     @Headers({"Content-Type: application/json"})
     @POST("daily/bloodglucose")
@@ -79,19 +93,5 @@ public interface LaravelAPI {
     @GET("userdetails")
     Call<UserDetailResponse> getUserDetails(@Query("user_id") int user_id);
 
-//    @Headers({"Content-Type: application/json"})
-//    @POST("login")
-//    Call<LoginResponse> login(@Query("email") String email, @Query("password") String password);
-//
-//    @Headers({"Content-Type: application/json"})
-//    @POST("register")
-//    Call<RegisterResponse> register(@Query("name") String name,
-//                                    @Query("email") String email,
-//                                    @Query("password") String password,
-//                                    @Query("gender") char gender,
-//                                    @Query("height") double height,
-//                                    @Query("weight") double weight,
-//                                    @Query("activity_level") String activity_level,
-//                                    @Query("date_of_birth") Date date_of_birth );
 
 }
