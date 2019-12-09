@@ -1,230 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.DailyLogsFragment">
+    android:fillViewport="true"
+    tools:context=".UI.DailyLogsFragmentLOGIC">
 
-    <RelativeLayout
-        android:id="@+id/daily_calorie_rl"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/daily_calorie_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/daily_calorie_txtview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="Daily Calorie Requirement"
+                android:textColor="@android:color/background_dark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/daily_calorie_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@id/daily_calorie_metric" />
+
+            <TextView
+                android:id="@+id/daily_calorie_metric"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="kCals" />
+        </RelativeLayout>
+
+        <CalendarView
+            android:id="@+id/calenderview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/daily_calorie_rl" />
 
         <TextView
-            android:id="@+id/daily_calorie_txtview"
+            android:id="@+id/dateView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:text="Daily Calorie Requirement"
+            android:layout_marginStart="24dp"
             android:textColor="@android:color/background_dark"
-            android:textSize="16dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calenderview" />
+
 
         <TextView
-            android:id="@+id/daily_calorie_txt"
+            android:id="@+id/dayCaloriesValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:layout_toStartOf="@id/daily_calorie_metric" />
+            android:text="test"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/dayCaloriesmetric"
+            app:layout_constraintTop_toBottomOf="@id/calenderview" />
 
         <TextView
-            android:id="@+id/daily_calorie_metric"
+            android:id="@+id/dayCaloriesmetric"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="kCals" />
-    </RelativeLayout>
+            android:layout_marginEnd="32dp"
+            android:text="kCals"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calenderview" />
 
-    <CalendarView
-        android:id="@+id/calenderview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/daily_calorie_rl" />
-
-    <TextView
-        android:id="@+id/dateView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:textColor="@android:color/background_dark"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/calenderview" />
-
-
-    <TextView
-        android:id="@+id/dayCaloriesValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:text="test"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@id/dayCaloriesmetric"
-        app:layout_constraintTop_toBottomOf="@id/calenderview" />
-
-    <TextView
-        android:id="@+id/dayCaloriesmetric"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:text="kCals"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/calenderview" />
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginBottom="60dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dateView">
-
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            android:layout_marginBottom="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dateView">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <RelativeLayout
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardview"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp">
+                    android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/bloodGlucose"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Blood Glucose"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="16dp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/bloodGlucosemsg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/bloodGlucose"
-                        android:text="No records"
-                        android:visibility="gone" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/blood_glucose_recycler_view"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/bloodGlucosemsg"
-                        android:scrollbars="vertical" />
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="16dp">
 
-                    <TextView
-                        android:id="@+id/meals"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/blood_glucose_recycler_view"
-                        android:text="Meals"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="16dp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
+                        <TextView
+                            android:id="@+id/bloodGlucose"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Blood Glucose"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="16dp"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
 
-                    <TextView
-                        android:id="@+id/mealsmsg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/meals"
-                        android:text="No records"
-                        android:visibility="gone" />
+                        <TextView
+                            android:id="@+id/bloodGlucosemsg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/bloodGlucose"
+                            android:text="No records"
+                            android:visibility="gone" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/meals_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/mealsmsg"
-                        android:scrollbars="vertical" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/blood_glucose_recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/bloodGlucosemsg"
+                            android:scrollbars="vertical" />
 
-                    <TextView
-                        android:id="@+id/exercises"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/meals_recycler_view"
-                        android:text="Exercises"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="16dp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
+                        <TextView
+                            android:id="@+id/meals"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/blood_glucose_recycler_view"
+                            android:text="Meals"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="16dp"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
 
-                    <TextView
-                        android:id="@+id/exercisemsg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/exercises"
-                        android:text="No records"
-                        android:visibility="gone" />
+                        <TextView
+                            android:id="@+id/mealsmsg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/meals"
+                            android:text="No records"
+                            android:visibility="gone" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/exercises_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/exercisemsg"
-                        android:scrollbars="vertical" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/meals_recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/mealsmsg"
+                            android:scrollbars="vertical" />
 
-                    <TextView
-                        android:id="@+id/medications"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/exercises_recycler_view"
-                        android:text="Medications"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="16dp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
+                        <TextView
+                            android:id="@+id/exercises"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/meals_recycler_view"
+                            android:text="Exercises"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="16dp"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
 
-                    <TextView
-                        android:id="@+id/medsmsg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/medications"
-                        android:text="No records"
-                        android:visibility="gone" />
+                        <TextView
+                            android:id="@+id/exercisemsg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/exercises"
+                            android:text="No records"
+                            android:visibility="gone" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/med_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/medsmsg"
-                        android:scrollbars="vertical" />
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/exercises_recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/exercisemsg"
+                            android:scrollbars="vertical" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+                        <TextView
+                            android:id="@+id/medications"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/exercises_recycler_view"
+                            android:text="Medications"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="16dp"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                        <TextView
+                            android:id="@+id/medsmsg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/medications"
+                            android:text="No records"
+                            android:visibility="gone" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/med_recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/medsmsg"
+                            android:scrollbars="vertical" />
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

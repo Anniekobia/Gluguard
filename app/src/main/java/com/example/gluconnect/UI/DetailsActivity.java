@@ -1,5 +1,6 @@
 package com.example.gluconnect.UI;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,10 +13,12 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -44,6 +47,7 @@ public class DetailsActivity extends AppCompatActivity implements AdapterView.On
     ProgressBar progressBar;
     TextView errorMsg;
     SharedPreferences sharedPreferences;
+    ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +60,7 @@ public class DetailsActivity extends AppCompatActivity implements AdapterView.On
         laravelAPI = retrofit.create(LaravelAPI.class);
         sharedPreferences= getApplicationContext().getSharedPreferences("MyPreferences", 0); // 0 - for private mode
 
-
+        constraintLayout = findViewById(R.id.details_cl);
         btn = findViewById(R.id.button);
         dob = findViewById(R.id.dobtxt);
         weight = findViewById(R.id.weighttxt);
@@ -78,6 +82,12 @@ public class DetailsActivity extends AppCompatActivity implements AdapterView.On
                 String gender = spinner_gender.getSelectedItem().toString();
                 String activity_level = spinner_activity_level.getSelectedItem().toString();
                 String hospital = spinner_hospital.getSelectedItem().toString();
+                try {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(constraintLayout.getWindowToken(), 0);
+                }catch (Exception e) {
+
+                }
                 if (weightU.isEmpty()||heightU.isEmpty()||dobU.isEmpty()||gender.isEmpty()||activity_level.isEmpty()||hospital.isEmpty()){
                     errorMsg.setText("Please fill in all the details");
                     errorMsg.setVisibility(View.VISIBLE);

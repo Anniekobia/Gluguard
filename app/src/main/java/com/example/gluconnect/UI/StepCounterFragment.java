@@ -55,8 +55,9 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
     private int userID;
     private boolean running = false;
     private SensorManager sensorManager = null;
-    private TextView stepsValue,caloriesMetrics,caloriesBurnt;
-    private  NutritionixAPI nutritionixAPI;
+    private TextView stepsValue, caloriesMetrics, caloriesBurnt;
+    private NutritionixAPI nutritionixAPI;
+
     public StepCounterFragment() {
     }
 
@@ -71,11 +72,11 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
         Retrofit retrofit1 = NutritionixAPIRetrofitClient.getRetrofitClient();
         nutritionixAPI = retrofit1.create(NutritionixAPI.class);
         laravelAPI = retrofit.create(LaravelAPI.class);
-        sharedPreferences= getContext().getSharedPreferences("MyPreferences", 0);
+        sharedPreferences = getContext().getSharedPreferences("MyPreferences", 0);
         editor = sharedPreferences.edit();
 
         progressBar = myview.findViewById(R.id.progressBar);
-        userID = sharedPreferences.getInt("UserID",6);
+        userID = sharedPreferences.getInt("UserID", 6);
         caloriesBurnt = myview.findViewById(R.id.caloriesBurnt);
         caloriesMetrics = myview.findViewById(R.id.caloriesMetric);
 
@@ -90,29 +91,20 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
         running = true;
 
         Sensor stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        if (stepSensor==null){
+        if (stepSensor == null) {
             Toast.makeText(getContext(), "No Step Counter Sensor !", Toast.LENGTH_SHORT).show();
-        }else {
-            sensorManager.registerListener(this,stepSensor,sensorManager.SENSOR_DELAY_UI);
+        } else {
+            sensorManager.registerListener(this, stepSensor, sensorManager.SENSOR_DELAY_UI);
         }
     }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        running = false;
-//
-//        sensorManager.unregisterListener(this);
-//    }
-
-
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        if (running){
+        if (running) {
             int steps = Integer.valueOf((int) sensorEvent.values[0]);
             stepsValue.setText(String.valueOf(steps));
-            String query = "walked"+"\t"+ steps +"\t steps";
-            checkSteps(query,steps);
+            String query = "walked" + "\t" + steps + "\t steps";
+            checkSteps(query, steps);
         }
     }
 
@@ -122,7 +114,7 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
     }
 
 
-    private void getExerciseDetails(String query,int steps,boolean saved,int recordId) {
+    private void getExerciseDetails(String query, int steps, boolean saved, int recordId) {
         Log.e("Exe query", query);
         progressBar.setVisibility(View.VISIBLE);
         Call<ExerciseDetailsList> exerciseDetailsListCall = nutritionixAPI.getExerciseDetailsList(new ExerciseData(21, "female", 157.0, query, 44.5));
@@ -140,11 +132,11 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
                         caloriesBurnt.setText(exercise.getNfCalories().toString());
                         caloriesBurnt.setVisibility(View.VISIBLE);
                         caloriesMetrics.setVisibility(View.VISIBLE);
-                        DailyStep dailyStep = new DailyStep(exercise.getNfCalories().floatValue(),steps,Long.valueOf(userID));
-                        DailyStepPOST dailyStepPOST = new DailyStepPOST(exercise.getNfCalories().floatValue(),Long.valueOf(recordId),steps);
-                        if (saved){
+                        DailyStep dailyStep = new DailyStep(exercise.getNfCalories().floatValue(), steps, Long.valueOf(userID));
+                        DailyStepPOST dailyStepPOST = new DailyStepPOST(exercise.getNfCalories().floatValue(), Long.valueOf(recordId), steps);
+                        if (saved) {
                             updateDaySteps(dailyStepPOST);
-                        }else {
+                        } else {
                             saveDaySteps(dailyStep);
                         }
                     }
@@ -159,7 +151,7 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
         });
     }
 
-    private void checkSteps(String query,int steps) {
+    private void checkSteps(String query, int steps) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat f = new SimpleDateFormat("YYYY-MM-dd");
         String datePicked = f.format(cal.getTime());
@@ -168,43 +160,47 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
         dailyStepsResponseCall.enqueue(new Callback<DailyStepsResponse>() {
             @Override
             public void onResponse(Call<DailyStepsResponse> call, Response<DailyStepsResponse> response) {
-                ArrayList<DailyStep> record = new ArrayList<>();
-                ArrayList<DailyStep> pastRecords = new ArrayList<>();
-                DailyStepsResponse dailyStepsResponse = response.body();
-                if (response.body() == null ){
+                if (!response.isSuccessful()) {
 
-                }
-                else {
-                    for (DailyStep dailyStep : dailyStepsResponse.getDailySteps()) {
-                        String day = dailyStep.getDay();
-                        if (datePicked.equals(day) && userID == dailyStep.getUserId().intValue()) {
-                            record.add(dailyStep);
-                        } else {
-                            pastRecords.add(dailyStep);
+                } else {
+
+                    ArrayList<DailyStep> record = new ArrayList<>();
+                    ArrayList<DailyStep> pastRecords = new ArrayList<>();
+                    DailyStepsResponse dailyStepsResponse = response.body();
+                    if (response.body() == null) {
+                    } else {
+                        for (DailyStep dailyStep : dailyStepsResponse.getDailySteps()) {
+                            String day = dailyStep.getDay();
+                            if (datePicked.equals(day) && userID == dailyStep.getUserId().intValue()) {
+                                record.add(dailyStep);
+                            } else {
+                                Log.e("DailyStep",dailyStep.toString());
+                                pastRecords.add(dailyStep);
+                            }
                         }
                     }
-                }
-                if (record.isEmpty()){
-                    DailyStep dailyStep = pastRecords.get(pastRecords.size() - 1);
-                    int daySteps = steps-dailyStep.getStepCount();
-                    boolean saved = false;
-                    getExerciseDetails(query,daySteps,saved,0);
-                }else {
-                    boolean saved = true;
-                    DailyStep dailyStep = record.get(0);
-                    int recordId  = dailyStep.getId().intValue();
-                    getExerciseDetails(query,steps,saved,recordId);
-                }
+                    if (record.isEmpty()) {
+                        DailyStep dailyStep = pastRecords.get(pastRecords.size() - 1);
+                        int daySteps = steps - dailyStep.getStepCount();
+                        boolean saved = false;
+                        getExerciseDetails(query, daySteps, saved, 0);
+                    } else {
+                        boolean saved = true;
+                        DailyStep dailyStep = record.get(0);
+                        int recordId = dailyStep.getId().intValue();
+                        getExerciseDetails(query, steps, saved, recordId);
+                    }
 
+                }
             }
             @Override
             public void onFailure(Call<DailyStepsResponse> call, Throwable t) {
-                Log.e("Get BG",  t.getMessage());
+                Log.e("Get BG", t.getMessage());
             }
         });
     }
 
-    public void saveDaySteps(DailyStep dailyStep){
+    public void saveDaySteps(DailyStep dailyStep) {
         Call<DailyStep> dailyStepCall = laravelAPI.recordDailySteps(dailyStep);
         dailyStepCall.enqueue(new Callback<DailyStep>() {
             @Override
@@ -226,7 +222,7 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
         });
     }
 
-    public void updateDaySteps(DailyStepPOST dailyStepPOST){
+    public void updateDaySteps(DailyStepPOST dailyStepPOST) {
         Call<DailyStep> dailyStepCall = laravelAPI.updatedDailySteps(dailyStepPOST);
         dailyStepCall.enqueue(new Callback<DailyStep>() {
             @Override

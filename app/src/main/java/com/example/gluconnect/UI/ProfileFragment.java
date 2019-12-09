@@ -66,7 +66,7 @@ public class ProfileFragment extends Fragment {
         username = myView.findViewById(R.id.profile_username_et);
         email = myView.findViewById(R.id.email_et);
         hospital = myView.findViewById(R.id.hospital_et);
-        password = myView.findViewById(R.id.password_et);
+//        password = myView.findViewById(R.id.password_et);
         editProfile = myView.findViewById(R.id.edit_profile_btn);
         saveProfile = myView.findViewById(R.id.save_btn);
         logoutBtn = myView.findViewById(R.id.logout_btn);
@@ -83,7 +83,7 @@ public class ProfileFragment extends Fragment {
                 username.setSelection(username.getText().length());
                 email.setEnabled(true);
                 hospital.setEnabled(true);
-                password.setEnabled(true);
+//                password.setEnabled(true);
             }
         });
         saveProfile.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +94,7 @@ public class ProfileFragment extends Fragment {
                 username.setEnabled(false);
                 email.setEnabled(false);
                 hospital.setEnabled(false);
-                password.setEnabled(false);
+//                password.setEnabled(false);
                 updateDetails();
 
             }
@@ -128,7 +128,7 @@ public class ProfileFragment extends Fragment {
         username.setText(sharedPreferences.getString("Username", "User"));
         email.setText(sharedPreferences.getString("Email", "Email"));
         hospital.setText(sharedPreferences.getString("Hospital", "Hospital"));
-        password.setText(sharedPreferences.getString("Password", "Password"));
+//        password.setText(sharedPreferences.getString("Password", "Password"));
     }
 
     public void updateDetails() {

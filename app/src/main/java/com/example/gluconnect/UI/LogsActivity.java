@@ -1,18 +1,13 @@
 package com.example.gluconnect.UI;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-
-import com.example.gluconnect.R;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -20,21 +15,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
+import com.example.gluconnect.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class DailyLogsActivity extends AppCompatActivity {
+public class LogsActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private  Bundle extras;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_daily_logs);
+        setContentView(R.layout.activity_logs);
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Log");
         setSupportActionBar(toolbar);
-
-        Intent intent = new Intent(getApplicationContext(),LogsActivity.class);
-        startActivity(intent);
 
         final BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -121,4 +115,6 @@ public class DailyLogsActivity extends AppCompatActivity {
         fragment = new ProfileFragment();
         loadFragment(fragment);
     }
+
+
 }
