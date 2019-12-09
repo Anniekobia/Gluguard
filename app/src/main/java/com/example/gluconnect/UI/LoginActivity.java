@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private ProgressBar progressBar;
     SharedPreferences.Editor editor;
-    private  Bundle extras;
+    private Bundle extras;
     private ConstraintLayout constraintLayout;
 
     @Override
@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Retrofit retrofit = LaravelAPIRetrofitClient.getRetrofitClient();
         laravelAPI = retrofit.create(LaravelAPI.class);
-        sharedPreferences= getApplicationContext().getSharedPreferences("MyPreferences", 0);
+        sharedPreferences = getApplicationContext().getSharedPreferences("MyPreferences", 0);
         editor = sharedPreferences.edit();
 
         constraintLayout = findViewById(R.id.login_cl);
@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(constraintLayout.getWindowToken(), 0);
-                }catch (Exception e) {
+                } catch (Exception e) {
 
                 }
 
@@ -87,11 +87,11 @@ public class LoginActivity extends AppCompatActivity {
     private void validateDetails() {
         String emailu = signinemail.getText().toString();
         String pwd = signpass.getText().toString();
-        if (TextUtils.isEmpty(emailu)||TextUtils.isEmpty(pwd)){
+        if (TextUtils.isEmpty(emailu) || TextUtils.isEmpty(pwd)) {
             errormsg.setText("Please fill in all the fields");
             errormsg.setVisibility(View.VISIBLE);
         } else {
-            LoginPost loginPost = new LoginPost(pwd,emailu);
+            LoginPost loginPost = new LoginPost(pwd, emailu);
             LoginUser(loginPost);
             errormsg.setText("");
             errormsg.setVisibility(View.GONE);
@@ -106,19 +106,25 @@ public class LoginActivity extends AppCompatActivity {
         loginResponseCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                LoginResponse loginResponse = response.body();
-                if (loginResponse.getStatus()==0) {
-                    errormsg.setText(loginResponse.getMessage());
-                    errormsg.setVisibility(View.VISIBLE);
+                if (!response.isSuccessful()) {
                     progressBar.setVisibility(GONE);
+                    errormsg.setText("Something happened, please try again later");
+                    errormsg.setVisibility(View.VISIBLE);
                 } else {
-                    int userid = loginResponse.getUser().getId().intValue();
-                    editor.putString("Username",loginResponse.getUser().getUsername());
-                    editor.putString("Email",loginResponse.getUser().getEmail());
-                    editor.putString("Password",signpass.getText().toString());
-                    editor.commit();
+                    LoginResponse loginResponse = response.body();
+                    if (loginResponse.getStatus() == 0) {
+                        errormsg.setText(loginResponse.getMessage());
+                        errormsg.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(GONE);
+                    } else {
+                        int userid = loginResponse.getUser().getId().intValue();
+                        editor.putString("Username", loginResponse.getUser().getUsername());
+                        editor.putString("Email", loginResponse.getUser().getEmail());
+                        editor.putString("Password", signpass.getText().toString());
+                        editor.commit();
 
-                    getUserDetails(userid);
+                        getUserDetails(userid);
+                    }
                 }
             }
 
@@ -126,32 +132,40 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 progressBar.setVisibility(GONE);
                 Log.e("Register", t.getMessage());
+                errormsg.setText("Something happened, please try again later");
+                errormsg.setVisibility(View.VISIBLE);
             }
         });
     }
 
-    public  void getUserDetails(Integer userid){
+    public void getUserDetails(Integer userid) {
 //        UserID userID = new UserID(userid);
         Call<UserDetailResponse> userDetailResponseCall = laravelAPI.getUserDetails(userid);
         userDetailResponseCall.enqueue(new Callback<UserDetailResponse>() {
             @Override
             public void onResponse(Call<UserDetailResponse> call, Response<UserDetailResponse> response) {
-                UserDetailResponse userDetailResponse = response.body();
-                progressBar.setVisibility(GONE);
-                if (userDetailResponse.getSuccess()==0) {
-                    errormsg.setText("Something went wrong, try again later");
+                if (!response.isSuccessful()) {
+                    progressBar.setVisibility(GONE);
+                    errormsg.setText("Something happened, please try again later");
                     errormsg.setVisibility(View.VISIBLE);
                 } else {
+                    UserDetailResponse userDetailResponse = response.body();
+                    progressBar.setVisibility(GONE);
+                    if (userDetailResponse.getSuccess() == 0) {
+                        errormsg.setText("Something went wrong, try again later");
+                        errormsg.setVisibility(View.VISIBLE);
+                    } else {
 
 //                        Log.e("UserDets",userDetailResponse.getUserDetails().toString());
-                    editor.putInt("UserID",userDetailResponse.getUserDetails().getUserId().intValue());
-                    editor.putString("Hospital",userDetailResponse.getUserDetails().getHospital());
-                    editor.commit();
+                        editor.putInt("UserID", userDetailResponse.getUserDetails().getUserId().intValue());
+                        editor.putString("Hospital", userDetailResponse.getUserDetails().getHospital());
+                        editor.commit();
 
-                    Intent intent = new Intent(getApplicationContext(), DailyLogsActivity.class);
-                    startActivity(intent);
-                    signinemail.setText("");
-                    signpass.setText("");
+                        Intent intent = new Intent(getApplicationContext(), DailyLogsActivity.class);
+                        startActivity(intent);
+                        signinemail.setText("");
+                        signpass.setText("");
+                    }
                 }
             }
 
@@ -159,12 +173,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<UserDetailResponse> call, Throwable t) {
                 progressBar.setVisibility(GONE);
                 Log.e("Register", t.getMessage());
+                errormsg.setText("Something happened, please try again later");
+                errormsg.setVisibility(View.VISIBLE);
             }
         });
     }
 
     public void openRegisterActivity(View view) {
-       Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-       startActivity(intent);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 }

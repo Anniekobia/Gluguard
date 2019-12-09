@@ -103,6 +103,7 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
     private Button medSaveBtn;
 
     RelativeLayout relativeLayout;
+    TextView errormsg;
 
     //    private Button bgNextBtn;
     public DailyLogsFragmentLOGIC() {
@@ -123,6 +124,7 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
         Retrofit retrofit1 = NutritionixAPIRetrofitClient.getRetrofitClient();
         nutritionixAPI = retrofit1.create(NutritionixAPI.class);
         sharedPreferences = getContext().getSharedPreferences("MyPreferences", 0);
+        errormsg = myView.findViewById(R.id.error_msg);
 
         relativeLayout = myView.findViewById(R.id.logs_rl);
         saveDailyLogsBtn = myView.findViewById(R.id.save_logs_btn);
@@ -487,6 +489,16 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
                 if (!response.isSuccessful()) {
                     progressBar.setVisibility(GONE);
                     Log.e("MealError", response.message());
+                    errormsg.setText("Meal not saved, please try again later");
+                    errormsg.setVisibility(View.VISIBLE);
+                    selectedFoodItemlayout.setVisibility(GONE);
+                    auto_complete_edittext.getText().clear();
+                    selected_food_item.setText("");
+                    selectedFoodItemCalories.setText("");
+                    selectedFoodItemMetrc.setText("");
+                    selectedFoodItemQuantity.getText().clear();
+                    mealTimeRadiogroup.clearCheck();
+                    saveDailyLogsBtn.setVisibility(View.VISIBLE);
                     return;
                 } else {
                     progressBar.setVisibility(GONE);
@@ -506,6 +518,16 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
             public void onFailure(Call<Meal> call, Throwable t) {
                 progressBar.setVisibility(GONE);
                 Log.e("Meal Failed", t.getMessage());
+                errormsg.setText("Meal not saved, please try again later");
+                errormsg.setVisibility(View.VISIBLE);
+                selectedFoodItemlayout.setVisibility(GONE);
+                auto_complete_edittext.getText().clear();
+                selected_food_item.setText("");
+                selectedFoodItemCalories.setText("");
+                selectedFoodItemMetrc.setText("");
+                selectedFoodItemQuantity.getText().clear();
+                mealTimeRadiogroup.clearCheck();
+                saveDailyLogsBtn.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -526,6 +548,12 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
                 if (!response.isSuccessful()) {
                     progressBar.setVisibility(GONE);
                     Log.e("Med Saved Unsuccessful", "Code: " + response.code() + "\n" + "Message" + response.message());
+                    errormsg.setText("Medication not saved, please try again later");
+                    errormsg.setVisibility(View.VISIBLE);
+                    medicationUnits.getText().clear();
+                    medSaveBtn.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
+                    saveDailyLogsBtn.setVisibility(View.VISIBLE);
                     return;
                 } else {
                     medicationUnits.getText().clear();
@@ -539,6 +567,12 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
             public void onFailure(Call<MedicationResponse> call, Throwable t) {
                 Log.e("Exe Saved Failed", t.getMessage());
                 progressBar.setVisibility(GONE);
+                errormsg.setText("Medication not saved, please try again later");
+                errormsg.setVisibility(View.VISIBLE);
+                medicationUnits.getText().clear();
+                medSaveBtn.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
+                saveDailyLogsBtn.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -562,6 +596,11 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
                 if (!response.isSuccessful()) {
                     progressBar.setVisibility(GONE);
                     Log.e("Blood Glucose", response.message());
+                    errormsg.setText("Blood glucose not saved, please try again later");
+                    errormsg.setVisibility(View.VISIBLE);
+                    bloodGlucoseLevelEditText.getText().clear();
+                    bglevelRadiogroup.clearCheck();
+                    saveDailyLogsBtn.setVisibility(View.VISIBLE);
                     return;
                 } else {
                     progressBar.setVisibility(GONE);
@@ -576,6 +615,11 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
             public void onFailure(Call<BloodGlucose> call, Throwable t) {
                 progressBar.setVisibility(GONE);
                 Log.e("Blood Glucose", t.getMessage());
+                errormsg.setText("Blood glucose not saved, please try again later");
+                errormsg.setVisibility(View.VISIBLE);
+                bloodGlucoseLevelEditText.getText().clear();
+                bglevelRadiogroup.clearCheck();
+                saveDailyLogsBtn.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -650,6 +694,8 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
                 if (!response.isSuccessful()) {
                     progressBar.setVisibility(GONE);
                     Log.e("Exe Unsuccessful", "Code: " + response.code() + "\n" + "Message" + response.message());
+                    errormsg.setText("Something happened, please try again later");
+                    errormsg.setVisibility(View.VISIBLE);
                     return;
                 } else {
                     ExerciseDetailsList exerciseDetailsList = response.body();
@@ -668,6 +714,8 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
             public void onFailure(Call<ExerciseDetailsList> call, Throwable t) {
                 Log.e("Exe Failed", t.getMessage());
                 progressBar.setVisibility(GONE);
+                errormsg.setText("Something happened, please try again later");
+                errormsg.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -688,6 +736,15 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
                 if (!response.isSuccessful()) {
                     progressBar.setVisibility(GONE);
                     Log.e("Exe Saved Unsuccessful", "Code: " + response.code() + "\n" + "Message" + response.message());
+                    errormsg.setText("Exercise not saved, please try again later");
+                    errormsg.setVisibility(View.VISIBLE);
+                    exercise_distance.getText().clear();
+                    exercise_duration.getText().clear();
+                    exercise_calories_txtview.setVisibility(View.GONE);
+                    exercise_calories_metrics_txtview.setVisibility(GONE);
+                    exeSaveBtn.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
+                    saveDailyLogsBtn.setVisibility(View.VISIBLE);
                     return;
                 } else {
                     Log.e("Exe  Saved", recordedExercise.toString());
@@ -705,11 +762,26 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
             public void onFailure(Call<Exercise> call, Throwable t) {
                 Log.e("Exe Saved Failed", t.getMessage());
                 progressBar.setVisibility(GONE);
+                errormsg.setText("Exercise not saved, please try again later");
+                errormsg.setVisibility(View.VISIBLE);
+                exercise_distance.getText().clear();
+                exercise_duration.getText().clear();
+                exercise_calories_txtview.setVisibility(View.GONE);
+                exercise_calories_metrics_txtview.setVisibility(GONE);
+                exeSaveBtn.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
+                saveDailyLogsBtn.setVisibility(View.VISIBLE);
             }
         });
     }
 
     public void saveAll(){
+        try {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(relativeLayout.getWindowToken(), 0);
+        }catch (Exception e) {
+
+        }
         //SaveMeal
         Integer userID = sharedPreferences.getInt("UserID", 1);
         progressBar.setVisibility(View.VISIBLE);
@@ -723,6 +795,8 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
             public void onResponse(Call<Meal> call, Response<Meal> response) {
                 if (!response.isSuccessful()) {
                     Log.e("MealError", response.message());
+                    errormsg.setText("Something happened, please try again later");
+                    errormsg.setVisibility(View.VISIBLE);
                     return;
                 } else {
                     Log.e("Meal", "Record saved");
@@ -749,6 +823,8 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
             @Override
             public void onFailure(Call<Meal> call, Throwable t) {
                 Log.e("Meal Failed", t.getMessage());
+                errormsg.setText("Something happened, please try again later");
+                errormsg.setVisibility(View.VISIBLE);
             }
         });
 
@@ -762,6 +838,8 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
             public void onResponse(Call<BloodGlucose> call, Response<BloodGlucose> response) {
                 if (!response.isSuccessful()) {
                     Log.e("Blood Glucose", response.message());
+                    errormsg.setText("Something happened, please try again later");
+                    errormsg.setVisibility(View.VISIBLE);
                     return;
                 } else {
                     Log.e("Blood Glucose", "Record saved");
@@ -786,6 +864,8 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
             @Override
             public void onFailure(Call<BloodGlucose> call, Throwable t) {
                 Log.e("Blood Glucose", t.getMessage());
+                errormsg.setText("Something happened, please try again later");
+                errormsg.setVisibility(View.VISIBLE);
             }
         });
 
@@ -801,6 +881,8 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
             public void onResponse(Call<Exercise> call, Response<Exercise> response) {
                 if (!response.isSuccessful()) {
                     Log.e("Exe Saved Unsuccessful", "Code: " + response.code() + "\n" + "Message" + response.message());
+                    errormsg.setText("Something happened, please try again later");
+                    errormsg.setVisibility(View.VISIBLE);
                     return;
                 } else {
                     exercise_distance.getText().clear();
@@ -829,6 +911,8 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
             public void onFailure(Call<Exercise> call, Throwable t) {
                 Log.e("Exe Saved Failed", t.getMessage());
                 progressBar.setVisibility(GONE);
+                errormsg.setText("Something happened, please try again later");
+                errormsg.setVisibility(View.VISIBLE);
             }
         });
 
@@ -843,6 +927,8 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
                 if (!response.isSuccessful()) {
                     progressBar.setVisibility(GONE);
                     Log.e("Med Saved Unsuccessful", "Code: " + response.code() + "\n" + "Message" + response.message());
+                    errormsg.setText("Something happened, please try again later");
+                    errormsg.setVisibility(View.VISIBLE);
                     return;
                 } else {
                     medicationUnits.getText().clear();
@@ -855,6 +941,8 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
             @Override
             public void onFailure(Call<MedicationResponse> call, Throwable t) {
                 Log.e("Exe Saved Failed", t.getMessage());
+                errormsg.setText("Something happened, please try again later");
+                errormsg.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(GONE);
             }
         });
@@ -869,7 +957,8 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
                 List<String> stringList = new ArrayList<>();
                 List<String> stringListSet = new ArrayList<>();
                 if (!response.isSuccessful()) {
-                    foodItemSuggestionsTextView.setText("Code: " + response.code() + "\n Message: " + response.message());
+                    errormsg.setText("Something happened, please try again later");
+                    errormsg.setVisibility(View.VISIBLE);
                 } else {
                     String text = "";
                     String txt = "";
@@ -895,7 +984,8 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
 
             @Override
             public void onFailure(Call<FoodItemSuggestionsList> call, Throwable t) {
-                foodItemSuggestionsTextView.setText(t.getMessage());
+                errormsg.setText("Something happened, please try again later");
+                errormsg.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -908,6 +998,8 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
             public void onResponse(Call<Food> call, Response<Food> response) {
                 if (!response.isSuccessful()) {
                     Log.e("Meal Suggestions", "Code: " + response.code() + "\n" + "Message" + response.message());
+                    errormsg.setText("Something happened, please try again later");
+                    errormsg.setVisibility(View.VISIBLE);
                     return;
                 } else {
                     Food food = response.body();
@@ -918,7 +1010,8 @@ public class DailyLogsFragmentLOGIC extends Fragment implements View.OnClickList
 
             @Override
             public void onFailure(Call<Food> call, Throwable t) {
-                auto_complete_edittext.setText(t.getMessage());
+                errormsg.setText("Something happened, please try again later");
+                errormsg.setVisibility(View.VISIBLE);
             }
         });
         return foodName;

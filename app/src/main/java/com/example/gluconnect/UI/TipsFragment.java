@@ -51,7 +51,7 @@ public class TipsFragment extends Fragment {
     TextView usermsg;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private  int userid;
+    private int userid;
 
     public TipsFragment() {
     }
@@ -64,7 +64,7 @@ public class TipsFragment extends Fragment {
 
         Retrofit retrofit = LaravelAPIRetrofitClient.getRetrofitClient();
         laravelAPI = retrofit.create(LaravelAPI.class);
-        sharedPreferences= getContext().getSharedPreferences("MyPreferences", 0);
+        sharedPreferences = getContext().getSharedPreferences("MyPreferences", 0);
         editor = sharedPreferences.edit();
 
         progressBar = myview.findViewById(R.id.progressBar);
@@ -76,43 +76,54 @@ public class TipsFragment extends Fragment {
         recyclerView.setAdapter(mAdapter);
         usermsg = myview.findViewById(R.id.usermessage);
 
-        Log.e("UserID", String.valueOf(sharedPreferences.getInt("UserID",6)));
+        Log.e("UserID", String.valueOf(sharedPreferences.getInt("UserID", 6)));
         getBloodGlucoseLevels();
         return myview;
     }
+
     private void getBloodGlucoseLevels() {
         progressBar.setVisibility(View.VISIBLE);
-        userid = sharedPreferences.getInt("UserID",6);
+        userid = sharedPreferences.getInt("UserID", 6);
         Call<BloodGlucoseResponse> bloodGlucoseResponseCall = laravelAPI.getBloodGlucoseLevel();
         bloodGlucoseResponseCall.enqueue(new Callback<BloodGlucoseResponse>() {
             @Override
             public void onResponse(Call<BloodGlucoseResponse> call, Response<BloodGlucoseResponse> response) {
-                ArrayList<BloodGlucose> BG = new ArrayList<>();
-                ArrayList<Float> bgLeveValues = new ArrayList<>();
-                BloodGlucoseResponse bloodGlucoseResponse = response.body();
+                if (!response.isSuccessful()) {
+                    progressBar.setVisibility(View.GONE);
+                    Log.e("Get Food", "Food Items not picked");
+                    usermsg.setText("Something happened, please try again later");
+                    usermsg.setVisibility(View.VISIBLE);
+                    return;
+                } else {
+                    ArrayList<BloodGlucose> BG = new ArrayList<>();
+                    ArrayList<Float> bgLeveValues = new ArrayList<>();
+                    BloodGlucoseResponse bloodGlucoseResponse = response.body();
                     for (BloodGlucose bloodGlucose : bloodGlucoseResponse.getBloodGlucoseRecords()) {
-                        Log.e("BGw",bloodGlucose.toString());
-                        if (bloodGlucose.getUserId()==userid){
+                        Log.e("BGw", bloodGlucose.toString());
+                        if (bloodGlucose.getUserId() == userid) {
                             BG.add(bloodGlucose);
                             bgLeveValues.add(bloodGlucose.getBloodGlucoseValue());
                         }
                     }
                     try {
-                        BloodGlucose latest = BG.get(BG.size()-1);
-                        getFoodRecommendations(latest.getBloodGlucoseValue(),latest.getBloodGlucoseType());
-                    }catch (Exception e){
-                        Log.e("Exception",e.getMessage());
+                        BloodGlucose latest = BG.get(BG.size() - 1);
+                        getFoodRecommendations(latest.getBloodGlucoseValue(), latest.getBloodGlucoseType());
+                    } catch (Exception e) {
+                        Log.e("Exception", e.getMessage());
                         progressBar.setVisibility(View.GONE);
                         usermsg.setText("Record your blood glucose to get recommendations");
                         usermsg.setVisibility(View.VISIBLE);
                     }
+                }
             }
-            @Override
-            public void onFailure(Call<BloodGlucoseResponse> call, Throwable t) {
-                Log.e("Get BG",  t.getMessage());
-            }
-        });
-    }
+                @Override
+                public void onFailure (Call < BloodGlucoseResponse > call, Throwable t){
+                    Log.e("Get BG", t.getMessage());
+                    usermsg.setText("Something happened, please try again later");
+                    usermsg.setVisibility(View.VISIBLE);
+                }
+            });
+        }
 
     private void getFoodRecommendations(final Float bloodglucose, final String bloodGlucoseType) {
         Call<FoodRecommendations> foodRecommendationsCall = laravelAPI.getFoodRecommendations();
@@ -122,36 +133,38 @@ public class TipsFragment extends Fragment {
                 if (!response.isSuccessful()) {
                     progressBar.setVisibility(View.GONE);
                     Log.e("Get Food", "Food Items not picked");
+                    usermsg.setText("Something happened, please try again later");
+                    usermsg.setVisibility(View.VISIBLE);
                     return;
                 } else {
                     List<FoodRecommendation> lowGIFoods = new ArrayList<>();
                     List<FoodRecommendation> mediumGIFoods = new ArrayList<>();
                     List<FoodRecommendation> highGIFoods = new ArrayList<>();
                     FoodRecommendations foodRecommendations = response.body();
-                    for (FoodRecommendation foodRecommendation: foodRecommendations.getFoodRecommendations()){
-                        FoodRecommendation food = new FoodRecommendation(foodRecommendation.getFoodCategory(),foodRecommendation.getFoodName(),foodRecommendation.getServingSize(),foodRecommendation.getGlycemicIndex());
-                        if(food.getGlycemicIndex()<=55){
+                    for (FoodRecommendation foodRecommendation : foodRecommendations.getFoodRecommendations()) {
+                        FoodRecommendation food = new FoodRecommendation(foodRecommendation.getFoodCategory(), foodRecommendation.getFoodName(), foodRecommendation.getServingSize(), foodRecommendation.getGlycemicIndex());
+                        if (food.getGlycemicIndex() <= 55) {
                             lowGIFoods.add(food);
-                        }else if (food.getGlycemicIndex()>55 && food.getGlycemicIndex()<=69){
+                        } else if (food.getGlycemicIndex() > 55 && food.getGlycemicIndex() <= 69) {
                             mediumGIFoods.add(food);
-                        }else if (food.getGlycemicIndex()>=70){
+                        } else if (food.getGlycemicIndex() >= 70) {
                             highGIFoods.add(food);
                         }
                     }
                     Random rand = new Random();
                     int numberOfFoodsRecommended = 7;
                     for (int i = 0; i < numberOfFoodsRecommended; i++) {
-                        if ((bloodglucose>126&&bloodGlucoseType.equals("fasting"))||(bloodglucose>198&&(bloodGlucoseType.equals("before meal")||bloodGlucoseType.equals("after meal")||bloodGlucoseType.equals("at night")))){
+                        if ((bloodglucose > 126 && bloodGlucoseType.equals("fasting")) || (bloodglucose > 198 && (bloodGlucoseType.equals("before meal") || bloodGlucoseType.equals("after meal") || bloodGlucoseType.equals("at night")))) {
                             int randomIndex = rand.nextInt(lowGIFoods.size());
                             FoodRecommendation food = lowGIFoods.get(randomIndex);
                             lowGIFoods.remove(randomIndex);
                             foodsList.add(food);
-                        }else if (bloodglucose>70.2&&((bloodglucose<=126&&bloodGlucoseType.equals("fasting"))||(bloodglucose<=198&&(bloodGlucoseType.equals("before meal")||bloodGlucoseType.equals("after meal")||bloodGlucoseType.equals("at night"))))){
+                        } else if (bloodglucose > 70.2 && ((bloodglucose <= 126 && bloodGlucoseType.equals("fasting")) || (bloodglucose <= 198 && (bloodGlucoseType.equals("before meal") || bloodGlucoseType.equals("after meal") || bloodGlucoseType.equals("at night"))))) {
                             int randomIndex = rand.nextInt(mediumGIFoods.size());
                             FoodRecommendation food = mediumGIFoods.get(randomIndex);
                             mediumGIFoods.remove(randomIndex);
                             foodsList.add(food);
-                        }else if (bloodglucose<70.2){
+                        } else if (bloodglucose < 70.2) {
                             int randomIndex = rand.nextInt(highGIFoods.size());
                             FoodRecommendation food = highGIFoods.get(randomIndex);
                             highGIFoods.remove(randomIndex);
@@ -167,6 +180,8 @@ public class TipsFragment extends Fragment {
             public void onFailure(Call<FoodRecommendations> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 Log.e("Failed", t.getMessage());
+                usermsg.setText("Something happened, please try again later");
+                usermsg.setVisibility(View.VISIBLE);
             }
         });
     }

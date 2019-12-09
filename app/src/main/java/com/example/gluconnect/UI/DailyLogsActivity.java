@@ -33,8 +33,10 @@ public class DailyLogsActivity extends AppCompatActivity {
         toolbar.setTitle("Log");
         setSupportActionBar(toolbar);
 
-        Intent intent = new Intent(getApplicationContext(),LogsActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(getApplicationContext(),LogsActivity.class);
+//        startActivity(intent);
+
+        loadFragment(new DailyLogsFragmentLOGIC());
 
         final BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -89,7 +91,7 @@ public class DailyLogsActivity extends AppCompatActivity {
                     return true;
                 case R.id.record_icon:
                     toolbar.setTitle("Log");
-                    fragment = new DailyLogsFragment();
+                    fragment = new DailyLogsFragmentLOGIC();
                     loadFragment(fragment);
                     return true;
 //                case R.id.steps_icon:

@@ -3,6 +3,7 @@ package com.example.gluconnect.UI;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -14,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.RelativeLayout;
 
 import com.example.gluconnect.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,6 +24,9 @@ public class LogsActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private  Bundle extras;
+    RelativeLayout relativeLayout;
+    private CardView meal, exercise, bloodGlucose, medicine;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +34,21 @@ public class LogsActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Log");
         setSupportActionBar(toolbar);
+
+        relativeLayout = findViewById(R.id.logs_layout);
+
+        meal = findViewById(R.id.mealCardView);
+        exercise = findViewById(R.id.exerciseCardView);
+        bloodGlucose = findViewById(R.id.bloodGlucoseCardView);
+        medicine = findViewById(R.id.medicationCardView);
+
+        meal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new DailyLogsFragment();
+                loadFragment(fragment);
+            }
+        });
 
         final BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -92,6 +112,7 @@ public class LogsActivity extends AppCompatActivity {
 //                    loadFragment(fragment);
 //                    return true;
                 case R.id.tips_icon:
+                    relativeLayout.setVisibility(View.GONE);
                     toolbar.setTitle("Tips");
                     fragment = new TipsFragment();
                     loadFragment(fragment);

@@ -68,14 +68,14 @@ public class RegisterFragment extends Fragment {
 
         Retrofit retrofit = LaravelAPIRetrofitClient.getRetrofitClient();
         laravelAPI = retrofit.create(LaravelAPI.class);
-        sharedPreferences= getContext().getSharedPreferences("MyPreferences", 0); // 0 - for private mode
+        sharedPreferences = getContext().getSharedPreferences("MyPreferences", 0); // 0 - for private mode
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         constraintLayout = myview.findViewById(R.id.register_cl);
         loginTxtview = myview.findViewById(R.id.login_textview);
-        registerBtn =  myview.findViewById(R.id.signup_button);
+        registerBtn = myview.findViewById(R.id.signup_button);
         username = myview.findViewById(R.id.username);
-        email= myview.findViewById(R.id.signup_email);
+        email = myview.findViewById(R.id.signup_email);
         errorMsg = myview.findViewById(R.id.error_msg);
         password = myview.findViewById(R.id.signup_password);
         confirmPassword = myview.findViewById(R.id.confirm_signup_password);
@@ -84,14 +84,15 @@ public class RegisterFragment extends Fragment {
         handleClicks();
         return myview;
     }
-    public void handleClicks(){
+
+    public void handleClicks() {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(constraintLayout.getWindowToken(), 0);
-                }catch (Exception e) {
+                } catch (Exception e) {
 
                 }
                 validateDetails();
@@ -113,20 +114,21 @@ public class RegisterFragment extends Fragment {
         String pwd = password.getText().toString();
         String cpwd = confirmPassword.getText().toString();
         String userType = "Patient";
-        if (TextUtils.isEmpty(usrname)||TextUtils.isEmpty(emailu)||TextUtils.isEmpty(pwd)||TextUtils.isEmpty(cpwd)){
+        if (TextUtils.isEmpty(usrname) || TextUtils.isEmpty(emailu) || TextUtils.isEmpty(pwd) || TextUtils.isEmpty(cpwd)) {
             errorMsg.setText("Please fill in all the fields");
             errorMsg.setVisibility(View.VISIBLE);
-        }else if (!pwd.equals(cpwd)){
+        } else if (!pwd.equals(cpwd)) {
             errorMsg.setText("Passwords do not match");
             errorMsg.setVisibility(View.VISIBLE);
         } else {
-            RegisterPOST registerPOST = new RegisterPOST(emailu,pwd,cpwd,userType,usrname);
+            RegisterPOST registerPOST = new RegisterPOST(emailu, pwd, cpwd, userType, usrname);
             RegisterUser(registerPOST);
             errorMsg.setText("");
             errorMsg.setVisibility(View.GONE);
         }
 
     }
+
     public void RegisterUser(final RegisterPOST registerPOST) {
         final SharedPreferences.Editor editor = sharedPreferences.edit();
         progressBar.setVisibility(View.VISIBLE);
@@ -134,31 +136,37 @@ public class RegisterFragment extends Fragment {
         registerResponseCall.enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
-                RegisterResponse registerResponse = response.body();
-                progressBar.setVisibility(GONE);
-                Log.e("Res",registerResponse.getStatus().toString());
-                if (registerResponse.getStatus()==0) {
-                    Error error = registerResponse.getError();
-                    List email = error.getEmail();
-                    errorMsg.setText(email.get(0).toString());
+                if (!response.isSuccessful()) {
+                    progressBar.setVisibility(GONE);
+                    errorMsg.setText("Something happened, please try again later");
                     errorMsg.setVisibility(View.VISIBLE);
                 } else {
-                    String usrname = username.getText().toString();
-                    String emailu = email.getText().toString();
-                    String pwd = password.getText().toString();
+                    RegisterResponse registerResponse = response.body();
+                    progressBar.setVisibility(GONE);
+                    Log.e("Res", registerResponse.getStatus().toString());
+                    if (registerResponse.getStatus() == 0) {
+                        Error error = registerResponse.getError();
+                        List email = error.getEmail();
+                        errorMsg.setText(email.get(0).toString());
+                        errorMsg.setVisibility(View.VISIBLE);
+                    } else {
+                        String usrname = username.getText().toString();
+                        String emailu = email.getText().toString();
+                        String pwd = password.getText().toString();
 
-                    editor.putInt("UserID",registerResponse.getStatus());
-                    editor.putString("Username",usrname);
-                    editor.putString("Email",emailu);
-                    editor.putString("Password",pwd);
-                    editor.commit();
+                        editor.putInt("UserID", registerResponse.getStatus());
+                        editor.putString("Username", usrname);
+                        editor.putString("Email", emailu);
+                        editor.putString("Password", pwd);
+                        editor.commit();
 
-                    Intent intent = new Intent(getContext(), DetailsActivity.class);
-                    startActivity(intent);
-                    password.setText("");
-                    username.setText("");
-                    confirmPassword.setText("");
-                    email.setText("");
+                        Intent intent = new Intent(getContext(), DetailsActivity.class);
+                        startActivity(intent);
+                        password.setText("");
+                        username.setText("");
+                        confirmPassword.setText("");
+                        email.setText("");
+                    }
                 }
             }
 
@@ -166,6 +174,8 @@ public class RegisterFragment extends Fragment {
             public void onFailure(Call<RegisterResponse> call, Throwable t) {
                 progressBar.setVisibility(GONE);
                 Log.e("Register", t.getMessage());
+                errorMsg.setText("Something happened, please try again later");
+                errorMsg.setVisibility(View.VISIBLE);
             }
         });
     }

@@ -63,7 +63,7 @@ public class AnalyticsFragment extends Fragment {
     private LaravelAPI laravelAPI;
     private List<Entry> lineChartEntries = new ArrayList<Entry>();
     private LineChart mLineChart;
-    private TextView day,noRecords;
+    private TextView day, noRecords;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     ArrayList<ILineDataSet> iLineDataSets;
@@ -141,7 +141,7 @@ public class AnalyticsFragment extends Fragment {
         return myview;
     }
 
-    public void openDatePicker(){
+    public void openDatePicker() {
         final Calendar myCalendar = Calendar.getInstance();
         new DatePickerDialog(getContext(), datePickerDate, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
@@ -154,121 +154,129 @@ public class AnalyticsFragment extends Fragment {
         bloodGlucoseResponseCall.enqueue(new Callback<BloodGlucoseResponse>() {
             @Override
             public void onResponse(Call<BloodGlucoseResponse> call, Response<BloodGlucoseResponse> response) {
-                progressBar.setVisibility(View.GONE);
-
-                if (iLineDataSets!=null){
-                    iLineDataSets.clear();
-                    mLineChart.clear();
-                    mLineChart.invalidate();
-                }
-
-                mLineChart.notifyDataSetChanged();
-                mLineChart.invalidate();
-
-                ArrayList<String> dateString = new ArrayList<>();
-                ArrayList<Long> timeInMillis = new ArrayList<>();
-                ArrayList<Float> bgLeveValues = new ArrayList<>();
-                String records = "My records: ";
-                Long minValue, maxValue;
-                BloodGlucoseResponse bloodGlucoseResponse = response.body();
-                for (BloodGlucose bloodGlucose : bloodGlucoseResponse.getBloodGlucoseRecords()) {
-                    records = records.concat(bloodGlucose.getBloodGlucoseValue() + bloodGlucose.getDay() + bloodGlucose.getCreatedAt() + "\t");
-                    String day = bloodGlucose.getDay();
-                    if (day.equals(selectedDay)&&userID==bloodGlucose.getUserId().intValue()) {
-                        dateString.add(bloodGlucose.getCreatedAt());
-                        bgLeveValues.add(bloodGlucose.getBloodGlucoseValue());
-                    }
-                }
-                if (!bgLeveValues.isEmpty()) {
-                    try {
-                        timeInMillis = TimeToMilliseconds(dateString);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    for (long t : timeInMillis) {
-                        Log.e("MyTimeMilli", String.valueOf(t));
-                        Log.e("MyTimeMilliSize", String.valueOf(timeInMillis.size()));
-                    }
-
-
-                    minValue = getMinValue(timeInMillis);
-                    maxValue = getMaxValue(timeInMillis);
-                    timeInMillis = changeToSmallerNumbers(minValue, timeInMillis);
-
-
-                    ArrayList<Entry> entries = new ArrayList<>();
-                    for (int i = 0; i < timeInMillis.size(); i++) {
-                        System.err.println("Graph BG: " + bgLeveValues.get(i));
-                        System.err.println("Graph TimeMilli: " + timeInMillis.get(i));
-                        System.err.println("Graph TimeMilli Float: " + Float.parseFloat(timeInMillis.get(i).toString()));
-                        entries.add(new Entry(Float.parseFloat(timeInMillis.get(i).toString()), bgLeveValues.get(i)));
-                    }
-                    for (Entry entry : entries) {
-                        System.out.println("Entry" + entry);
-                    }
-
-                    mLineChart.setDragEnabled(true);
-                    mLineChart.setScaleEnabled(true);
-
-                    LimitLine upper_limit = new LimitLine(198f, "Too High");
-                    upper_limit.setLineWidth(2f);
-                    upper_limit.enableDashedLine(10f, 10f, 0f);
-                    upper_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-                    upper_limit.setTextSize(15f);
-                    upper_limit.setTextColor(Color.RED);
-
-                    LimitLine lower_limit = new LimitLine(70.2f, "Too Low");
-                    lower_limit.setLineWidth(2f);
-                    lower_limit.enableDashedLine(10f, 10f, 0f);
-                    lower_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-                    lower_limit.setTextSize(15f);
-                    lower_limit.setTextColor(Color.RED);
-
-                    YAxis leftAxis = mLineChart.getAxisLeft();
-                    leftAxis.removeAllLimitLines();
-                    leftAxis.addLimitLine(upper_limit);
-                    leftAxis.addLimitLine(lower_limit);
-                    leftAxis.setAxisMaximum(220f);
-                    leftAxis.setAxisMinimum(50f);
-                    leftAxis.enableGridDashedLine(10f, 10f, 0);
-                    leftAxis.setDrawLimitLinesBehindData(true);
-
-
-                    mLineChart.getAxisRight().setEnabled(false);
-                    mLineChart.setVisibleXRangeMaximum(7);
-                    LineDataSet lineDataSet = new LineDataSet(entries, "Blood Glucose Levels");
-                    lineDataSet.setFillAlpha(110);
-                    lineDataSet.setColor(Color.BLUE);
-                    lineDataSet.setValueTextColor(Color.BLUE);
-                    lineDataSet.setValueTextSize(10f);
-
-
-
-                    iLineDataSets = new ArrayList<>();
-                    iLineDataSets.add(lineDataSet);
-
-                    LineData lineData = new LineData(iLineDataSets);
-                    mLineChart.zoom(0.7f, 0.7f, 0.7f, 0.7f);
-                    mLineChart.setData(lineData);
-
-
-                    IAxisValueFormatter xAxisFormatter = new HourAxisValueFormatter(minValue);
-                    XAxis xAxis = mLineChart.getXAxis();
-                    xAxis.setValueFormatter(xAxisFormatter);
-
-                    xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                } else {
+                if (!response.isSuccessful()) {
+                    progressBar.setVisibility(View.GONE);
                     drawExampleGraph();
+                    noRecords.setText("Something happened, please try again later");
                     noRecords.setVisibility(View.VISIBLE);
+                } else {
+                    progressBar.setVisibility(View.GONE);
+
+                    if (iLineDataSets != null) {
+                        iLineDataSets.clear();
+                        mLineChart.clear();
+                        mLineChart.invalidate();
+                    }
+
+                    mLineChart.notifyDataSetChanged();
+                    mLineChart.invalidate();
+
+                    ArrayList<String> dateString = new ArrayList<>();
+                    ArrayList<Long> timeInMillis = new ArrayList<>();
+                    ArrayList<Float> bgLeveValues = new ArrayList<>();
+                    String records = "My records: ";
+                    Long minValue, maxValue;
+                    BloodGlucoseResponse bloodGlucoseResponse = response.body();
+                    for (BloodGlucose bloodGlucose : bloodGlucoseResponse.getBloodGlucoseRecords()) {
+                        records = records.concat(bloodGlucose.getBloodGlucoseValue() + bloodGlucose.getDay() + bloodGlucose.getCreatedAt() + "\t");
+                        String day = bloodGlucose.getDay();
+                        if (day.equals(selectedDay) && userID == bloodGlucose.getUserId().intValue()) {
+                            dateString.add(bloodGlucose.getCreatedAt());
+                            bgLeveValues.add(bloodGlucose.getBloodGlucoseValue());
+                        }
+                    }
+                    if (!bgLeveValues.isEmpty()) {
+                        try {
+                            timeInMillis = TimeToMilliseconds(dateString);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        for (long t : timeInMillis) {
+                            Log.e("MyTimeMilli", String.valueOf(t));
+                            Log.e("MyTimeMilliSize", String.valueOf(timeInMillis.size()));
+                        }
+
+
+                        minValue = getMinValue(timeInMillis);
+                        maxValue = getMaxValue(timeInMillis);
+                        timeInMillis = changeToSmallerNumbers(minValue, timeInMillis);
+
+
+                        ArrayList<Entry> entries = new ArrayList<>();
+                        for (int i = 0; i < timeInMillis.size(); i++) {
+                            System.err.println("Graph BG: " + bgLeveValues.get(i));
+                            System.err.println("Graph TimeMilli: " + timeInMillis.get(i));
+                            System.err.println("Graph TimeMilli Float: " + Float.parseFloat(timeInMillis.get(i).toString()));
+                            entries.add(new Entry(Float.parseFloat(timeInMillis.get(i).toString()), bgLeveValues.get(i)));
+                        }
+                        for (Entry entry : entries) {
+                            System.out.println("Entry" + entry);
+                        }
+
+                        mLineChart.setDragEnabled(true);
+                        mLineChart.setScaleEnabled(true);
+
+                        LimitLine upper_limit = new LimitLine(198f, "Too High");
+                        upper_limit.setLineWidth(2f);
+                        upper_limit.enableDashedLine(10f, 10f, 0f);
+                        upper_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+                        upper_limit.setTextSize(15f);
+                        upper_limit.setTextColor(Color.RED);
+
+                        LimitLine lower_limit = new LimitLine(70.2f, "Too Low");
+                        lower_limit.setLineWidth(2f);
+                        lower_limit.enableDashedLine(10f, 10f, 0f);
+                        lower_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
+                        lower_limit.setTextSize(15f);
+                        lower_limit.setTextColor(Color.RED);
+
+                        YAxis leftAxis = mLineChart.getAxisLeft();
+                        leftAxis.removeAllLimitLines();
+                        leftAxis.addLimitLine(upper_limit);
+                        leftAxis.addLimitLine(lower_limit);
+                        leftAxis.setAxisMaximum(220f);
+                        leftAxis.setAxisMinimum(50f);
+                        leftAxis.enableGridDashedLine(10f, 10f, 0);
+                        leftAxis.setDrawLimitLinesBehindData(true);
+
+
+                        mLineChart.getAxisRight().setEnabled(false);
+                        mLineChart.setVisibleXRangeMaximum(7);
+                        LineDataSet lineDataSet = new LineDataSet(entries, "Blood Glucose Levels");
+                        lineDataSet.setFillAlpha(110);
+                        lineDataSet.setColor(Color.BLUE);
+                        lineDataSet.setValueTextColor(Color.BLUE);
+                        lineDataSet.setValueTextSize(10f);
+
+
+                        iLineDataSets = new ArrayList<>();
+                        iLineDataSets.add(lineDataSet);
+
+                        LineData lineData = new LineData(iLineDataSets);
+                        mLineChart.zoom(0.7f, 0.7f, 0.7f, 0.7f);
+                        mLineChart.setData(lineData);
+
+
+                        IAxisValueFormatter xAxisFormatter = new HourAxisValueFormatter(minValue);
+                        XAxis xAxis = mLineChart.getXAxis();
+                        xAxis.setValueFormatter(xAxisFormatter);
+
+                        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                    } else {
+                        drawExampleGraph();
+                        noRecords.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<BloodGlucoseResponse> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG);
                 Log.e(TAG, "Failed" + t.getMessage());
+                drawExampleGraph();
+                noRecords.setText("Something happened, please try again later");
+                noRecords.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -348,16 +356,16 @@ public class AnalyticsFragment extends Fragment {
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
             long newValue = Math.round(value);
-            Log.e("Converter Value",String.valueOf(newValue));
-            long convertedTimestamp = (long) newValue*1000;
+            Log.e("Converter Value", String.valueOf(newValue));
+            long convertedTimestamp = (long) newValue * 1000;
             long originalTimestamp = (referenceTimestamp + convertedTimestamp);
-            Log.e("Converter Min",String.valueOf(referenceTimestamp));
-            Log.e("Converter Original",String.valueOf(originalTimestamp));
+            Log.e("Converter Min", String.valueOf(referenceTimestamp));
+            Log.e("Converter Original", String.valueOf(originalTimestamp));
             return getHour(originalTimestamp);
         }
 
         private String getHour(long timestamp) {
-            Calendar calendar =  Calendar.getInstance();
+            Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(timestamp);
             DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
             formatter.setCalendar(calendar);

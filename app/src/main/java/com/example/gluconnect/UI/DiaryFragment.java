@@ -75,7 +75,7 @@ public class DiaryFragment extends Fragment {
     private View myView;
     private LaravelAPI laravelAPI;
     private CalendarView calendarView;
-    private TextView datetxtview;
+    private TextView datetxtview,errormsg;
 
     private CardView cardView;
     RecyclerView meals_rv, exercise_rv, blood_glucose_rv,meds_rv;
@@ -109,6 +109,7 @@ public class DiaryFragment extends Fragment {
 
         calendarView = myView.findViewById(R.id.calenderview);
         datetxtview = myView.findViewById(R.id.dateView);
+        errormsg = myView.findViewById(R.id.error_msg);
 
         blood_glucose_rv =  myView.findViewById(R.id.blood_glucose_recycler_view);
         bloodGlucoseRecordAdapter = new BloodGlucoseRecordAdapter(bloodGlucoseList);
@@ -223,6 +224,8 @@ public class DiaryFragment extends Fragment {
                 if (!response.isSuccessful()) {
                     progressBar.setVisibility(View.GONE);
                     Log.e("BG", "BG unsuccessful");
+                    errormsg.setText("Error fetching records, please try again later");
+                    errormsg.setVisibility(View.VISIBLE);
                     return;
                 } else {
 //                    progressBar.setVisibility(View.GONE);
@@ -249,6 +252,8 @@ public class DiaryFragment extends Fragment {
             @Override
             public void onFailure(Call<BloodGlucoseResponse> call, Throwable t) {
                 Log.e("Get BG", t.getMessage());
+                errormsg.setText("Error fetching records, please try again later");
+                errormsg.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -262,6 +267,8 @@ public class DiaryFragment extends Fragment {
                 if (!response.isSuccessful()) {
                     progressBar.setVisibility(View.GONE);
                     Log.e("BG", "BG unsuccessful");
+                    errormsg.setText("Error fetching records, please try again later");
+                    errormsg.setVisibility(View.VISIBLE);
                     return;
                 } else {
                     MealResponse mealResponse = response.body();
@@ -293,6 +300,8 @@ public class DiaryFragment extends Fragment {
 
             @Override
             public void onFailure(Call<MealResponse> call, Throwable t) {
+                errormsg.setText("Error fetching records, please try again later");
+                errormsg.setVisibility(View.VISIBLE);
                 Log.e("Get BG", t.getMessage());
             }
         });
@@ -307,6 +316,8 @@ public class DiaryFragment extends Fragment {
                 if (!response.isSuccessful()) {
 //                    progressBar.setVisibility(View.GONE);
                     Log.e("BG", "BG unsuccessful");
+                    errormsg.setText("Error fetching records, please try again later");
+                    errormsg.setVisibility(View.VISIBLE);
                     return;
                 } else {
 //                    progressBar.setVisibility(View.GONE);
@@ -339,6 +350,8 @@ public class DiaryFragment extends Fragment {
             @Override
             public void onFailure(Call<ExerciseResponse> call, Throwable t) {
                 Log.e("Get BG", t.getMessage());
+                errormsg.setText("Error fetching records, please try again later");
+                errormsg.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -350,6 +363,8 @@ public class DiaryFragment extends Fragment {
                  if (!response.isSuccessful()) {
                      progressBar.setVisibility(View.GONE);
                      Log.e("BG", "BG unsuccessful");
+                     errormsg.setText("Error fetching records, please try again later");
+                     errormsg.setVisibility(View.VISIBLE);
                      return;
                  } else {
                      progressBar.setVisibility(View.GONE);
@@ -376,6 +391,8 @@ public class DiaryFragment extends Fragment {
              @Override
              public void onFailure(Call<MedicationsResponse> call, Throwable t) {
                  Log.e("Get BG", t.getMessage());
+                 errormsg.setText("Error fetching records, please try again later");
+                 errormsg.setVisibility(View.VISIBLE);
              }
          });
 
