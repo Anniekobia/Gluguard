@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:fillViewport="true"
+        tools:context=".UI.ExerciseFragment">
+
+        <RelativeLayout
+            android:id="@+id/exercise_rl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/error_msg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:textAlignment="center"
+                android:textColor="#ed2648"
+                android:textSize="16dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:id="@+id/exercise_txtview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Exercise"
+                android:textSize="@dimen/log_headings_textsize"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_below="@id/error_msg"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/exercise_type_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/exercise_txtview"
+                android:layout_marginTop="10dp"
+                android:ems="10">
+
+                <Spinner
+                    android:id="@+id/exercises_spinner"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Details"
+                android:textSize="@dimen/log_headings_textsize"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_below="@id/exercise_type_spinner"/>
+
+            <EditText
+                android:id="@+id/exercise_distance_edittext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/details"
+                android:hint="Distance"
+                android:inputType="numberDecimal" />
+
+
+            <TextView
+                android:id="@+id/exercise_distance_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/details"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toEndOf="@+id/exercise_distance_edittext"
+                android:text="km" />
+
+            <EditText
+                android:id="@+id/exercise_duration_edittext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/details"
+                android:layout_toRightOf="@id/exercise_distance_textview"
+                android:hint="Duration "
+                android:inputType="number" />
+
+
+            <TextView
+                android:id="@+id/exercise_duration_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/details"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toEndOf="@+id/exercise_duration_edittext"
+                android:text="mins" />
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:id="@+id/calories_burnt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calories Burnt"
+                android:textSize="@dimen/log_headings_textsize"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_below="@id/exercise_distance_textview"
+                android:visibility="gone"/>
+
+
+            <TextView
+                android:id="@+id/exercise_calories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/calories_burnt"
+                android:layout_marginTop="17dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/exercise_calories_m"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/calories_burnt"
+                android:layout_toRightOf="@+id/exercise_calories"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="17dp"
+                android:text="kCals"
+                android:visibility="gone" />
+
+
+            <Button
+                android:id="@+id/save_exercise_btn"
+                android:text="Save"
+                android:layout_width="wrap_content"
+                android:layout_below="@id/exercise_calories"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_corners"
+                android:backgroundTint="#3359df"
+                android:padding="5dp"
+                android:textColor="#FFFFFF" />
+
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:elevation="10dp"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+</FrameLayout>

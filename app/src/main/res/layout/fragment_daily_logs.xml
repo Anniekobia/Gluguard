@@ -1,163 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/frame_container_cl"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".UI.DailyLogsFragment">
+    android:id="@+id/frame_container_cl"
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        tools:context=".UI.DailyLogsFragment">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/mealCardView"
+        <!-- TODO: Update blank fragment layout -->
+
+        <TextView
+            android:layout_marginTop="30dp"
+            android:id="@+id/txtview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@drawable/selected_cardview"
-            android:focusable="true"
-            android:clickable="true">
+            android:text="Record daily data"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-            <RelativeLayout
-                android:padding="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/mealsImage"
-                    android:layout_margin="25dp"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="@drawable/meals" />
-
-                <TextView
-                    android:id="@+id/meals_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Meals"
-                    android:layout_margin="10dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_below="@id/mealsImage"
-                    android:textSize="@dimen/log_headings_textsize"
-                    android:textStyle="bold"
-                    tools:ignore="SpUsage" />
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/exerciseCardView"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_toEndOf="@id/mealCardView"
-            android:focusable="true"
-            android:clickable="true">
+            android:layout_marginBottom="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <RelativeLayout
-                android:padding="5dp"
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/mealCardView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:cardCornerRadius="20dp"
+                android:background="@drawable/selected_cardview"
+                android:clickable="true"
+                android:focusable="true">
 
-                <ImageView
-                    android:id="@+id/exeImage"
-                    android:layout_margin="25dp"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="@drawable/bicycle" />
-
-                <TextView
-                    android:id="@+id/exe_textview"
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Exercises"
-                    android:layout_margin="10dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_below="@id/exeImage"
-                    android:textSize="@dimen/log_headings_textsize"
-                    android:textStyle="bold"
-                    tools:ignore="SpUsage" />
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+                    android:padding="5dp">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/bloodGlucoseCardView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/mealCardView"
-            android:layout_margin="5dp"
-            android:focusable="true"
-            android:clickable="true">
+                    <ImageView
+                        android:id="@+id/mealsImage"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_margin="25dp"
+                        android:background="@drawable/meals" />
 
-            <RelativeLayout
-                android:padding="5dp"
+                    <TextView
+                        android:id="@+id/meals_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/mealsImage"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="10dp"
+                        android:text="Meals"
+                        android:textSize="@dimen/log_headings_textsize"
+                        android:textStyle="bold"
+                        tools:ignore="SpUsage" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/exerciseCardView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:cardCornerRadius="20dp"
+                android:layout_toEndOf="@id/mealCardView"
+                android:clickable="true"
+                android:focusable="true">
 
-                <ImageView
-                    android:id="@+id/bgImage"
-                    android:layout_margin="25dp"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="@drawable/glucometer" />
-
-                <TextView
-                    android:id="@+id/bg_textview"
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Blood Glucose"
-                    android:layout_margin="10dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_below="@id/bgImage"
-                    android:textSize="@dimen/log_headings_textsize"
-                    android:textStyle="bold"
-                    tools:ignore="SpUsage" />
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+                    android:padding="5dp">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/medicationCardView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/mealCardView"
-            android:layout_margin="5dp"
-            android:layout_toEndOf="@id/bloodGlucoseCardView"
-            android:focusable="true"
-            android:clickable="true">
+                    <ImageView
+                        android:id="@+id/exeImage"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_margin="25dp"
+                        android:background="@drawable/bicycle" />
 
-            <RelativeLayout
-                android:padding="5dp"
+                    <TextView
+                        android:id="@+id/exe_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/exeImage"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="10dp"
+                        android:text="Exercises"
+                        android:textSize="@dimen/log_headings_textsize"
+                        android:textStyle="bold"
+                        tools:ignore="SpUsage" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/bloodGlucoseCardView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                android:layout_below="@id/mealCardView"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:focusable="true">
 
-                <ImageView
-                    android:id="@+id/medImage"
-                    android:layout_margin="25dp"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="@drawable/medicine" />
-
-                <TextView
-                    android:id="@+id/med_textview"
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Medicine"
-                    android:layout_margin="10dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_below="@id/medImage"
-                    android:textSize="@dimen/log_headings_textsize"
-                    android:textStyle="bold"
-                    tools:ignore="SpUsage" />
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+                    android:padding="5dp">
 
-    </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/bgImage"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_margin="25dp"
+                        android:background="@drawable/glucometer" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/bg_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/bgImage"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="10dp"
+                        android:text="Blood Glucose"
+                        android:textSize="@dimen/log_headings_textsize"
+                        android:textStyle="bold"
+                        tools:ignore="SpUsage" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/medicationCardView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                android:layout_below="@id/mealCardView"
+                android:layout_margin="5dp"
+                android:layout_toEndOf="@id/bloodGlucoseCardView"
+                android:clickable="true"
+                android:focusable="true">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:id="@+id/medImage"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_margin="25dp"
+                        android:background="@drawable/medicine" />
+
+                    <TextView
+                        android:id="@+id/med_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/medImage"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="10dp"
+                        android:text="Medicine"
+                        android:textSize="@dimen/log_headings_textsize"
+                        android:textStyle="bold"
+                        tools:ignore="SpUsage" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

@@ -33,10 +33,9 @@ public class DailyLogsActivity extends AppCompatActivity {
         toolbar.setTitle("Log");
         setSupportActionBar(toolbar);
 
-//        Intent intent = new Intent(getApplicationContext(),LogsActivity.class);
-//        startActivity(intent);
 
-        loadFragment(new DailyLogsFragmentLOGIC());
+
+        loadFragment(new DailyLogsFragment());
 
         final BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -91,8 +90,10 @@ public class DailyLogsActivity extends AppCompatActivity {
                     return true;
                 case R.id.record_icon:
                     toolbar.setTitle("Log");
-                    fragment = new DailyLogsFragmentLOGIC();
+                    fragment = new DailyLogsFragment();
                     loadFragment(fragment);
+//                    Intent intent = new Intent(getApplicationContext(),LogsActivity.class);
+//                    startActivity(intent);
                     return true;
 //                case R.id.steps_icon:
 //                    toolbar.setTitle("Steps");
@@ -122,5 +123,15 @@ public class DailyLogsActivity extends AppCompatActivity {
         toolbar.setTitle("Profile");
         fragment = new ProfileFragment();
         loadFragment(fragment);
+    }
+
+
+    public void openMealLog(View view) {
+        Fragment fragment = new DailyLogsFragment();
+        loadFragment(fragment);
+    }
+
+    public void onBackPressed(){
+        loadFragment(new DailyLogsFragment());
     }
 }

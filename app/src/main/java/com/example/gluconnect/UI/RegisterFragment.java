@@ -48,7 +48,6 @@ public class RegisterFragment extends Fragment {
     private TextInputEditText username;
     private TextInputEditText email;
     TextInputEditText password;
-    TextInputEditText confirmPassword;
     TextView errorMsg;
     TextView loginTxtview;
     ConstraintLayout constraintLayout;
@@ -78,7 +77,6 @@ public class RegisterFragment extends Fragment {
         email = myview.findViewById(R.id.signup_email);
         errorMsg = myview.findViewById(R.id.error_msg);
         password = myview.findViewById(R.id.signup_password);
-        confirmPassword = myview.findViewById(R.id.confirm_signup_password);
         progressBar = myview.findViewById(R.id.progressBar);
 
         handleClicks();
@@ -112,16 +110,12 @@ public class RegisterFragment extends Fragment {
         String usrname = username.getText().toString();
         String emailu = email.getText().toString();
         String pwd = password.getText().toString();
-        String cpwd = confirmPassword.getText().toString();
         String userType = "Patient";
-        if (TextUtils.isEmpty(usrname) || TextUtils.isEmpty(emailu) || TextUtils.isEmpty(pwd) || TextUtils.isEmpty(cpwd)) {
+        if (TextUtils.isEmpty(usrname) || TextUtils.isEmpty(emailu) || TextUtils.isEmpty(pwd) ) {
             errorMsg.setText("Please fill in all the fields");
             errorMsg.setVisibility(View.VISIBLE);
-        } else if (!pwd.equals(cpwd)) {
-            errorMsg.setText("Passwords do not match");
-            errorMsg.setVisibility(View.VISIBLE);
         } else {
-            RegisterPOST registerPOST = new RegisterPOST(emailu, pwd, cpwd, userType, usrname);
+            RegisterPOST registerPOST = new RegisterPOST(emailu, pwd, pwd, userType, usrname);
             RegisterUser(registerPOST);
             errorMsg.setText("");
             errorMsg.setVisibility(View.GONE);
@@ -164,7 +158,6 @@ public class RegisterFragment extends Fragment {
                         startActivity(intent);
                         password.setText("");
                         username.setText("");
-                        confirmPassword.setText("");
                         email.setText("");
                     }
                 }

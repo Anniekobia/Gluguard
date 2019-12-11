@@ -31,6 +31,13 @@
         <item>Running</item>
     </string-array>
 
+    <string-array name="bg_array">
+        <item>fasting</item>
+        <item>before meal</item>
+        <item>after meal</item>
+        <item>at night</item>
+    </string-array>
+
     <string-array name="medicine_array">
         <item>Humalog</item>
         <item>Fiasp</item>
@@ -42,6 +49,13 @@
     <string-array name="gender_array">
         <item>Male</item>
         <item>Female</item>
+    </string-array>
+
+    <string-array name="meal_array">
+        <item>Breakfast</item>
+        <item>Snack</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
     </string-array>
 
     <string-array name="activity_level_array">

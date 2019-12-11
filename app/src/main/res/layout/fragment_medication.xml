@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:fillViewport="true"
+        tools:context=".UI.MedicationFragment">
+
+        <RelativeLayout
+            android:id="@+id/medication_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/error_msg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:textAlignment="center"
+                android:textColor="#ed2648"
+                android:textSize="16dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:id="@+id/med_txtview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medication"
+                android:textSize="@dimen/log_headings_textsize"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_below="@id/error_msg"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/medication_s_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/med_txtview"
+                android:layout_marginTop="10dp"
+                android:ems="10">
+
+                <Spinner
+                    android:id="@+id/medication_spinner"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:id="@+id/units_txtview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quantity"
+                android:textSize="@dimen/log_headings_textsize"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_below="@id/medication_s_spinner"/>
+
+            <EditText
+                android:id="@+id/medication_units"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/units_txtview"
+                android:hint="--- Units ---"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/medication_units_txtview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/units_txtview"
+                android:layout_toRightOf="@+id/medication_units"
+                android:text="Units" />
+
+            <Button
+                android:id="@+id/save_medication_btn"
+                android:text="Save"
+                android:layout_width="wrap_content"
+                android:layout_below="@id/medication_units_txtview"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_corners"
+                android:backgroundTint="#3359df"
+                android:padding="5dp"
+                android:textColor="#FFFFFF"/>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:elevation="10dp"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+</FrameLayout>

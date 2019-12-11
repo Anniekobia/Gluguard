@@ -1,6 +1,7 @@
 package com.example.gluconnect.UI;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
@@ -11,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.example.gluconnect.R;
 
@@ -35,9 +37,6 @@ public class DailyLogsFragment extends Fragment {
 
         toolbar = myView.findViewById(R.id.toolbar);
 
-
-
-
         meal = myView.findViewById(R.id.mealCardView);
         exercise = myView.findViewById(R.id.exerciseCardView);
         bloodGlucose = myView.findViewById(R.id.bloodGlucoseCardView);
@@ -46,10 +45,35 @@ public class DailyLogsFragment extends Fragment {
         meal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new DailyLogsFragment();
+                Fragment fragment = new MealFragment();
                 loadFragment(fragment);
             }
         });
+
+        exercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new ExerciseFragment();
+                loadFragment(fragment);
+            }
+        });
+
+        bloodGlucose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new BloodGlucoseFragment();
+                loadFragment(fragment);
+            }
+        });
+
+        medicine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new MedicationFragment();
+                loadFragment(fragment);
+            }
+        });
+
 
         return  myView;
     }

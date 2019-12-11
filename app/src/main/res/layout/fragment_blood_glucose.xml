@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:fillViewport="true"
+        tools:context=".UI.BloodGlucoseFragment">
+
+        <RelativeLayout
+            android:id="@+id/blood_glucose_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/error_msg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:textAlignment="center"
+                android:textColor="#ed2648"
+                android:textSize="16dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:id="@+id/bg_txtview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Blood Glucose"
+                android:textSize="@dimen/log_headings_textsize"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_below="@id/error_msg"/>
+
+            <EditText
+                android:id="@+id/blood_glucose_level_edittext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bg_txtview"
+                android:hint="--- Value ---"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/blood_glucose_units_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/blood_glucose_level_edittext"
+                android:layout_below="@id/bg_txtview"
+                android:layout_marginRight="10dp"
+                android:text="mg/dL" />
+
+            <TextView
+                android:layout_marginTop="40dp"
+                android:id="@+id/meal_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Type"
+                android:textSize="@dimen/log_headings_textsize"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_below="@id/blood_glucose_units_textview"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bg_type_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/meal_category"
+                android:layout_marginTop="10dp"
+                android:ems="10">
+
+                <Spinner
+                    android:id="@+id/bg_spinner"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/save_blood_glucose_btn"
+                android:text="Save"
+                android:layout_width="wrap_content"
+                android:layout_below="@id/bg_type_spinner"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_corners"
+                android:backgroundTint="#3359df"
+                android:padding="5dp"
+                android:textColor="#FFFFFF"/>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:elevation="10dp"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+</FrameLayout>

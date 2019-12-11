@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private TextInputEditText username;
     private TextInputEditText email;
     TextInputEditText password;
-    TextInputEditText confirmPassword;
     TextView errorMsg;
 
     @Override
@@ -49,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         email= findViewById(R.id.signup_email);
         errorMsg = findViewById(R.id.error_msg);
         password = findViewById(R.id.signup_password);
-        confirmPassword = findViewById(R.id.confirm_signup_password);
     }
 
 
