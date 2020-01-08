@@ -39,3 +39,7 @@ The application allows the patient to:
 </p>
 
 # Demo
+
+
+# App Link
+Click on the Appetize.io link to try out the application
