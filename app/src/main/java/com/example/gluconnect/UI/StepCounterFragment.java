@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.example.gluconnect.Models.DailyStep;
 import com.example.gluconnect.Models.DailyStepPOST;
 import com.example.gluconnect.Models.DailyStepsResponse;
+import com.example.gluconnect.Models.Exercise;
 import com.example.gluconnect.Models.ExerciseData;
 import com.example.gluconnect.Models.ExerciseDetails;
 import com.example.gluconnect.Models.ExerciseDetailsList;
@@ -104,7 +105,7 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
             int steps = Integer.valueOf((int) sensorEvent.values[0]);
             stepsValue.setText(String.valueOf(steps));
             String query = "walked" + "\t" + steps + "\t steps";
-            checkSteps(query, steps);
+            getExerciseDetails(query, steps);
         }
     }
 
@@ -114,91 +115,40 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
     }
 
 
-    private void getExerciseDetails(String query, int steps, boolean saved, int recordId) {
+    private void getExerciseDetails(String query, int steps) {
         Log.e("Exe query", query);
-        progressBar.setVisibility(View.VISIBLE);
+//        progressBar.setVisibility(View.VISIBLE);
         Call<ExerciseDetailsList> exerciseDetailsListCall = nutritionixAPI.getExerciseDetailsList(new ExerciseData(21, "female", 157.0, query, 44.5));
         exerciseDetailsListCall.enqueue(new Callback<ExerciseDetailsList>() {
             @Override
             public void onResponse(Call<ExerciseDetailsList> call, Response<ExerciseDetailsList> response) {
                 if (!response.isSuccessful()) {
-                    progressBar.setVisibility(GONE);
+//                    progressBar.setVisibility(GONE);
                     Log.e("Exe Unsuccessful", "Code: " + response.code() + "\n" + "Message" + response.message());
                     return;
                 } else {
                     ExerciseDetailsList exerciseDetailsList = response.body();
+                    ExerciseDetails exe = null;
                     for (ExerciseDetails exercise : exerciseDetailsList.getExercises()) {
-                        progressBar.setVisibility(GONE);
-                        caloriesBurnt.setText(exercise.getNfCalories().toString());
-                        caloriesBurnt.setVisibility(View.VISIBLE);
-                        caloriesMetrics.setVisibility(View.VISIBLE);
-                        DailyStep dailyStep = new DailyStep(exercise.getNfCalories().floatValue(), steps, Long.valueOf(userID));
-                        DailyStepPOST dailyStepPOST = new DailyStepPOST(exercise.getNfCalories().floatValue(), Long.valueOf(recordId), steps);
-                        if (saved) {
-                            updateDaySteps(dailyStepPOST);
-                        } else {
-                            saveDaySteps(dailyStep);
-                        }
+                         exe = exercise;
                     }
+//                    progressBar.setVisibility(GONE);
+                    caloriesBurnt.setText(exe.getNfCalories().toString());
+                    caloriesBurnt.setVisibility(View.VISIBLE);
+                    caloriesMetrics.setVisibility(View.VISIBLE);
+                    DailyStep dailyStep = new DailyStep(exe.getNfCalories().floatValue(), steps, Long.valueOf(userID));
+                    saveDaySteps(dailyStep);
                 }
             }
 
             @Override
             public void onFailure(Call<ExerciseDetailsList> call, Throwable t) {
                 Log.e("Exe Failed", t.getMessage());
-                progressBar.setVisibility(GONE);
+//                progressBar.setVisibility(GONE);
             }
         });
     }
 
-    private void checkSteps(String query, int steps) {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat f = new SimpleDateFormat("YYYY-MM-dd");
-        String datePicked = f.format(cal.getTime());
-        Log.e("Date Formatted", datePicked);
-        Call<DailyStepsResponse> dailyStepsResponseCall = laravelAPI.getDailySteps();
-        dailyStepsResponseCall.enqueue(new Callback<DailyStepsResponse>() {
-            @Override
-            public void onResponse(Call<DailyStepsResponse> call, Response<DailyStepsResponse> response) {
-                if (!response.isSuccessful()) {
-
-                } else {
-
-                    ArrayList<DailyStep> record = new ArrayList<>();
-                    ArrayList<DailyStep> pastRecords = new ArrayList<>();
-                    DailyStepsResponse dailyStepsResponse = response.body();
-                    if (response.body() == null) {
-                    } else {
-                        for (DailyStep dailyStep : dailyStepsResponse.getDailySteps()) {
-                            String day = dailyStep.getDay();
-                            if (datePicked.equals(day) && userID == dailyStep.getUserId().intValue()) {
-                                record.add(dailyStep);
-                            } else {
-                                Log.e("DailyStep",dailyStep.toString());
-                                pastRecords.add(dailyStep);
-                            }
-                        }
-                    }
-                    if (record.isEmpty()) {
-                        DailyStep dailyStep = pastRecords.get(pastRecords.size() - 1);
-                        int daySteps = steps - dailyStep.getStepCount();
-                        boolean saved = false;
-                        getExerciseDetails(query, daySteps, saved, 0);
-                    } else {
-                        boolean saved = true;
-                        DailyStep dailyStep = record.get(0);
-                        int recordId = dailyStep.getId().intValue();
-                        getExerciseDetails(query, steps, saved, recordId);
-                    }
-
-                }
-            }
-            @Override
-            public void onFailure(Call<DailyStepsResponse> call, Throwable t) {
-                Log.e("Get BG", t.getMessage());
-            }
-        });
-    }
 
     public void saveDaySteps(DailyStep dailyStep) {
         Call<DailyStep> dailyStepCall = laravelAPI.recordDailySteps(dailyStep);
@@ -206,10 +156,11 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
             @Override
             public void onResponse(Call<DailyStep> call, Response<DailyStep> response) {
                 if (!response.isSuccessful()) {
-                    progressBar.setVisibility(GONE);
+//                    progressBar.setVisibility(GONE);
                     Log.e("SAVESTEPS Unsuccessful", "Code: " + response.code() + "\n" + "Message" + response.message());
                     return;
                 } else {
+//                    progressBar.setVisibility(GONE);
                     Log.e("SAVESTEPS succesful", "Saved");
                 }
             }
@@ -217,7 +168,7 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
             @Override
             public void onFailure(Call<DailyStep> call, Throwable t) {
                 Log.e("SAVESTEPS Failed", t.getMessage());
-                progressBar.setVisibility(GONE);
+//                progressBar.setVisibility(GONE);
             }
         });
     }
