@@ -42,4 +42,4 @@ The application allows the patient to:
 
 
 # App Link
-Click on the Appetize.io link to try out the application
+Click on this link to try out the application [Glugard App Link](https://appetize.io/app/f0rwejq7bkrg1jb0wr3d7g9dvg?device=nexus5&scale=100&orientation=portrait&osVersion=8.1)
