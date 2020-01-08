@@ -23,19 +23,19 @@ The application allows the patient to:
 **2. View trends in their blood glucose level over time**
 
 <p>
-   <img hspace="20" width="25%" height="400" src="https://user-images.githubusercontent.com/22634271/71975050-1d4cb800-3224-11ea-94ea-53ef928c6cdd.jpg" alt="Log Home Screen" title="Log Home"/>   <img hspace="20" width="25%" height="400" src="https://user-images.githubusercontent.com/22634271/71975052-1de54e80-3224-11ea-8f61-558f40d13c5c.jpg" alt="Log Meal Screen" title="Log Meal"/>   <img hspace="20" width="25%" height="400" src="https://user-images.githubusercontent.com/22634271/71975049-1d4cb800-3224-11ea-9f06-b010326da454.jpg" alt="Log Exercise Screen" title="Log Exercise"/>
+   <img hspace="20" width="25%" height="400" src="https://user-images.githubusercontent.com/22634271/71979758-8a197f80-322f-11ea-92d6-f64f8a2a12cf.jpg" alt="Trends Screen" title="Trends"/>  
 </p>
 
 **3. Receive tips on meals to eat to regulate their blood glucose level to the recommended values**
 
 <p>
-   <img hspace="20" width="25%" height="400" src="https://user-images.githubusercontent.com/22634271/71975050-1d4cb800-3224-11ea-94ea-53ef928c6cdd.jpg" alt="Log Home Screen" title="Log Home"/>   <img hspace="20" width="25%" height="400" src="https://user-images.githubusercontent.com/22634271/71975052-1de54e80-3224-11ea-8f61-558f40d13c5c.jpg" alt="Log Meal Screen" title="Log Meal"/>   <img hspace="20" width="25%" height="400" src="https://user-images.githubusercontent.com/22634271/71975049-1d4cb800-3224-11ea-9f06-b010326da454.jpg" alt="Log Exercise Screen" title="Log Exercise"/>
+   <img hspace="20" width="25%" height="400" src="https://user-images.githubusercontent.com/22634271/71979756-8a197f80-322f-11ea-9afc-e2699255feec.jpg" alt="Tips Screen" title="Tips"/>   
 </p>
 
 **4. View their data history and an estimate of their daily calorie requirement based on their data such as gender, weight, height etc.**
 
 <p>
-   <img hspace="20" width="25%" height="400" src="https://user-images.githubusercontent.com/22634271/71975050-1d4cb800-3224-11ea-94ea-53ef928c6cdd.jpg" alt="Log Home Screen" title="Log Home"/>   <img hspace="20" width="25%" height="400" src="https://user-images.githubusercontent.com/22634271/71975052-1de54e80-3224-11ea-8f61-558f40d13c5c.jpg" alt="Log Meal Screen" title="Log Meal"/>   <img hspace="20" width="25%" height="400" src="https://user-images.githubusercontent.com/22634271/71975049-1d4cb800-3224-11ea-9f06-b010326da454.jpg" alt="Log Exercise Screen" title="Log Exercise"/>
+   <img hspace="20" width="25%" height="400" src="https://user-images.githubusercontent.com/22634271/71979754-8980e900-322f-11ea-946d-fef5fc703d64.jpg" alt="Diary Screen" title="Diary"/>   
 </p>
 
 # Demo
