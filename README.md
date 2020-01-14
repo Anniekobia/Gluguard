@@ -41,4 +41,4 @@ The application allows the patient to:
 # Demo
 ![Glugard Demo](https://user-images.githubusercontent.com/22634271/71988168-732f5900-3240-11ea-8255-744b54766368.gif)
 # App Link
-Click on this link to try out the application [Glugard App Link](https://appetize.io/app/f0rwejq7bkrg1jb0wr3d7g9dvg?device=nexus5&scale=100&orientation=portrait&osVersion=8.1)
+
