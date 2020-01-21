@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:id="@+id/frame_container_cl"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,22 +13,9 @@
 
         <!-- TODO: Update blank fragment layout -->
 
-        <TextView
-            android:layout_marginTop="30dp"
-            android:id="@+id/txtview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Record daily data"
-            android:textSize="25dp"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -40,10 +27,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                app:cardCornerRadius="20dp"
                 android:background="@drawable/selected_cardview"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                app:cardCornerRadius="20dp">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -76,10 +63,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                app:cardCornerRadius="20dp"
                 android:layout_toEndOf="@id/mealCardView"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                app:cardCornerRadius="20dp">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -111,11 +98,11 @@
                 android:id="@+id/bloodGlucoseCardView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
                 android:layout_below="@id/mealCardView"
                 android:layout_margin="5dp"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                app:cardCornerRadius="20dp">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -147,12 +134,12 @@
                 android:id="@+id/medicationCardView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
                 android:layout_below="@id/mealCardView"
                 android:layout_margin="5dp"
                 android:layout_toEndOf="@id/bloodGlucoseCardView"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                app:cardCornerRadius="20dp">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -179,7 +166,6 @@
                         tools:ignore="SpUsage" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
-
         </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
