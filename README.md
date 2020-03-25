@@ -12,7 +12,7 @@ An application to help patients living with diabetes to regularly monitor and ma
 # Features
 The application allows the patient to:
 
-**1. Record their daily data on meals taken, exercises done, medications taken and blood glucose records throughout the day (blood glucose levels are shared directly with the patients doctor)**
+**1. Record their daily data on meals taken, exercises done, medications taken and blood glucose records throughout the day (blood glucose levels can be shared with the patients doctor)**
 
 <p>
    <img hspace="20" width="25%" height="400" src="https://user-images.githubusercontent.com/22634271/71975050-1d4cb800-3224-11ea-94ea-53ef928c6cdd.jpg" alt="Log Home Screen" title="Log Home"/>   <img hspace="20" width="25%" height="400" src="https://user-images.githubusercontent.com/22634271/71975052-1de54e80-3224-11ea-8f61-558f40d13c5c.jpg" alt="Log Meal Screen" title="Log Meal"/>   <img hspace="20" width="25%" height="400" src="https://user-images.githubusercontent.com/22634271/71975049-1d4cb800-3224-11ea-9f06-b010326da454.jpg" alt="Log Exercise Screen" title="Log Exercise"/>
@@ -43,4 +43,5 @@ The application allows the patient to:
 # Demo
 ![Glugard Demo](https://user-images.githubusercontent.com/22634271/71988168-732f5900-3240-11ea-8255-744b54766368.gif)
 # App Link
+**Appetize.io Link:** https://appetize.io/app/edct365tu2mvbampcmg36th9vc
 
