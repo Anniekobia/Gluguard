@@ -20,9 +20,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 
+
+
             <ImageView
                 android:id="@+id/logIV"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/logs"/>
@@ -32,9 +34,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/logIV"
+                android:layout_marginTop="40dp"
                 android:textAlignment="center"
-                android:text="Record your daily data and share them directly with your doctor"/>
+                android:textSize="18dp"
+                android:text="Record your daily data on blood glucose, meals, exercises and medication"/>
         </RelativeLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

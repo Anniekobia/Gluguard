@@ -25,14 +25,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/analytics"
-                android:layout_centerInParent="true"/>
+                android:layout_centerHorizontal="true"/>
 
             <TextView
                 android:id="@+id/trendsTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Get analytics of your blood glucose level"
+                android:text="Get analytics of your blood glucose levels"
                 android:textAlignment="center"
+                android:layout_marginTop="40dp"
+                android:textSize="18dp"
                 android:layout_below="@id/trendsIV"/>
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

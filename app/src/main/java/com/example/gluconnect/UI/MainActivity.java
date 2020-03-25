@@ -1,6 +1,7 @@
 package com.example.gluconnect.UI;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -30,11 +31,25 @@ public class MainActivity extends AppCompatActivity {
     private TextInputEditText email;
     TextInputEditText password;
     TextView errorMsg;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        username = findViewById(R.id.username);
+        email= findViewById(R.id.signup_email);
+        errorMsg = findViewById(R.id.error_msg);
+        password = findViewById(R.id.signup_password);
+
+        sharedPreferences= getApplicationContext().getSharedPreferences("MyPreferences", 0);
+
+        boolean isLoggedIn = sharedPreferences.getBoolean("IsLoggedIn", false);
+        if (isLoggedIn){
+            Intent intent = new Intent(MainActivity.this,DailyLogsActivity.class);
+            startActivity(intent);
+        }
 
         viewPager = findViewById(R.id.viewpager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -42,15 +57,10 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new FeaturesFragmentTips(), "");
         adapter.addFragment(new FeaturesFragmentTrends(), "");
         adapter.addFragment(new FeaturesFragmentDiary(), "");
-        adapter.addFragment(new RegisterFragment(), "");
+        adapter.addFragment(new LoginFragment(), "");
         viewPager.setAdapter(adapter);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager, true);
-
-        username = findViewById(R.id.username);
-        email= findViewById(R.id.signup_email);
-        errorMsg = findViewById(R.id.error_msg);
-        password = findViewById(R.id.signup_password);
     }
 
 
