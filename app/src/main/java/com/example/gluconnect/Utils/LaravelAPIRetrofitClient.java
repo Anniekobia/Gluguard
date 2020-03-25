@@ -8,7 +8,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LaravelAPIRetrofitClient {
-    public static final String BASE_URL = "https://ea433d5f.ngrok.io/api/";
+    public static final String BASE_URL = "https://gluconnect.herokuapp.com/api/";
     public static Retrofit retrofit;
 
     public static Retrofit getRetrofitClient() {
