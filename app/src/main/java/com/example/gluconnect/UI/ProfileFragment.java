@@ -108,12 +108,16 @@ public class ProfileFragment extends Fragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        progressBar.setVisibility(View.GONE);
-                        LoginFragment loginFragment = new LoginFragment();
-                        FragmentTransaction trans = getFragmentManager().beginTransaction();
-                        trans.replace(R.id.register_sv, loginFragment);
-                        trans.addToBackStack(null);
-                        trans.commit();
+//                        progressBar.setVisibility(View.GONE);
+//                        LoginFragment loginFragment = new LoginFragment();
+//                        FragmentTransaction trans = getFragmentManager().beginTransaction();
+//                        trans.replace(R.id.profile_sv, loginFragment);
+//                        trans.addToBackStack(null);
+//                        trans.commit();
+
+                        Intent go = new Intent(getContext(),MainActivity.class);
+                        go.putExtra("viewpager_position", 4);
+                        startActivity(go);
                     }
                 }, 3000);
             }

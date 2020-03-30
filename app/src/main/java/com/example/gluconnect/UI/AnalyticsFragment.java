@@ -264,8 +264,8 @@ public class AnalyticsFragment extends Fragment {
 
                         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
                     } else {
-                        drawExampleGraph();
-                        noRecords.setVisibility(View.VISIBLE);
+//                        drawExampleGraph();
+//                        noRecords.setVisibility(View.VISIBLE);
                     }
                 }
             }
