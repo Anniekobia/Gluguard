@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.gluconnect.Models.LoginPost;
 import com.example.gluconnect.Models.LoginResponse;
@@ -26,8 +25,6 @@ import com.example.gluconnect.R;
 import com.example.gluconnect.Utils.LaravelAPI;
 import com.example.gluconnect.Utils.LaravelAPIRetrofitClient;
 import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,7 +54,6 @@ public class LoginFragment extends Fragment {
 
 
     public LoginFragment() {
-        // Required empty public constructor
     }
 
 
@@ -98,11 +94,8 @@ public class LoginFragment extends Fragment {
         register_textview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RegisterFragment regFragment = new RegisterFragment();
-                FragmentTransaction trans = getFragmentManager().beginTransaction();
-                trans.replace(R.id.main_rl, regFragment);
-                trans.addToBackStack(null);
-                trans.commit();
+                Intent intent = new Intent(getContext(),RegisterActivity.class);
+                startActivity(intent);
             }
         });
         return myview;

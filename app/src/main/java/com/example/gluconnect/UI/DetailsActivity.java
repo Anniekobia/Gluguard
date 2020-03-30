@@ -4,18 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import com.example.gluconnect.Models.UserDetailsN;
-import com.example.gluconnect.R;
-import com.example.gluconnect.Utils.LaravelAPI;
-import com.example.gluconnect.Utils.LaravelAPIRetrofitClient;
-import com.google.android.material.textfield.TextInputEditText;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.DialogFragment;
-
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -25,6 +13,17 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.DialogFragment;
+
+import com.example.gluconnect.Models.UserDetailsN;
+import com.example.gluconnect.R;
+import com.example.gluconnect.Utils.LaravelAPI;
+import com.example.gluconnect.Utils.LaravelAPIRetrofitClient;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
 

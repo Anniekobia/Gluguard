@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -108,8 +109,11 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void run() {
                         progressBar.setVisibility(View.GONE);
-                        Intent intent = new Intent(getContext(), LoginActivity.class);
-                        startActivity(intent);
+                        LoginFragment loginFragment = new LoginFragment();
+                        FragmentTransaction trans = getFragmentManager().beginTransaction();
+                        trans.replace(R.id.register_sv, loginFragment);
+                        trans.addToBackStack(null);
+                        trans.commit();
                     }
                 }, 3000);
             }

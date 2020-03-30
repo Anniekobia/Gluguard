@@ -1,26 +1,20 @@
 package com.example.gluconnect.UI;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.gluconnect.Models.BloodGlucose;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.example.gluconnect.Models.Error;
 import com.example.gluconnect.Models.RegisterPOST;
 import com.example.gluconnect.Models.RegisterResponse;
@@ -38,10 +32,8 @@ import retrofit2.Retrofit;
 
 import static android.view.View.GONE;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class RegisterFragment extends Fragment {
+
+public class RegisterActivity extends AppCompatActivity {
 
     View myview;
     private Button registerBtn;
@@ -55,40 +47,35 @@ public class RegisterFragment extends Fragment {
     private ProgressBar progressBar;
     private SharedPreferences sharedPreferences;
 
-
-    public RegisterFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        myview = inflater.inflate(R.layout.fragment_register, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
 
         Retrofit retrofit = LaravelAPIRetrofitClient.getRetrofitClient();
         laravelAPI = retrofit.create(LaravelAPI.class);
-        sharedPreferences = getContext().getSharedPreferences("MyPreferences", 0); // 0 - for private mode
+        sharedPreferences = getApplicationContext().getSharedPreferences("MyPreferences", 0); // 0 - for private mode
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        constraintLayout = myview.findViewById(R.id.register_cl);
-        loginTxtview = myview.findViewById(R.id.login_textview);
-        registerBtn = myview.findViewById(R.id.signup_button);
-        username = myview.findViewById(R.id.username);
-        email = myview.findViewById(R.id.signup_email);
-        errorMsg = myview.findViewById(R.id.error_msg);
-        password = myview.findViewById(R.id.signup_password);
-        progressBar = myview.findViewById(R.id.progressBar);
+        constraintLayout = findViewById(R.id.register_cl);
+        loginTxtview = findViewById(R.id.login_textview);
+        registerBtn = findViewById(R.id.signup_button);
+        username = findViewById(R.id.username);
+        email = findViewById(R.id.signup_email);
+        errorMsg = findViewById(R.id.error_msg);
+        password = findViewById(R.id.signup_password);
+        progressBar = findViewById(R.id.progressBar);
 
         handleClicks();
-        return myview;
     }
+
 
     public void handleClicks() {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(constraintLayout.getWindowToken(), 0);
                 } catch (Exception e) {
 
@@ -100,8 +87,9 @@ public class RegisterFragment extends Fragment {
         loginTxtview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                startActivity(intent);
+                Intent go = new Intent(RegisterActivity.this,MainActivity.class);
+                go.putExtra("viewpager_position", 4);
+                startActivity(go);
             }
         });
     }
@@ -154,7 +142,7 @@ public class RegisterFragment extends Fragment {
                         editor.putString("Password", pwd);
                         editor.commit();
 
-                        Intent intent = new Intent(getContext(), DetailsActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
                         startActivity(intent);
                         password.setText("");
                         username.setText("");
@@ -172,4 +160,5 @@ public class RegisterFragment extends Fragment {
             }
         });
     }
+
 }
