@@ -41,7 +41,7 @@ The application allows the patient to:
 </p>
 
 # Demo
-![Glugard Demo](https://user-images.githubusercontent.com/22634271/71988168-732f5900-3240-11ea-8255-744b54766368.gif)
+![Glugard Demo](https://user-images.githubusercontent.com/22634271/77882295-65023f00-7269-11ea-9aac-e9c27c61471d.gif)
 # App Link
 **Appetize.io Link:** https://appetize.io/app/edct365tu2mvbampcmg36th9vc
 
