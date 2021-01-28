@@ -1,5 +1,3 @@
-# Status
-### :construction::hammer: Complete and undergoing Improvements :hammer::construction: ###
 # Gluguard
 An application to help patients living with diabetes to regularly monitor and manage the disease
 
